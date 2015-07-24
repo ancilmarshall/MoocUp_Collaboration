@@ -1,5 +1,5 @@
 //
-//  MUUser.swift
+//  MUSession.swift
 //  MoocApiParseApp
 //
 //  Created by Ancil on 7/24/15.
@@ -8,8 +8,9 @@
 
 import Foundation
 
-class MUUser
-{
+class MUSession {
+    
+    var id = Int()
     var name = String()
-    var categories = [String]()
+    var duration = String()
 }

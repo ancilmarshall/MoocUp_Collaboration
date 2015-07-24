@@ -31,6 +31,7 @@
 		1D1AF2B21B627CB400B562AF /* MUInstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B11B627CB400B562AF /* MUInstructor.swift */; };
 		1D1AF2B41B627CFC00B562AF /* MUUniversity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B31B627CFC00B562AF /* MUUniversity.swift */; };
 		1D1AF2B61B628F3600B562AF /* MUParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B51B628F3600B562AF /* MUParseManager.swift */; };
+		1D1AF2B81B62B70100B562AF /* MUSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B71B62B70100B562AF /* MUSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		1D1AF2B11B627CB400B562AF /* MUInstructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUInstructor.swift; sourceTree = "<group>"; };
 		1D1AF2B31B627CFC00B562AF /* MUUniversity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUUniversity.swift; sourceTree = "<group>"; };
 		1D1AF2B51B628F3600B562AF /* MUParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUParseManager.swift; sourceTree = "<group>"; };
+		1D1AF2B71B62B70100B562AF /* MUSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUSession.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				1D1AF2AF1B627C7300B562AF /* MUUser.swift */,
 				1D1AF2B11B627CB400B562AF /* MUInstructor.swift */,
 				1D1AF2B31B627CFC00B562AF /* MUUniversity.swift */,
+				1D1AF2B71B62B70100B562AF /* MUSession.swift */,
 				1D1AF28F1B625DB800B562AF /* Main.storyboard */,
 				1D1AF2711B625B7700B562AF /* Images.xcassets */,
 				1D1AF2731B625B7700B562AF /* LaunchScreen.xib */,
@@ -294,6 +297,7 @@
 				1D1AF2B01B627C7300B562AF /* MUUser.swift in Sources */,
 				1D1AF2B41B627CFC00B562AF /* MUUniversity.swift in Sources */,
 				1D1AF28C1B625BF800B562AF /* MUTableViewController.swift in Sources */,
+				1D1AF2B81B62B70100B562AF /* MUSession.swift in Sources */,
 				1D1AF2AC1B6263E500B562AF /* MUCourseraApiManager.swift in Sources */,
 				1D1AF2B61B628F3600B562AF /* MUParseManager.swift in Sources */,
 			);

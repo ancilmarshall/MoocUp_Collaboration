@@ -12,52 +12,92 @@ import Parse
 let MUServerScheme = "https"
 let MUServerHost = "api.coursera.org"
 let MUServerPath = "/api/catalog.v1/"
+let kMUCourseClassName = "MUCourse"
+let kMUMoocName = "Coursera"
 
+
+//TODO: Add background jobs, since theses calls are async and hold up UI
+// But not a particularly pressing issue
 
 class MUCourseraApiManager
 {
-    
-    //MARK: - data members
+    //parseKey, apiKey
     let courseFields = [
-        "id",
-        "shortName",
-        "name",
-        "language",
-        "photo",
-        "smallIcon"
+        ("id","id"), //Int
+        ("name","name"), //String
+        ("shortName","shortName"), //String
+        ("photo","photo"), //String
+        ("thumbnail","smallIcon"), //String
+        ("language","language"), //String
+        ("workload","estimatedClassWorkload") //String
     ]
     
-    func fetchCoursesFromApi() -> [Dictionary<String,AnyObject>]
+    let sessionFields = [
+        ("id","id"),
+        ("name","name"),
+        ("duration","durationString")
+    ]
+    
+    var courses = [MUCourse]()
+    var sessions = [MUSession]()
+    
+    func fetchCoursesFromApi() -> [MUCourse]
     {
+        //setup url and get json data
         let endpoint = "courses"
-        var courses = [Dictionary<String,AnyObject>]()
-        let queryItems = getQueryItems(fromQueryNames: ["fields"])
+        var coursesFetched = [Dictionary<String,AnyObject>]()
+        let queryItems = getQueryItems(fromQueryNames: ["fields","includes"])
         let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
         let data = NSData(contentsOfURL: url)!
         
-        var coursesDict = NSJSONSerialization.JSONObjectWithData(
-            data, options: nil, error: nil)!
-            as! Dictionary<String,AnyObject>
+        //cast returned JSON data from AnyObject? to Dictionary<String,AnyObject>
+        var coursesDict: AnyObject? = NSJSONSerialization.JSONObjectWithData(
+            data, options: nil, error: nil)
+        assert(coursesDict != nil,"Expected JSON Data to be non-nil")
         
-        courses = coursesDict["elements"]! as! [Dictionary<String,AnyObject>]
-        return courses
+        //all the data is in the "elements" field of the JSON data
+        coursesFetched = (coursesDict as! Dictionary<String,AnyObject>)["elements"] as! [Dictionary<String,AnyObject>]
+        var newCourses = [MUCourse]()
+        
+        //loop through all fetchedCourses and construct MUCourse model
+        for course in coursesFetched {
+            var newCourse = MUCourse()
+            for (parseKey,apiKey) in courseFields {
+                newCourse.setValue(course[apiKey], forKey: parseKey)
+            }
+            
+            //set fixed mooc name for this manager
+            newCourse.setValue(kMUMoocName, forKey:"mooc")
+            
+            // get the relationship information if available
+            // NOTE: these [Int]? and therefore can be nil
+            var links = course["links"] as! Dictionary<String,[Int]>
+            newCourse.instructorIds = links["instructors"]
+            newCourse.sessionIds = links["sessions"]
+            newCourse.universityIds = links["universities"]
+            newCourse.categoryIds = links["categories"]
+            
+            newCourses.append(newCourse)
+        }
+        return newCourses
     }
+    
     
     func saveCoursesToParse(courses: [Dictionary<String,AnyObject>]) -> Void
     {
         
         for course in courses {
-            var entity = PFObject(className: "MUCourse")
-            entity["name"] = course["name"] as! String
-            entity["photo"] = course["photo"] as! String
-            entity["mooc"] = "Coursera"
+            var entity = PFObject(className: kMUCourseClassName )
+            for (parseKey,apiKey) in courseFields {
+                entity.setObject(course[apiKey]!, forKey:parseKey)
+            }
+            entity["mooc"] = kMUMoocName
             
-            entity.saveInBackground()
+            //entity.saveInBackground()
         }
     }
     
-    
-    //MARK: - URL Construction Methods
+    //MARK: -  URL Contruction
     func getQueryItems(fromQueryNames names:[String])->[NSURLQueryItem]
     {
         var queryItems = [NSURLQueryItem]()
@@ -69,6 +109,23 @@ class MUCourseraApiManager
             }
         }
         return queryItems
+    }
+    
+    func getQueryValue(forName name:String) -> String? {
+        
+        switch name {
+            
+        case "fields":
+            return ",".join(courseFields.map({ (parseKey, apiKey) -> String in
+                return apiKey
+            }))
+        
+        case "includes":
+            return "instructors,universities,categories,sessions"
+            
+        default:
+            return nil
+        }
     }
     
     func getNSURL(fromEnpoint endpoint: String, andQueryItems items:[NSURLQueryItem])->NSURL
@@ -86,16 +143,7 @@ class MUCourseraApiManager
         }
     }
     
-    func getQueryValue(forName name:String) -> String? {
-        
-        switch name {
-        case "fields":
-            return ",".join(courseFields)
-            
-        default:
-            return nil
-        }
-    }
+
    
     
     

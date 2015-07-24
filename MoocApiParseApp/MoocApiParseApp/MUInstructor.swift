@@ -10,5 +10,5 @@ import Foundation
 
 class MUInstructor
 {
-    var name:String = ""
+    var name = String()
 }

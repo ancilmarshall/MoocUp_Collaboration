@@ -9,19 +9,26 @@
 import Foundation
 import Parse
 
-class MUCourse
+class MUCourse : NSObject
 {
-    var name: String = ""
-    var shortName: String = ""
-    var mooc: String = ""
-    var photo:String = ""
-    var thumbnail:NSData = NSData()
-    var language: String = ""
-    var workload: String = ""
-    var groups:[String] = [String]()
-    var category:String = ""
-    var followers:[MUUser] = [MUUser]()
-    var university:[MUUniversity] = [MUUniversity]()
-    var instructors:[MUInstructor] = [MUInstructor]()
-    
+    //data memebers to be modeled in this class
+    var id = Int()
+    var name = String()
+    var shortName = String()
+    var mooc = String()
+    var photo = String()
+    var thumbnail = NSData()
+    var language = String()
+    var workload = String()
+    var groups = [String]()
+    var category = String()
+    var followers = [MUUser]()
+    var university = [MUUniversity]()
+    var instructors = [MUInstructor]()
+
+    //used setup the relationships
+    var sessionIds:[Int]? = nil
+    var universityIds:[Int]? = nil
+    var categoryIds:[Int]? = nil
+    var instructorIds:[Int]? = nil
 }

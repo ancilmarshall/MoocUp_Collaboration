@@ -29,16 +29,19 @@ class MUTableViewController: UITableViewController {
         //this function gets data from api and saves up to Parse
         //moocApiManager.saveCoursesToParse( moocApiManager.fetchCoursesFromApi() )
         
+        courses = moocApiManager.fetchCoursesFromApi()
+        tableView.reloadData()
+        
         //here we fetch. NOTE: Don't do both at same time
-        var query = PFQuery(className: kCourseClassName)
-        parseManager.fetchCourses(query) { (newCourses) -> Void in
-            
-            self.courses = newCourses
-            
-            dispatch_async(dispatch_get_main_queue()){
-                self.tableView.reloadData()
-            }
-        }
+//        var query = PFQuery(className: kCourseClassName)
+//        parseManager.fetchCourses(query) { (newCourses) -> Void in
+//            
+//            self.courses = newCourses
+//            
+//            dispatch_async(dispatch_get_main_queue()){
+//                self.tableView.reloadData()
+//            }
+//        }
     }
     
     //MARK: - TableView Data Source Delegate Methods
@@ -57,7 +60,8 @@ class MUTableViewController: UITableViewController {
         var str = courses[indexPath.row].name
         
         cell.textLabel?.text = str
-        
+        //cell.detailTextLabel?.text = " \(courses[indexPath.row].instructorIds?.first)"
+        cell.detailTextLabel?.text = "\(courses[indexPath.row].sessionIds?.first)"
         return cell
     }
 }
