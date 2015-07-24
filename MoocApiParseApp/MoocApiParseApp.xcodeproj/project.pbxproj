@@ -25,6 +25,12 @@
 		1D1AF2A61B625F6F00B562AF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2A51B625F6F00B562AF /* SystemConfiguration.framework */; };
 		1D1AF2A81B625F7B00B562AF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2A71B625F7B00B562AF /* libz.dylib */; };
 		1D1AF2AA1B625F8400B562AF /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2A91B625F8400B562AF /* libsqlite3.dylib */; };
+		1D1AF2AC1B6263E500B562AF /* MUCourseraApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2AB1B6263E500B562AF /* MUCourseraApiManager.swift */; };
+		1D1AF2AE1B6269C500B562AF /* MUCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2AD1B6269C500B562AF /* MUCourse.swift */; };
+		1D1AF2B01B627C7300B562AF /* MUUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2AF1B627C7300B562AF /* MUUser.swift */; };
+		1D1AF2B21B627CB400B562AF /* MUInstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B11B627CB400B562AF /* MUInstructor.swift */; };
+		1D1AF2B41B627CFC00B562AF /* MUUniversity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B31B627CFC00B562AF /* MUUniversity.swift */; };
+		1D1AF2B61B628F3600B562AF /* MUParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B51B628F3600B562AF /* MUParseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +67,12 @@
 		1D1AF2A51B625F6F00B562AF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1D1AF2A71B625F7B00B562AF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		1D1AF2A91B625F8400B562AF /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		1D1AF2AB1B6263E500B562AF /* MUCourseraApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCourseraApiManager.swift; sourceTree = "<group>"; };
+		1D1AF2AD1B6269C500B562AF /* MUCourse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCourse.swift; sourceTree = "<group>"; };
+		1D1AF2AF1B627C7300B562AF /* MUUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUUser.swift; sourceTree = "<group>"; };
+		1D1AF2B11B627CB400B562AF /* MUInstructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUInstructor.swift; sourceTree = "<group>"; };
+		1D1AF2B31B627CFC00B562AF /* MUUniversity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUUniversity.swift; sourceTree = "<group>"; };
+		1D1AF2B51B628F3600B562AF /* MUParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUParseManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,13 +126,19 @@
 		1D1AF2671B625B7700B562AF /* MoocApiParseApp */ = {
 			isa = PBXGroup;
 			children = (
-				1D1AF2921B625EC300B562AF /* ParseFrameworks */,
 				1D1AF28D1B625C1200B562AF /* AppDelegate.swift */,
 				1D1AF28B1B625BF800B562AF /* MUTableViewController.swift */,
+				1D1AF2AB1B6263E500B562AF /* MUCourseraApiManager.swift */,
+				1D1AF2B51B628F3600B562AF /* MUParseManager.swift */,
+				1D1AF2AD1B6269C500B562AF /* MUCourse.swift */,
+				1D1AF2AF1B627C7300B562AF /* MUUser.swift */,
+				1D1AF2B11B627CB400B562AF /* MUInstructor.swift */,
+				1D1AF2B31B627CFC00B562AF /* MUUniversity.swift */,
 				1D1AF28F1B625DB800B562AF /* Main.storyboard */,
 				1D1AF2711B625B7700B562AF /* Images.xcassets */,
 				1D1AF2731B625B7700B562AF /* LaunchScreen.xib */,
 				1D1AF2681B625B7700B562AF /* Supporting Files */,
+				1D1AF2921B625EC300B562AF /* ParseFrameworks */,
 				1D1AF28A1B625BF700B562AF /* MoocApiParseApp-Bridging-Header.h */,
 			);
 			path = MoocApiParseApp;
@@ -270,8 +288,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D1AF2B21B627CB400B562AF /* MUInstructor.swift in Sources */,
+				1D1AF2AE1B6269C500B562AF /* MUCourse.swift in Sources */,
 				1D1AF28E1B625C1200B562AF /* AppDelegate.swift in Sources */,
+				1D1AF2B01B627C7300B562AF /* MUUser.swift in Sources */,
+				1D1AF2B41B627CFC00B562AF /* MUUniversity.swift in Sources */,
 				1D1AF28C1B625BF800B562AF /* MUTableViewController.swift in Sources */,
+				1D1AF2AC1B6263E500B562AF /* MUCourseraApiManager.swift in Sources */,
+				1D1AF2B61B628F3600B562AF /* MUParseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +506,7 @@
 				1D1AF2861B625B7800B562AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1D1AF2871B625B7800B562AF /* Build configuration list for PBXNativeTarget "MoocApiParseAppTests" */ = {
 			isa = XCConfigurationList;
@@ -490,6 +515,7 @@
 				1D1AF2891B625B7800B562AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
