@@ -25,25 +25,37 @@ class MUCourseTableViewController: UITableViewController {
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        //must correctly use autolayout in the storyboad for this to work
+        tableView.estimatedRowHeight = tableView.rowHeight
+        tableView.rowHeight = UITableViewAutomaticDimension
         
-        //this function gets data from api and saves up to Parse
+        fetchFromMoocApi(nil)
+    }
+    
+    @IBAction func fetchFromMoocApi(sender:AnyObject?)
+    {
         moocApiManager.fetchCoursesFromApiWithBlock { newCourses in
             self.courses = newCourses
             dispatch_async(dispatch_get_main_queue()){
                 self.tableView.reloadData()
             }
         }
+    }
+
+    @IBAction func fetchFromParse(sender:AnyObject?)
+    {
         
-        //here we fetch. NOTE: Don't do both at same time
-//        var query = PFQuery(className: kCourseClassName)
-//        parseManager.fetchCourses(query) { (newCourses) -> Void in
-//            
-//            self.courses = newCourses
-//            
-//            dispatch_async(dispatch_get_main_queue()){
-//                self.tableView.reloadData()
-//            }
-//        }
+        var query = PFQuery(className: kCourseClassName)
+        parseManager.fetchCourses(query) { (newCourses) -> Void in
+
+            self.courses = newCourses
+
+            dispatch_async(dispatch_get_main_queue()){
+                self.tableView.reloadData()
+            }
+        }
+        
     }
     
     //MARK: - TableView Data Source Delegate Methods
@@ -62,11 +74,24 @@ class MUCourseTableViewController: UITableViewController {
             as! MUCourseTableViewCell
             
         cell.titleLabel?.text =  courses[indexPath.row].name
-        cell.sessionIdsLabel?.text = "Sessions: \(courses[indexPath.row].sessionIds )"
-        cell.universityIdsLabel?.text = "Universities: \(courses[indexPath.row].universityIds)"
-        cell.categoryIdsLabel?.text = "Categories: \(courses[indexPath.row].categoryIds)"
-        cell.instructorIdsLabel?.text = "Instructors: \(courses[indexPath.row].instructorIds)"
-            
+        
+        var course = courses[indexPath.row]
+        if let sessionIds = course.sessionIds {
+            cell.sessionIdsLabel?.text = "Sessions: \(sessionIds)"
+        }
+        
+        if let universityIds = course.universityIds {
+            cell.universityIdsLabel?.text = "Universities: \(universityIds)"
+        }
+        
+        if let categoryIds = course.categoryIds {
+            cell.categoryIdsLabel?.text = "Categories: \(categoryIds)"
+        }
+        
+        if let instructorIds = course.instructorIds {
+            cell.instructorIdsLabel?.text = "Instructors: \(instructorIds)"
+        }
+        
         return cell
     }
 }
