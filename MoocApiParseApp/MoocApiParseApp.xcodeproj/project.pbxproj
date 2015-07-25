@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		092AAF371B6403CA003CCA78 /* UdacityApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092AAF361B6403CA003CCA78 /* UdacityApiManager.swift */; };
 		1D1AF2721B625B7700B562AF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D1AF2711B625B7700B562AF /* Images.xcassets */; };
 		1D1AF2751B625B7700B562AF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D1AF2731B625B7700B562AF /* LaunchScreen.xib */; };
 		1D1AF2811B625B7800B562AF /* MoocApiParseAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2801B625B7800B562AF /* MoocApiParseAppTests.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		092AAF361B6403CA003CCA78 /* UdacityApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityApiManager.swift; sourceTree = "<group>"; };
 		1D1AF2651B625B7700B562AF /* MoocApiParseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoocApiParseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D1AF2691B625B7700B562AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D1AF2711B625B7700B562AF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				1D1AF28B1B625BF800B562AF /* MUCourseTableViewController.swift */,
 				1D1AF2B91B63777500B562AF /* MUCourseTableViewCell.swift */,
 				1D1AF2AB1B6263E500B562AF /* MUCourseraApiManager.swift */,
+				092AAF361B6403CA003CCA78 /* UdacityApiManager.swift */,
 				1D1AF2B51B628F3600B562AF /* MUParseManager.swift */,
 				1D1AF2AD1B6269C500B562AF /* MUCourse.swift */,
 				1D1AF2AF1B627C7300B562AF /* MUUser.swift */,
@@ -304,6 +307,7 @@
 				1D1AF2B81B62B70100B562AF /* MUSession.swift in Sources */,
 				1D1AF2AC1B6263E500B562AF /* MUCourseraApiManager.swift in Sources */,
 				1D1AF2B61B628F3600B562AF /* MUParseManager.swift in Sources */,
+				092AAF371B6403CA003CCA78 /* UdacityApiManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
