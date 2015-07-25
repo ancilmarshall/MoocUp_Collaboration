@@ -35,6 +35,7 @@ class MUCourseTableViewController: UITableViewController {
     
     @IBAction func fetchFromMoocApi(sender:AnyObject?)
     {
+
         moocApiManager.fetchCoursesFromApiWithBlock { newCourses in
             self.courses = newCourses
             dispatch_async(dispatch_get_main_queue()){

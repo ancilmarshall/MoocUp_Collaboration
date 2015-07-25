@@ -9,11 +9,7 @@
 import Foundation
 import Parse
 
-let MUServerScheme = "https"
-let MUServerHost = "api.coursera.org"
-let MUServerPath = "/api/catalog.v1/"
-let kMUCourseClassName = "MUCourse"
-let kMUMoocName = "Coursera"
+
 
 
 //TODO: Add background jobs, since theses calls are async and hold up UI
@@ -21,6 +17,13 @@ let kMUMoocName = "Coursera"
 
 class MUCourseraApiManager
 {
+    
+    let MUServerScheme = "https"
+    let MUServerHost = "api.coursera.org"
+    let MUServerPath = "/api/catalog.v1/"
+    let kMUCourseClassName = "MUCourse"
+    let kMUMoocName = "Coursera"
+    
     //parseKey, apiKey
     let courseFields = [
         ("id","id"), //Int
@@ -147,6 +150,9 @@ class MUCourseraApiManager
         
         case "includes":
             return "instructors,universities,categories,sessions"
+            
+        case "ids":
+            return "1"
             
         default:
             return nil
