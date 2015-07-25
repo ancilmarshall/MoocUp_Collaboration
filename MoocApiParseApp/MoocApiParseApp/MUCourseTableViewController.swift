@@ -12,7 +12,7 @@ import Parse
 let kMUTableViewCellIdentifier = "cell"
 let kCourseClassName = "MUCourse"
 
-class MUTableViewController: UITableViewController {
+class MUCourseTableViewController: UITableViewController {
 
 
     //MARK: - data members
@@ -27,10 +27,12 @@ class MUTableViewController: UITableViewController {
         super.viewDidLoad()
         
         //this function gets data from api and saves up to Parse
-        //moocApiManager.saveCoursesToParse( moocApiManager.fetchCoursesFromApi() )
-        
-        courses = moocApiManager.fetchCoursesFromApi()
-        tableView.reloadData()
+        moocApiManager.fetchCoursesFromApiWithBlock { newCourses in
+            self.courses = newCourses
+            dispatch_async(dispatch_get_main_queue()){
+                self.tableView.reloadData()
+            }
+        }
         
         //here we fetch. NOTE: Don't do both at same time
 //        var query = PFQuery(className: kCourseClassName)
@@ -53,15 +55,18 @@ class MUTableViewController: UITableViewController {
         return courses.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        var cell = tableView.dequeueReusableCellWithIdentifier(kMUTableViewCellIdentifier) as! UITableViewCell
-        
-        var str = courses[indexPath.row].name
-        
-        cell.textLabel?.text = str
-        //cell.detailTextLabel?.text = " \(courses[indexPath.row].instructorIds?.first)"
-        cell.detailTextLabel?.text = "\(courses[indexPath.row].sessionIds?.first)"
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)-> MUCourseTableViewCell
+    {
+                
+        var cell = tableView.dequeueReusableCellWithIdentifier(kMUTableViewCellIdentifier)
+            as! MUCourseTableViewCell
+            
+        cell.titleLabel?.text =  courses[indexPath.row].name
+        cell.sessionIdsLabel?.text = "Sessions: \(courses[indexPath.row].sessionIds )"
+        cell.universityIdsLabel?.text = "Universities: \(courses[indexPath.row].universityIds)"
+        cell.categoryIdsLabel?.text = "Categories: \(courses[indexPath.row].categoryIds)"
+        cell.instructorIdsLabel?.text = "Instructors: \(courses[indexPath.row].instructorIds)"
+            
         return cell
     }
 }

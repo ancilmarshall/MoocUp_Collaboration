@@ -10,7 +10,7 @@
 		1D1AF2721B625B7700B562AF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D1AF2711B625B7700B562AF /* Images.xcassets */; };
 		1D1AF2751B625B7700B562AF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D1AF2731B625B7700B562AF /* LaunchScreen.xib */; };
 		1D1AF2811B625B7800B562AF /* MoocApiParseAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2801B625B7800B562AF /* MoocApiParseAppTests.swift */; };
-		1D1AF28C1B625BF800B562AF /* MUTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF28B1B625BF800B562AF /* MUTableViewController.swift */; };
+		1D1AF28C1B625BF800B562AF /* MUCourseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF28B1B625BF800B562AF /* MUCourseTableViewController.swift */; };
 		1D1AF28E1B625C1200B562AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF28D1B625C1200B562AF /* AppDelegate.swift */; };
 		1D1AF2911B625DB800B562AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D1AF28F1B625DB800B562AF /* Main.storyboard */; };
 		1D1AF2951B625EC300B562AF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2931B625EC300B562AF /* Bolts.framework */; };
@@ -32,6 +32,7 @@
 		1D1AF2B41B627CFC00B562AF /* MUUniversity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B31B627CFC00B562AF /* MUUniversity.swift */; };
 		1D1AF2B61B628F3600B562AF /* MUParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B51B628F3600B562AF /* MUParseManager.swift */; };
 		1D1AF2B81B62B70100B562AF /* MUSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B71B62B70100B562AF /* MUSession.swift */; };
+		1D1AF2BA1B63777500B562AF /* MUCourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B91B63777500B562AF /* MUCourseTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +54,7 @@
 		1D1AF27F1B625B7800B562AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D1AF2801B625B7800B562AF /* MoocApiParseAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoocApiParseAppTests.swift; sourceTree = "<group>"; };
 		1D1AF28A1B625BF700B562AF /* MoocApiParseApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MoocApiParseApp-Bridging-Header.h"; sourceTree = "<group>"; };
-		1D1AF28B1B625BF800B562AF /* MUTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUTableViewController.swift; sourceTree = "<group>"; };
+		1D1AF28B1B625BF800B562AF /* MUCourseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCourseTableViewController.swift; sourceTree = "<group>"; };
 		1D1AF28D1B625C1200B562AF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D1AF2901B625DB800B562AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1D1AF2931B625EC300B562AF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 		1D1AF2B31B627CFC00B562AF /* MUUniversity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUUniversity.swift; sourceTree = "<group>"; };
 		1D1AF2B51B628F3600B562AF /* MUParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUParseManager.swift; sourceTree = "<group>"; };
 		1D1AF2B71B62B70100B562AF /* MUSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUSession.swift; sourceTree = "<group>"; };
+		1D1AF2B91B63777500B562AF /* MUCourseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCourseTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +131,8 @@
 			isa = PBXGroup;
 			children = (
 				1D1AF28D1B625C1200B562AF /* AppDelegate.swift */,
-				1D1AF28B1B625BF800B562AF /* MUTableViewController.swift */,
+				1D1AF28B1B625BF800B562AF /* MUCourseTableViewController.swift */,
+				1D1AF2B91B63777500B562AF /* MUCourseTableViewCell.swift */,
 				1D1AF2AB1B6263E500B562AF /* MUCourseraApiManager.swift */,
 				1D1AF2B51B628F3600B562AF /* MUParseManager.swift */,
 				1D1AF2AD1B6269C500B562AF /* MUCourse.swift */,
@@ -291,12 +294,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D1AF2BA1B63777500B562AF /* MUCourseTableViewCell.swift in Sources */,
 				1D1AF2B21B627CB400B562AF /* MUInstructor.swift in Sources */,
 				1D1AF2AE1B6269C500B562AF /* MUCourse.swift in Sources */,
 				1D1AF28E1B625C1200B562AF /* AppDelegate.swift in Sources */,
 				1D1AF2B01B627C7300B562AF /* MUUser.swift in Sources */,
 				1D1AF2B41B627CFC00B562AF /* MUUniversity.swift in Sources */,
-				1D1AF28C1B625BF800B562AF /* MUTableViewController.swift in Sources */,
+				1D1AF28C1B625BF800B562AF /* MUCourseTableViewController.swift in Sources */,
 				1D1AF2B81B62B70100B562AF /* MUSession.swift in Sources */,
 				1D1AF2AC1B6263E500B562AF /* MUCourseraApiManager.swift in Sources */,
 				1D1AF2B61B628F3600B562AF /* MUParseManager.swift in Sources */,

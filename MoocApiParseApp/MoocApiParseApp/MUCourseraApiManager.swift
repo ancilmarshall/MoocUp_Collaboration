@@ -41,25 +41,51 @@ class MUCourseraApiManager
     var courses = [MUCourse]()
     var sessions = [MUSession]()
     
+    
+    // guarantee that this function returns and unwrapped Optional
+    func parseJSONData(data: NSData) -> [Dictionary<String,AnyObject>]{
+        
+        //get data as a dictionary
+        if let jsonDict = NSJSONSerialization.JSONObjectWithData(
+            data, options: nil, error: nil) as? Dictionary<String,AnyObject>
+        {
+            //value of the outer dictionary's element key contains the data desired
+            if let jsonData = jsonDict["elements"] as? [Dictionary<String,AnyObject>] {
+                return jsonData
+            } else {
+                assert(false,"Expected returned JSON 'elements' key to be non-nil")
+            }
+        } else {
+            assert(false,"Expected returned JSON data to be non-nil")
+        }
+    }
+    
+    func fetchCoursesFromApiWithBlock(block handler: ([MUCourse])->Void ){
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
+        
+        var backgroundqueue = NSOperationQueue()
+        var operation = NSBlockOperation { () -> Void in
+            var courses = self.fetchCoursesFromApi()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
+            handler(courses)
+        }
+        backgroundqueue.addOperation(operation)
+    
+    }
+    
     func fetchCoursesFromApi() -> [MUCourse]
     {
         //setup url and get json data
         let endpoint = "courses"
-        var coursesFetched = [Dictionary<String,AnyObject>]()
         let queryItems = getQueryItems(fromQueryNames: ["fields","includes"])
         let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
         let data = NSData(contentsOfURL: url)!
         
-        //cast returned JSON data from AnyObject? to Dictionary<String,AnyObject>
-        var coursesDict: AnyObject? = NSJSONSerialization.JSONObjectWithData(
-            data, options: nil, error: nil)
-        assert(coursesDict != nil,"Expected JSON Data to be non-nil")
-        
-        //all the data is in the "elements" field of the JSON data
-        coursesFetched = (coursesDict as! Dictionary<String,AnyObject>)["elements"] as! [Dictionary<String,AnyObject>]
-        var newCourses = [MUCourse]()
-        
+        var coursesFetched = parseJSONData(data)
+    
         //loop through all fetchedCourses and construct MUCourse model
+        var newCourses = [MUCourse]()
         for course in coursesFetched {
             var newCourse = MUCourse()
             for (parseKey,apiKey) in courseFields {
@@ -85,7 +111,6 @@ class MUCourseraApiManager
     
     func saveCoursesToParse(courses: [Dictionary<String,AnyObject>]) -> Void
     {
-        
         for course in courses {
             var entity = PFObject(className: kMUCourseClassName )
             for (parseKey,apiKey) in courseFields {

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mFl-M1-Kej">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -25,31 +26,73 @@
         <!--MoocApiParseApp-->
         <scene sceneID="NSw-u1-z2T">
             <objects>
-                <tableViewController id="U2l-bb-Jz6" customClass="MUTableViewController" customModule="MoocApiParseApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="JOd-Kq-7Af">
+                <tableViewController id="U2l-bb-Jz6" customClass="MUCourseTableViewController" customModule="MoocApiParseApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="22" sectionFooterHeight="22" id="JOd-Kq-7Af">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="Wzu-6j-LRR" detailTextLabel="sMd-dW-YJS" style="IBUITableViewCellStyleSubtitle" id="HwS-NO-n5p">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="90" id="HwS-NO-n5p" customClass="MUCourseTableViewCell" customModule="MoocApiParseApp" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HwS-NO-n5p" id="NWC-Yr-4ur">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wzu-6j-LRR">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5m-Ho-dDW">
+                                            <rect key="frame" x="8" y="8" width="584" height="20"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sMd-dW-YJS">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instructor Ids" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFT-R9-Uoy">
+                                            <rect key="frame" x="8" y="36" width="288" height="17"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="University Ids" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6CJ-TN-EZ2">
+                                            <rect key="frame" x="304" y="36" width="288" height="17"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Session Ids" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Qi-I3-HUy">
+                                            <rect key="frame" x="8" y="61" width="288" height="17"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category Ids" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5p-10-iPs">
+                                            <rect key="frame" x="304" y="61" width="288" height="17"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="6CJ-TN-EZ2" firstAttribute="trailing" secondItem="NWC-Yr-4ur" secondAttribute="trailingMargin" id="4bA-5Y-z5F"/>
+                                        <constraint firstItem="r5p-10-iPs" firstAttribute="top" secondItem="6CJ-TN-EZ2" secondAttribute="bottom" constant="8" id="H1j-6G-qGL"/>
+                                        <constraint firstItem="6CJ-TN-EZ2" firstAttribute="leading" secondItem="mFT-R9-Uoy" secondAttribute="trailing" constant="8" id="KZd-OI-kHo"/>
+                                        <constraint firstItem="K5m-Ho-dDW" firstAttribute="top" secondItem="NWC-Yr-4ur" secondAttribute="topMargin" id="Tfl-5E-HsR"/>
+                                        <constraint firstItem="mFT-R9-Uoy" firstAttribute="width" secondItem="6CJ-TN-EZ2" secondAttribute="width" id="WXG-tq-AM6"/>
+                                        <constraint firstItem="mFT-R9-Uoy" firstAttribute="leading" secondItem="NWC-Yr-4ur" secondAttribute="leadingMargin" id="XNV-ax-Ian"/>
+                                        <constraint firstItem="6CJ-TN-EZ2" firstAttribute="top" secondItem="K5m-Ho-dDW" secondAttribute="bottom" constant="8" id="Zlg-CY-VQX"/>
+                                        <constraint firstItem="K5m-Ho-dDW" firstAttribute="trailing" secondItem="NWC-Yr-4ur" secondAttribute="trailingMargin" id="bFO-vm-hao"/>
+                                        <constraint firstItem="mFT-R9-Uoy" firstAttribute="top" secondItem="K5m-Ho-dDW" secondAttribute="bottom" constant="8" id="cMm-En-p6H"/>
+                                        <constraint firstItem="3Qi-I3-HUy" firstAttribute="top" secondItem="mFT-R9-Uoy" secondAttribute="bottom" constant="8" id="ilj-CO-hwj"/>
+                                        <constraint firstItem="r5p-10-iPs" firstAttribute="leading" secondItem="3Qi-I3-HUy" secondAttribute="trailing" constant="8" id="ir6-sG-FLk"/>
+                                        <constraint firstItem="r5p-10-iPs" firstAttribute="width" secondItem="3Qi-I3-HUy" secondAttribute="width" id="t7a-hn-vTi"/>
+                                        <constraint firstItem="K5m-Ho-dDW" firstAttribute="leading" secondItem="NWC-Yr-4ur" secondAttribute="leadingMargin" id="ueo-78-Cvb"/>
+                                        <constraint firstItem="r5p-10-iPs" firstAttribute="trailing" secondItem="NWC-Yr-4ur" secondAttribute="trailingMargin" id="wvO-qP-xjz"/>
+                                        <constraint firstItem="3Qi-I3-HUy" firstAttribute="leading" secondItem="NWC-Yr-4ur" secondAttribute="leadingMargin" id="xdl-ui-GFz"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="categoryIdsLabel" destination="r5p-10-iPs" id="lVp-sm-Bli"/>
+                                    <outlet property="instructorIdsLabel" destination="mFT-R9-Uoy" id="RkM-jw-5T0"/>
+                                    <outlet property="sessionIdsLabel" destination="3Qi-I3-HUy" id="CHT-yr-f5B"/>
+                                    <outlet property="titleLabel" destination="K5m-Ho-dDW" id="O4h-sf-jHS"/>
+                                    <outlet property="universityIdsLabel" destination="6CJ-TN-EZ2" id="dQc-ru-fP1"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
