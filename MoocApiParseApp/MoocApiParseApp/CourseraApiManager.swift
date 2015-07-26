@@ -1,5 +1,5 @@
 //
-//  MUCourseraApiManager.swift
+//  CourseraApiManager.swift
 //  MoocApiParseApp
 //
 //  Created by Ancil on 7/24/15.
@@ -10,23 +10,18 @@ import Foundation
 import Parse
 
 
-
-
-//TODO: Add background jobs, since theses calls are async and hold up UI
-// But not a particularly pressing issue
-
-class MUCourseraApiManager
+class CourseraApiManager
 {
     
     let MUServerScheme = "https"
     let MUServerHost = "api.coursera.org"
     let MUServerPath = "/api/catalog.v1/"
-    let kMUCourseClassName = "MUCourse"
+    let kCourseClassName = "Course"
     let kMUMoocName = "Coursera"
     
     //parseKey, apiKey
     let courseFields = [
-        ("id","id"), //Int
+        ("id","id"), //String
         ("name","name"), //String
         ("shortName","shortName"), //String
         ("photo","photo"), //String
@@ -41,8 +36,13 @@ class MUCourseraApiManager
         ("duration","durationString")
     ]
     
-    var courses = [MUCourse]()
-    var sessions = [MUSession]()
+    let instructorFields = [
+        ("id","id"),
+        ("name","name")
+    ]
+    
+    var courses = [Course]()
+    var sessions = [Session]()
     
     
     // guarantee that this function returns and unwrapped Optional
@@ -63,7 +63,7 @@ class MUCourseraApiManager
         }
     }
     
-    func fetchCoursesFromApiWithBlock(block handler: ([MUCourse])->Void ){
+    func fetchCoursesFromApiWithBlock(block handler: ([Course])->Void ){
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
         
@@ -77,7 +77,7 @@ class MUCourseraApiManager
     
     }
     
-    func fetchCoursesFromApi() -> [MUCourse]
+    func fetchCoursesFromApi() -> [Course]
     {
         //setup url and get json data
         let endpoint = "courses"
@@ -87,10 +87,10 @@ class MUCourseraApiManager
         
         var coursesFetched = parseJSONData(data)
     
-        //loop through all fetchedCourses and construct MUCourse model
-        var newCourses = [MUCourse]()
+        //loop through all fetchedCourses and construct Course model
+        var newCourses = [Course]()
         for course in coursesFetched {
-            var newCourse = MUCourse()
+            var newCourse = Course()
             for (parseKey,apiKey) in courseFields {
                 newCourse.setValue(course[apiKey], forKey: parseKey)
             }
@@ -111,16 +111,31 @@ class MUCourseraApiManager
         return newCourses
     }
     
+    func fetchInstructorsFromApi() -> [Instructor]
+    {
+        let endpoint = "instructors"
+        let queryItems = getQueryItems(fromQueryNames: ["i_fields","i_includes"])
+        let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
+        let data = NSData(contentsOfURL: url)!
+        
+        return [Instructor]()
+    }
     
-    func saveCoursesToParse(courses: [Dictionary<String,AnyObject>]) -> Void
+    //FIXME: Convert to strings the attributes in Course model that are not other models
+    func saveCoursesToParse(courses: [Course]) -> Void
     {
         for course in courses {
-            var entity = PFObject(className: kMUCourseClassName )
-            for (parseKey,apiKey) in courseFields {
-                entity.setObject(course[apiKey]!, forKey:parseKey)
-            }
-            entity["mooc"] = kMUMoocName
+            var entity = PFObject(className: kCourseClassName )
             
+            //can only set String values when iterating over this for loop
+            for (parseKey,apiKey) in courseFields {
+                //TODO: Change all these Course values to Strings
+                var entityValue = course.valueForKey(apiKey) as! String
+                entity.setValue(entityValue, forKey: parseKey)
+            }
+            
+            //set fixed values and relationships to other models manually here
+            entity["mooc"] = kMUMoocName
             //entity.saveInBackground()
         }
     }
@@ -151,8 +166,8 @@ class MUCourseraApiManager
         case "includes":
             return "instructors,universities,categories,sessions"
             
-        case "ids":
-            return "1"
+//        case "i_fields":
+//            return ",",join()
             
         default:
             return nil

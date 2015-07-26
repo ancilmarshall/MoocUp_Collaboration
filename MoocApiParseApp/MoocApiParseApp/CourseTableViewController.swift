@@ -9,17 +9,17 @@
 import UIKit
 import Parse
 
-let kMUTableViewCellIdentifier = "cell"
+let kTableViewCellIdentifier = "cell"
 let kCourseClassName = "MUCourse"
 
-class MUCourseTableViewController: UITableViewController {
+class CourseTableViewController: UITableViewController {
 
 
     //MARK: - data members
     
-    let moocApiManager = MUCourseraApiManager()
-    let parseManager = MUParseManager()
-    var courses:[MUCourse] = [MUCourse]()
+    let moocApiManager = CourseraApiManager()
+    let parseManager = ParseManager()
+    var courses:[Course] = [Course]()
     
     
     //MARK: - View Life Cycle
@@ -40,6 +40,8 @@ class MUCourseTableViewController: UITableViewController {
             self.courses = newCourses
             dispatch_async(dispatch_get_main_queue()){
                 self.tableView.reloadData()
+                
+                //self.moocApiManager.saveCoursesToParse(self.courses)
             }
         }
     }
@@ -68,11 +70,11 @@ class MUCourseTableViewController: UITableViewController {
         return courses.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)-> MUCourseTableViewCell
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)-> CourseTableViewCell
     {
                 
-        var cell = tableView.dequeueReusableCellWithIdentifier(kMUTableViewCellIdentifier)
-            as! MUCourseTableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier(kTableViewCellIdentifier)
+            as! CourseTableViewCell
             
         cell.titleLabel?.text =  courses[indexPath.row].name
         

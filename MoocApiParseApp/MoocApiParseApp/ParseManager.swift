@@ -9,12 +9,12 @@
 import Foundation
 import Parse
 
-class MUParseManager
+class ParseManager
 {
     
-    func fetchCourses(query:PFQuery, completionHandler:(courses:[MUCourse])->Void )
+    func fetchCourses(query:PFQuery, completionHandler:(courses:[Course])->Void )
     {
-        var courses = [MUCourse]()
+        var courses = [Course]()
                 
         query.findObjectsInBackgroundWithBlock {
             ( foundCourses: [AnyObject]?, error: NSError?) -> Void in
@@ -22,7 +22,7 @@ class MUParseManager
             if error == nil {
                 
                 for course in foundCourses as! [PFObject] {
-                    var newCourse = MUCourse()
+                    var newCourse = Course()
                     newCourse.name = course["name"] as! String
                     newCourse.photo = course["photo"] as! String
                     newCourse.mooc = course["mooc"] as! String

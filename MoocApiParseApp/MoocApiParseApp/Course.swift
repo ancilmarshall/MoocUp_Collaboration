@@ -9,7 +9,7 @@
 import Foundation
 import Parse
 
-class MUCourse : NSObject
+class Course : NSObject
 {
     //data memebers to be modeled in this class
     var id = Int()
@@ -22,9 +22,9 @@ class MUCourse : NSObject
     var workload = String()
     var groups = [String]()
     var category = String()
-    var followers = [MUUser]()
-    var university = [MUUniversity]()
-    var instructors = [MUInstructor]()
+    var followers = [User]()
+    var university = [University]()
+    var instructors = [Instructor]()
 
     //used setup the relationships
     var sessionIds:[Int]? = nil

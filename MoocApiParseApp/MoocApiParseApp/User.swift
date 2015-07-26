@@ -1,5 +1,5 @@
 //
-//  MUUniversity.swift
+//  MUUser.swift
 //  MoocApiParseApp
 //
 //  Created by Ancil on 7/24/15.
@@ -8,7 +8,8 @@
 
 import Foundation
 
-class MUUniversity
+class User
 {
     var name = String()
+    var categories = [String]()
 }

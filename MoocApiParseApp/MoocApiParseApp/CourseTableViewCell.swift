@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MUCourseTableViewCell: UITableViewCell {
+class CourseTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var instructorIdsLabel: UILabel!

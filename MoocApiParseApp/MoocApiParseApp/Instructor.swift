@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MUInstructor
+class Instructor
 {
     var name = String()
 }
