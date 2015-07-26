@@ -24,8 +24,8 @@ class ParseManager
                 for course in foundCourses as! [PFObject] {
                     var newCourse = Course()
                     newCourse.name = course["name"] as! String
-                    newCourse.photo = course["photo"] as! String
-                    newCourse.mooc = course["mooc"] as! String
+//                    newCourse.photo = course["photo"] as! String
+//                    newCourse.mooc = course["mooc"] as! String
                     
                     courses.append(newCourse)
                 }

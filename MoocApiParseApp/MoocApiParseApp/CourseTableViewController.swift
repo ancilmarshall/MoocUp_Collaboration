@@ -78,22 +78,22 @@ class CourseTableViewController: UITableViewController {
             
         cell.titleLabel?.text =  courses[indexPath.row].name
         
-        var course = courses[indexPath.row]
-        if let sessionIds = course.sessionIds {
-            cell.sessionIdsLabel?.text = "Sessions: \(sessionIds)"
-        }
-        
-        if let universityIds = course.universityIds {
-            cell.universityIdsLabel?.text = "Universities: \(universityIds)"
-        }
-        
-        if let categoryIds = course.categoryIds {
-            cell.categoryIdsLabel?.text = "Categories: \(categoryIds)"
-        }
-        
-        if let instructorIds = course.instructorIds {
-            cell.instructorIdsLabel?.text = "Instructors: \(instructorIds)"
-        }
+//        var course = courses[indexPath.row]
+//        if let sessionIds = course.sessionIds {
+//            cell.sessionIdsLabel?.text = "Sessions: \(sessionIds)"
+//        }
+//        
+//        if let universityIds = course.universityIds {
+//            cell.universityIdsLabel?.text = "Universities: \(universityIds)"
+//        }
+//        
+//        if let categoryIds = course.categoryIds {
+//            cell.categoryIdsLabel?.text = "Categories: \(categoryIds)"
+//        }
+//        
+//        if let instructorIds = course.instructorIds {
+//            cell.instructorIdsLabel?.text = "Instructors: \(instructorIds)"
+//        }
         
         return cell
     }

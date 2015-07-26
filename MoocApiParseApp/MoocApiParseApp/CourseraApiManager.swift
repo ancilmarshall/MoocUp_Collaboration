@@ -17,17 +17,21 @@ class CourseraApiManager
     let MUServerHost = "api.coursera.org"
     let MUServerPath = "/api/catalog.v1/"
     let kCourseClassName = "Course"
-    let kMUMoocName = "Coursera"
+    let kMoocName = "Coursera"
     
-    //parseKey, apiKey
+    //(apiKey, modelKey)
     let courseFields = [
-        ("id","id"), //String
+        ("id","id"), //Int
         ("name","name"), //String
-        ("shortName","shortName"), //String
-        ("photo","photo"), //String
-        ("thumbnail","smallIcon"), //String
+        ("shortDescription","summary"), // String
+        ("photo","Image.photo"), //String
+        ("smallIcon","Image.smallIcon"), //String
+        ("largeIcon","Image.largeIcon"), //String
         ("language","language"), //String
-        ("workload","estimatedClassWorkload") //String
+        ("estimatedClassWorkload","workload"), //String
+        ("targetAudience","targetAudience"),
+        ("video","videoLink"),
+        ("recommendedBackground","prerequisite")
     ]
     
     let sessionFields = [
@@ -42,8 +46,12 @@ class CourseraApiManager
     ]
     
     var courses = [Course]()
+    var universities = [University]()
     var sessions = [Session]()
-    
+    var categories = [Category]()
+    var languages = [Language]()
+    var moocs = [Mooc]()
+    var users = [User]()
     
     // guarantee that this function returns and unwrapped Optional
     func parseJSONData(data: NSData) -> [Dictionary<String,AnyObject>]{
@@ -79,34 +87,91 @@ class CourseraApiManager
     
     func fetchCoursesFromApi() -> [Course]
     {
+        
+        var imageSet = false
+        var mooc = Mooc()
+        mooc.name = "Coursera"
+        
         //setup url and get json data
         let endpoint = "courses"
-        let queryItems = getQueryItems(fromQueryNames: ["fields","includes"])
+        let queryItems = getQueryItems(fromQueryNames: ["fields","ids"])
         let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
-        let data = NSData(contentsOfURL: url)!
+        var coursesFetched = [Dictionary<String,AnyObject>]()
+        if let data = NSData(contentsOfURL: url) {
+            coursesFetched = parseJSONData(data)
+        } else {
+            assert(false,"Error retrieving data from url \(url)")
+        }
         
-        var coursesFetched = parseJSONData(data)
-    
         //loop through all fetchedCourses and construct Course model
         var newCourses = [Course]()
-        for course in coursesFetched {
+        for course in coursesFetched
+        {
             var newCourse = Course()
-            for (parseKey,apiKey) in courseFields {
-                newCourse.setValue(course[apiKey], forKey: parseKey)
+            newCourse.id = course["id"] as! Int
+            
+            if !contains(courses, newCourse)
+            {
+                courses.append(newCourse)
+                newCourses.append(newCourse)
+                
+                newCourse.moocs.append(mooc) //TODO: make this a many to many relationship
+                
+                for (apiKey,modelKey) in courseFields {
+                    
+                    switch apiKey {
+                        
+                    case "name",
+                        "shortDescription",
+                        "estimatedClassWorkload",
+                        "video",
+                        "recommendedBackground",
+                        "targetAudiance":
+                        
+                        newCourse.setValue(course[apiKey], forKey:modelKey)
+                    
+                    case "language":
+                        //TODO Check many-many relation
+                        //TODO transform from en to English
+                        
+                        var newLanguage = Language()
+                        newLanguage.language = course[apiKey] as! String
+                        
+                        
+                        newCourse.languages.append(newLanguage)
+                        languages.append(newLanguage)
+                        
+                    case "photo","largeIcon","smallIcon":
+                    if (!imageSet) {
+                        var image = Image()
+                        image.photoURL =  NSURL(string: course["photo"] as! String)!
+                        image.smallIconURL = NSURL(string: course["smallIcon"] as! String)!
+                        image.largeIconURL = NSURL(string: course["largeIcon"] as! String)!
+                        
+                    
+                        image.photoData = NSData(contentsOfURL: image.photoURL)!
+                        image.smallIconData = NSData(contentsOfURL: image.smallIconURL)!
+                        image.largeIconData = NSData(contentsOfURL: image.largeIconURL)!
+                        
+                        
+                        //NOTE: Each image is a one to one relationship with it's parent
+                        //      so no need to track image objects in a list of images
+                        newCourse.image = image
+                        imageSet = true
+                    }
+                    default:
+                        var dummy = false
+                    }
+                }
+                
+                // get the relationship information if available
+                // NOTE: these [Int]? and therefore can be nil
+//                var links = course["links"] as! Dictionary<String,[Int]>
+//                newCourse.instructorIds = links["instructors"]
+//                newCourse.sessionIds = links["sessions"]
+//                newCourse.universityIds = links["universities"]
+//                newCourse.categoryIds = links["categories"]
             }
-            
-            //set fixed mooc name for this manager
-            newCourse.setValue(kMUMoocName, forKey:"mooc")
-            
-            // get the relationship information if available
-            // NOTE: these [Int]? and therefore can be nil
-            var links = course["links"] as! Dictionary<String,[Int]>
-            newCourse.instructorIds = links["instructors"]
-            newCourse.sessionIds = links["sessions"]
-            newCourse.universityIds = links["universities"]
-            newCourse.categoryIds = links["categories"]
-            
-            newCourses.append(newCourse)
         }
         return newCourses
     }
@@ -128,14 +193,14 @@ class CourseraApiManager
             var entity = PFObject(className: kCourseClassName )
             
             //can only set String values when iterating over this for loop
-            for (parseKey,apiKey) in courseFields {
+            for (apiKey,modelKey) in courseFields {
                 //TODO: Change all these Course values to Strings
                 var entityValue = course.valueForKey(apiKey) as! String
-                entity.setValue(entityValue, forKey: parseKey)
+                entity.setValue(entityValue, forKey: modelKey)
             }
             
             //set fixed values and relationships to other models manually here
-            entity["mooc"] = kMUMoocName
+            entity["mooc"] = kMoocName
             //entity.saveInBackground()
         }
     }
@@ -159,9 +224,12 @@ class CourseraApiManager
         switch name {
             
         case "fields":
-            return ",".join(courseFields.map({ (parseKey, apiKey) -> String in
+            return ",".join(courseFields.map({ (apiKey, modelKey) -> String in
                 return apiKey
             }))
+            
+        case "ids":
+            return "2163,69,1322,2822,1411"
         
         case "includes":
             return "instructors,universities,categories,sessions"
