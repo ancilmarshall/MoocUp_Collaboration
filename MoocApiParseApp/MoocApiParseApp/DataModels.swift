@@ -41,13 +41,6 @@ class Course : Base
     var followers = [User]()
     var university = [University]()
     var instructors = [Instructor]()
-
-    //used setup the relationships
-    var sessionIds:[Int]? = nil
-    var universityIds:[Int]? = nil
-    var categoryIds:[Int]? = nil
-    var instructorIds:[Int]? = nil
-    
 }
 
 class Mooc : Base {

@@ -109,14 +109,15 @@ class CourseraApiManager
     
     }
     
-    func fetchInstructorFromApiWithId(id: Int) -> Instructor {
+    func instructorJSONData(ids: [Int]) -> [Dictionary<String,AnyObject>]{
         
         let endpoint = "instructors"
+        var idsAssciatedData = ",".join( ids.map{"\($0)"})
         let queryItems = getQueryItems(fromQueryNames:
             [("fields", apiQueryNames.fields(instructorFields)),
-             ("ids", apiQueryNames.ids("\(id)"))]
+                ("ids", apiQueryNames.ids(idsAssciatedData))]
         )
-    
+        
         let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
         var fetchedApiObjects = [Dictionary<String,AnyObject>]()
         if let data = NSData(contentsOfURL: url) {
@@ -125,86 +126,93 @@ class CourseraApiManager
             assert(false,"Error retrieving data from url \(url)")
         }
         
+        return fetchedApiObjects
+        
+    }
+    
+    
+    func fetchInstructorFromApiWithId(fetchedObject: Dictionary<String,AnyObject>) -> Instructor {
+        ////////    Custom Code to Create a single Instructor ///////
+        ////////    Input: A Dictionary<String,AnyObject>
+        ////////    Param: instructorFields
+        ////////    Output: Instructor instance
+        ////////    Comment: No checking whether it already exists, just give a new instance
+        ////////             Checking performed outside
+        
         var newInstructor = Instructor()
-        if let fetchedObject = fetchedApiObjects.first {
+    
+        var imageSet = false
+        var firstNameSet = false
+        var lastNameSet = false
+        var firstName = String()
+        var lastName = String()
+        
+        for (apiKey,modelKey) in instructorFields {
             
-            var imageSet = false
-            var firstNameSet = false
-            var lastNameSet = false
-            var firstName = String()
-            var lastName = String()
+            switch apiKey {
             
-            for (apiKey,modelKey) in instructorFields {
-                
-                switch apiKey {
-                
-                case "id":
-                    if let value = fetchedObject[apiKey] as? Int {
-                        newInstructor.setValue(value, forKey:modelKey)
-                    } else {
-                        println("Key \(apiKey) missing from Instructor")
-                    }
-                    
-                case "bio","website":
-                    if let value = fetchedObject[apiKey] as? String{
-                        newInstructor.setValue(value, forKey:modelKey)
-                    } else {
-                        println("Key \(apiKey) missing from Instructor")
-                    }
-                
-                case "firstName":
-                    firstNameSet = true
-                    if let value = fetchedObject[apiKey] as? String {
-                        firstName = value
-                    }
-                    
-                    if firstNameSet && lastNameSet {
-                        newInstructor.name = firstName + " " + lastName
-                    }
-                    
-                case "lastName":
-                    lastNameSet = true
-                    if let value = fetchedObject[apiKey] as? String {
-                        lastName = value
-                    }
-                    
-                    if firstNameSet && lastNameSet {
-                        newInstructor.name = firstName + " " + lastName
-                    }
-                    
-                case "photo","photo150":
-                    if (!imageSet) {
-                        var image = Image()
-                        
-                        image.photoData = imageData(fromDictionary:fetchedObject, forKey: "photo")
-                        image.smallIconData = imageData(fromDictionary:fetchedObject, forKey: "photo150")
-                        
-                        newInstructor.image = image
-                        imageSet = true
+            case "id":
+                if let value = fetchedObject[apiKey] as? Int {
+                    newInstructor.setValue(value, forKey:modelKey)
+                } else {
+                    println("Key \(apiKey) missing from Instructor")
                 }
-                    
-                default:
-                    println("Should not be here")
+                
+            case "bio","website":
+                if let value = fetchedObject[apiKey] as? String{
+                    newInstructor.setValue(value, forKey:modelKey)
+                } else {
+                    println("Key \(apiKey) missing from Instructor")
                 }
+            
+            case "firstName":
+                firstNameSet = true
+                if let value = fetchedObject[apiKey] as? String {
+                    firstName = value
+                }
+                
+                if firstNameSet && lastNameSet {
+                    newInstructor.name = firstName + " " + lastName
+                }
+                
+            case "lastName":
+                lastNameSet = true
+                if let value = fetchedObject[apiKey] as? String {
+                    lastName = value
+                }
+                
+                if firstNameSet && lastNameSet {
+                    newInstructor.name = firstName + " " + lastName
+                }
+                
+            case "photo","photo150":
+                if (!imageSet) {
+                    var image = Image()
+                    
+                    image.photoData = imageData(fromDictionary:fetchedObject, forKey: "photo")
+                    image.smallIconData = imageData(fromDictionary:fetchedObject, forKey: "photo150")
+                    
+                    newInstructor.image = image
+                    imageSet = true
+            }
+                
+            default:
+                println("Should not be here")
             }
         }
         return newInstructor
     }
-
     
-    func fetchCoursesFromApi() -> [Course]
-    {
-        
-        //create a Coursera Mooc instance
-        var mooc = Mooc()
-        mooc.name = "Coursera"
+    func courseJSONData(ids: [Int]) -> [Dictionary<String,AnyObject>] {
         
         // setup url and get json data
         let endpoint = "courses"
+        var idsAssciatedData = ",".join( ids.map{"\($0)"})
+
         let queryItems = getQueryItems(fromQueryNames:
             [("fields" , apiQueryNames.fields(courseFields)),
-            ("ids" , apiQueryNames.ids("2163,69,1322,2822,1411")),
-            ("includes", apiQueryNames.includes("instructors"))]
+                ("ids" , apiQueryNames.ids(idsAssciatedData)),
+                ("includes", apiQueryNames.includes("instructors"))]
         )
         let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
         
@@ -215,13 +223,29 @@ class CourseraApiManager
             assert(false,"Error retrieving data from url \(url)")
         }
         
+        return fetchedApiObjects
+    }
+    
+    
+    
+    
+    
+    func fetchCoursesFromApi() -> [Course]
+    {
+        //create a Coursera Mooc instance
+        var mooc = Mooc()
+        mooc.name = "Coursera"
+        var fetchedApiObjects = courseJSONData([69,2163,1322,2822,1411])
+        
         //loop through all fetchedCourses and construct Course model
         for course in fetchedApiObjects
         {
-            var imageSet = false
-            
+            ///// For each Course, here are the steps /////
+            ///// Deletegate this customization ////
             var newCourse = Course()
             newCourse.id = course["id"] as! Int
+            
+            
             
             if !contains(courses, newCourse)
             {
@@ -231,7 +255,8 @@ class CourseraApiManager
                 newCourse.moocs.append(mooc)
                 
                 for (apiKey,modelKey) in courseFields {
-                    
+                    var imageSet = false
+
                     switch apiKey {
                         
                     case "name",
@@ -281,19 +306,21 @@ class CourseraApiManager
                 }
                 
                 var links = course["links"] as! Dictionary<String,[Int]>
-                
                 var instructorIds = links["instructors"]
                 var sessionIds = links["sessions"]
                 var universityIds = links["universities"]
                 var categoryIds = links["categories"]
                 
+
                 
                 if let ids = instructorIds {
+                    
+                    var instructorJSON = instructorJSONData(ids)
                 
-                    for instructorId in ids {
+                    for instructorData in instructorJSON {
                         
                         //get instructor with basic information filled out
-                        var newInstructor = fetchInstructorFromApiWithId(instructorId)
+                        var newInstructor = fetchInstructorFromApiWithId(instructorData)
                         
                         //check if this instructor is not already in list of instructors
                         if !contains(instructors,newInstructor){
@@ -314,8 +341,6 @@ class CourseraApiManager
                         newInstructor.courses.append(newCourse)
                     }
                 }
-                
-                
             }
         }
         return courses
