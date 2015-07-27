@@ -61,22 +61,9 @@ class Language : Base {
 
 class Image : Base
 {
-    var photoURL = NSURL()
-    var smallIconURL = NSURL()
-    var largeIconURL = NSURL()
     var photoData = NSData()
     var smallIconData = NSData()
     var largeIconData = NSData()
-    
-    override func isEqual(object: AnyObject?) -> Bool {
-        if let obj = object as? Image {
-            return (obj.photoURL == photoURL) &&
-                (obj.smallIconURL == smallIconURL) &&
-                (obj.largeIconURL == largeIconURL)
-        } else {
-            assert(false,"Expected Image obect during equality comparison")
-        }
-    }
 }
 
 class Category : Base
@@ -99,6 +86,16 @@ class Instructor : Base
     var image = Image()
     var courses = [Course]()
     var sessions = [Session]()
+    var website = String()
+    
+    //test for Instructor equality based on the name
+    override func isEqual(object: AnyObject?) -> Bool {
+        if let obj = object as? Base {
+            return name == obj.name
+        } else {
+            assert(false, "Exected instance of Base class during equality comparison")
+        }
+    }
 }
 
 class University : Base
@@ -106,14 +103,13 @@ class University : Base
     var website = String()
     var image = Image()
     var instructors = [Instructor]()
-    
 }
 
 class Session : Base
 {
     var homeLink = String()
     var duration = String()
-    var startData = NSDate()
+    var startDate = NSDate()
     var instructors = [Instructor]()
     var course = Course()
 }

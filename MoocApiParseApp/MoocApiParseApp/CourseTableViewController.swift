@@ -75,10 +75,10 @@ class CourseTableViewController: UITableViewController {
                 
         var cell = tableView.dequeueReusableCellWithIdentifier(kTableViewCellIdentifier)
             as! CourseTableViewCell
-            
-        cell.titleLabel?.text =  courses[indexPath.row].name
+        var course = courses[indexPath.row]
+    
+        cell.titleLabel?.text =  course.name
         
-//        var course = courses[indexPath.row]
 //        if let sessionIds = course.sessionIds {
 //            cell.sessionIdsLabel?.text = "Sessions: \(sessionIds)"
 //        }
@@ -90,10 +90,10 @@ class CourseTableViewController: UITableViewController {
 //        if let categoryIds = course.categoryIds {
 //            cell.categoryIdsLabel?.text = "Categories: \(categoryIds)"
 //        }
-//        
-//        if let instructorIds = course.instructorIds {
-//            cell.instructorIdsLabel?.text = "Instructors: \(instructorIds)"
-//        }
+//
+        if let firstInstructor = course.instructors.first {
+            cell.instructorIdsLabel?.text = firstInstructor.name
+        }
         
         return cell
     }

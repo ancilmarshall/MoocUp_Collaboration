@@ -34,16 +34,39 @@ class CourseraApiManager
         ("recommendedBackground","prerequisite")
     ]
     
+    //(apiKey,modelKey)
     let sessionFields = [
         ("id","id"),
         ("name","name"),
-        ("duration","durationString")
+        ("durationString","duration"),
+        ("homeLink","homeLink"),
+        ("startDay","startDate"),
+        ("startMonth","startDate"),
+        ("startYear","startDate")
     ]
     
+    //(apiKey,modelKey)
     let instructorFields = [
         ("id","id"),
-        ("name","name")
+        ("firstName","name"),
+        ("lastName","name"),
+        ("bio","summary"),
+        ("photo","Image.photo"),
+        ("photo150","Image.largeIcon"),
+        ("website","website")
     ]
+    
+    //(apiKey,modelKey)
+    let categoryFields = [
+    
+    ]
+    
+    
+    enum apiQueryNames {
+        case fields(Array<(String,String)>)
+        case includes(String)
+        case ids(String)
+    }
     
     var courses = [Course]()
     var universities = [University]()
@@ -52,6 +75,7 @@ class CourseraApiManager
     var languages = [Language]()
     var moocs = [Mooc]()
     var users = [User]()
+    var instructors = [Instructor]()
     
     // guarantee that this function returns and unwrapped Optional
     func parseJSONData(data: NSData) -> [Dictionary<String,AnyObject>]{
@@ -85,37 +109,126 @@ class CourseraApiManager
     
     }
     
+    func fetchInstructorFromApiWithId(id: Int) -> Instructor {
+        
+        let endpoint = "instructors"
+        let queryItems = getQueryItems(fromQueryNames:
+            [("fields", apiQueryNames.fields(instructorFields)),
+             ("ids", apiQueryNames.ids("\(id)"))]
+        )
+    
+        let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
+        var fetchedApiObjects = [Dictionary<String,AnyObject>]()
+        if let data = NSData(contentsOfURL: url) {
+            fetchedApiObjects = parseJSONData(data)
+        } else {
+            assert(false,"Error retrieving data from url \(url)")
+        }
+        
+        var newInstructor = Instructor()
+        if let fetchedObject = fetchedApiObjects.first {
+            
+            var imageSet = false
+            var firstNameSet = false
+            var lastNameSet = false
+            var firstName = String()
+            var lastName = String()
+            
+            for (apiKey,modelKey) in instructorFields {
+                
+                switch apiKey {
+                
+                case "id":
+                    if let value = fetchedObject[apiKey] as? Int {
+                        newInstructor.setValue(value, forKey:modelKey)
+                    } else {
+                        println("Key \(apiKey) missing from Instructor")
+                    }
+                    
+                case "bio","website":
+                    if let value = fetchedObject[apiKey] as? String{
+                        newInstructor.setValue(value, forKey:modelKey)
+                    } else {
+                        println("Key \(apiKey) missing from Instructor")
+                    }
+                
+                case "firstName":
+                    firstNameSet = true
+                    if let value = fetchedObject[apiKey] as? String {
+                        firstName = value
+                    }
+                    
+                    if firstNameSet && lastNameSet {
+                        newInstructor.name = firstName + " " + lastName
+                    }
+                    
+                case "lastName":
+                    lastNameSet = true
+                    if let value = fetchedObject[apiKey] as? String {
+                        lastName = value
+                    }
+                    
+                    if firstNameSet && lastNameSet {
+                        newInstructor.name = firstName + " " + lastName
+                    }
+                    
+                case "photo","photo150":
+                    if (!imageSet) {
+                        var image = Image()
+                        
+                        image.photoData = imageData(fromDictionary:fetchedObject, forKey: "photo")
+                        image.smallIconData = imageData(fromDictionary:fetchedObject, forKey: "photo150")
+                        
+                        newInstructor.image = image
+                        imageSet = true
+                }
+                    
+                default:
+                    println("Should not be here")
+                }
+            }
+        }
+        return newInstructor
+    }
+
+    
     func fetchCoursesFromApi() -> [Course]
     {
         
-        var imageSet = false
+        //create a Coursera Mooc instance
         var mooc = Mooc()
         mooc.name = "Coursera"
         
-        //setup url and get json data
+        // setup url and get json data
         let endpoint = "courses"
-        let queryItems = getQueryItems(fromQueryNames: ["fields","ids"])
+        let queryItems = getQueryItems(fromQueryNames:
+            [("fields" , apiQueryNames.fields(courseFields)),
+            ("ids" , apiQueryNames.ids("2163,69,1322,2822,1411")),
+            ("includes", apiQueryNames.includes("instructors"))]
+        )
         let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
-        var coursesFetched = [Dictionary<String,AnyObject>]()
+        
+        var fetchedApiObjects = [Dictionary<String,AnyObject>]()
         if let data = NSData(contentsOfURL: url) {
-            coursesFetched = parseJSONData(data)
+            fetchedApiObjects = parseJSONData(data)
         } else {
             assert(false,"Error retrieving data from url \(url)")
         }
         
         //loop through all fetchedCourses and construct Course model
-        var newCourses = [Course]()
-        for course in coursesFetched
+        for course in fetchedApiObjects
         {
+            var imageSet = false
+            
             var newCourse = Course()
             newCourse.id = course["id"] as! Int
             
             if !contains(courses, newCourse)
             {
                 courses.append(newCourse)
-                newCourses.append(newCourse)
                 
-                newCourse.moocs.append(mooc) //TODO: make this a many to many relationship
+                //TODO: make this a many to many relationship
+                newCourse.moocs.append(mooc)
                 
                 for (apiKey,modelKey) in courseFields {
                     
@@ -128,63 +241,116 @@ class CourseraApiManager
                         "recommendedBackground",
                         "targetAudiance":
                         
-                        newCourse.setValue(course[apiKey], forKey:modelKey)
+                        if let value = course[apiKey] as? String{
+                            newCourse.setValue(value, forKey:modelKey)
+                        } else {
+                            println("Key \(apiKey) missing from Course with Id: \(newCourse.id)")
+                        }
                     
                     case "language":
                         //TODO Check many-many relation
                         //TODO transform from en to English
                         
                         var newLanguage = Language()
-                        newLanguage.language = course[apiKey] as! String
                         
+                        if let value = course[apiKey] as? String{
+                            newLanguage.language = value
+                        } else {
+                            println("Key \(apiKey) missing from Course with Id: \(newCourse.id)")
+                        }
                         
                         newCourse.languages.append(newLanguage)
                         languages.append(newLanguage)
                         
                     case "photo","largeIcon","smallIcon":
-                    if (!imageSet) {
-                        var image = Image()
-                        image.photoURL =  NSURL(string: course["photo"] as! String)!
-                        image.smallIconURL = NSURL(string: course["smallIcon"] as! String)!
-                        image.largeIconURL = NSURL(string: course["largeIcon"] as! String)!
                         
-                    
-                        image.photoData = NSData(contentsOfURL: image.photoURL)!
-                        image.smallIconData = NSData(contentsOfURL: image.smallIconURL)!
-                        image.largeIconData = NSData(contentsOfURL: image.largeIconURL)!
-                        
-                        
-                        //NOTE: Each image is a one to one relationship with it's parent
-                        //      so no need to track image objects in a list of images
-                        newCourse.image = image
-                        imageSet = true
-                    }
+                        if (!imageSet) {
+                            
+                            var image = Image()
+                            image.photoData = imageData(fromDictionary:course, forKey: "photo")
+                            image.smallIconData = imageData(fromDictionary:course, forKey: "largeIcon")
+                            image.largeIconData = imageData(fromDictionary:course, forKey: "smallIcon")
+                            
+                            //Each image is a one to one relationship with no need to track image objects in a list of images
+                            newCourse.image = image
+                            imageSet = true
+                        }
                     default:
                         var dummy = false
                     }
                 }
                 
-                // get the relationship information if available
-                // NOTE: these [Int]? and therefore can be nil
-//                var links = course["links"] as! Dictionary<String,[Int]>
-//                newCourse.instructorIds = links["instructors"]
-//                newCourse.sessionIds = links["sessions"]
-//                newCourse.universityIds = links["universities"]
-//                newCourse.categoryIds = links["categories"]
+                var links = course["links"] as! Dictionary<String,[Int]>
+                
+                var instructorIds = links["instructors"]
+                var sessionIds = links["sessions"]
+                var universityIds = links["universities"]
+                var categoryIds = links["categories"]
+                
+                
+                if let ids = instructorIds {
+                
+                    for instructorId in ids {
+                        
+                        //get instructor with basic information filled out
+                        var newInstructor = fetchInstructorFromApiWithId(instructorId)
+                        
+                        //check if this instructor is not already in list of instructors
+                        if !contains(instructors,newInstructor){
+                            //so this is a brand new instructor, append it to the global list
+                            instructors.append(newInstructor)
+                            
+                        } else
+                        // get the instructor pointer from the list of instructors (replacing the newInstructor)
+                        {
+                            //TODO: Check that this actually works for a many-many relationship
+                            var index = (instructors as NSArray).indexOfObject(newInstructor)
+                            newInstructor = (instructors as NSArray).objectAtIndex(index) as! Instructor
+                            
+                        }
+                        
+                        // then add the connection between instructor and course
+                        newCourse.instructors.append(newInstructor)
+                        newInstructor.courses.append(newCourse)
+                    }
+                }
+                
+                
             }
         }
-        return newCourses
+        return courses
     }
     
-    func fetchInstructorsFromApi() -> [Instructor]
-    {
-        let endpoint = "instructors"
-        let queryItems = getQueryItems(fromQueryNames: ["i_fields","i_includes"])
-        let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
-        let data = NSData(contentsOfURL: url)!
-        
-        return [Instructor]()
+//    func fetchInstructorsFromApi() -> [Instructor]
+//    {
+//        let endpoint = "instructors"
+//        let queryItems = getQueryItems(fromQueryNames: ["i_fields","i_includes"])
+//        let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
+//        let data = NSData(contentsOfURL: url)!
+//        
+//        return [Instructor]()
+//    }
+    
+    
+    func imageData(fromDictionary dict: Dictionary<String,AnyObject>,
+        forKey key: String) -> NSData {
+            
+            if let URLString = dict[key] as? String {
+                if let URL =  NSURL(string: URLString) {
+                    if let data = NSData(contentsOfURL: URL){
+                        return data
+                    } else {
+                        println("Error create NSData")
+                    }
+                } else {
+                    println("Error creating URL")
+                }
+            } else {
+                println("Key \(key) missing from Object: \(dict)")
+            }
+            return NSData()
     }
+    
     
     //FIXME: Convert to strings the attributes in Course model that are not other models
     func saveCoursesToParse(courses: [Course]) -> Void
@@ -206,11 +372,11 @@ class CourseraApiManager
     }
     
     //MARK: -  URL Contruction
-    func getQueryItems(fromQueryNames names:[String])->[NSURLQueryItem]
+    func getQueryItems(fromQueryNames names:[(String,apiQueryNames)])->[NSURLQueryItem]
     {
         var queryItems = [NSURLQueryItem]()
-        for name in names {
-            if let value = getQueryValue(forName: name) {
+        for (name, queries) in names {
+            if let value = getQueryValue(forName: queries) {
                 queryItems.append(NSURLQueryItem(name: name, value: value))
             } else {
                 assert(false,"Error in getQueryItems(fromQueryNames)")
@@ -219,23 +385,20 @@ class CourseraApiManager
         return queryItems
     }
     
-    func getQueryValue(forName name:String) -> String? {
+    func getQueryValue(forName name:apiQueryNames) -> String? {
         
         switch name {
             
-        case "fields":
-            return ",".join(courseFields.map({ (apiKey, modelKey) -> String in
+        case .fields(let fields):
+            return ",".join(fields.map({ (apiKey, modelKey) -> String in
                 return apiKey
             }))
             
-        case "ids":
-            return "2163,69,1322,2822,1411"
+        case .ids(let str):
+            return str
         
-        case "includes":
-            return "instructors,universities,categories,sessions"
-            
-//        case "i_fields":
-//            return ",",join()
+        case .includes(let str):
+            return str
             
         default:
             return nil
