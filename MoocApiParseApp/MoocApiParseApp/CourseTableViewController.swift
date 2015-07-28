@@ -72,21 +72,20 @@ class CourseTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)-> CourseTableViewCell
     {
-                
         var cell = tableView.dequeueReusableCellWithIdentifier(kTableViewCellIdentifier)
             as! CourseTableViewCell
         var course = courses[indexPath.row]
     
         cell.titleLabel?.text =  course.name
         
-//        if let sessionIds = course.sessionIds {
-//            cell.sessionIdsLabel?.text = "Sessions: \(sessionIds)"
-//        }
-//        
-//        if let universityIds = course.universityIds {
-//            cell.universityIdsLabel?.text = "Universities: \(universityIds)"
-//        }
-//        
+        if let firstSession = course.sessions.first {
+            cell.sessionIdsLabel?.text = firstSession.name
+        }
+
+        if let firstUniversity = course.universities.first {
+            cell.universityIdsLabel?.text = firstUniversity.name
+        }
+
         if let firstCategory = course.categories.first {
             cell.categoryIdsLabel?.text = firstCategory.name
         }

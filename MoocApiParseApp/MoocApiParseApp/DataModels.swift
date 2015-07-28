@@ -39,8 +39,9 @@ class Course : Base
     var languages = [Language]()
     var categories = [Category]()
     var followers = [User]()
-    var university = [University]()
+    var universities = [University]()
     var instructors = [Instructor]()
+    var sessions = [Session]()
 }
 
 class Mooc : Base {
@@ -107,6 +108,7 @@ class University : Base
     var website = String()
     var image = Image()
     var instructors = [Instructor]()
+    var courses = [Course]()
 }
 
 class Session : Base

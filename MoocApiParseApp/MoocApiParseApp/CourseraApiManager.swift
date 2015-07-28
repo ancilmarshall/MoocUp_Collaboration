@@ -58,13 +58,19 @@ class CourseraApiManager
     //(apiKey,modelKey)
     let categoryFields = [
         ("id","id"),
-        ("name","name")
+        ("name","name"),
+        ("description","summary"),
+
     ]
     
     //(apiKey,modelKey)
     let universityFields = [
         ("id","id"),
-        ("name","name")
+        ("name","name"),
+        ("description","summary"),
+        ("website","website"),
+        ("banner","Image.photo"),
+        ("classLogo","Image.largeIcon")
     ]
     
     enum apiQueryNames {
@@ -96,69 +102,150 @@ class CourseraApiManager
         backgroundqueue.addOperation(operation)
     
     }
-
-//    //need to make global or static
-//    var allCategoryJSONData = [ (Int, Dictionary<String,AnyObject> ) ] ()
-//
-//    //MARK: - Category Creation Methods
-//    func getCategoryJSONData(ids: [Int]) -> [Dictionary<String,AnyObject>]{
-//        
-//        let allCategoryIds = allCategoryJSONData.map{ $0.0 }
-//        
-//        let idsVisited = ids.filter{ contains(allCategoryIds,$0) }
-//        let idsNotVisited = ids.filter { !contains(allCategoryIds,$0) }
-//        
-//        var categoryJSONDataVisited = allCategoryJSONData.filter
-//            {contains(idsVisited,$0.0)}.map{$0.1}
-//        
-//        var jsonDataArray = [Dictionary<String,AnyObject>]()
-//
-//        if idsNotVisited.count > 0
-//        {
-//            let endpoint = "categories"
-//            var idsAssciatedData = ",".join( idsNotVisited.map{"\($0)"})
-//            let queryItems = getQueryItems(fromQueryNames:
-//                [("fields", apiQueryNames.fields(categoryFields)),
-//                    ("ids", apiQueryNames.ids(idsAssciatedData))]
-//            )
-//            let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
-//            
-//            if let data = NSData(contentsOfURL: url) {
-//                jsonDataArray = parseJSONData(data)
-//                var newCategoryJSONData = jsonDataArray.map{ ( $0["id"] as! Int , $0 ) }
-//                allCategoryJSONData.splice(newCategoryJSONData, atIndex: allCategoryJSONData.count)
-//            } else {
-//                assert(false,"Error retrieving data from url \(url)")
-//            }
-//        }
-//
-//        jsonDataArray.splice(categoryJSONDataVisited, atIndex:0)
-//        return jsonDataArray
-//    }
     
     
-    func getCategoryJSONData(ids: [Int]) -> [Dictionary<String,AnyObject>]{
+    //MARK:- Data Models Creation Methods
+    func getJSONData(endpoint: String, fields:[(String,String)], ids:[Int]?) -> [Dictionary<String,AnyObject>]{
         
         var jsonDataArray = [Dictionary<String,AnyObject>]()
+        var url = NSURL()
+        var queryItems = [NSURLQueryItem]()
         
-        let endpoint = "categories"
-        var idsAssciatedData = ",".join(ids.map{"\($0)"})
-        let queryItems = getQueryItems(fromQueryNames:
-            [("fields", apiQueryNames.fields(categoryFields)),
-                ("ids", apiQueryNames.ids(idsAssciatedData))]
-        )
-        let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
+        if endpoint == "courses" {
+            let includesString = "instructors,categories,sessions,universities"
+            if let inputArray = ids {
+                var idsAssociatedData = ",".join(inputArray.map{"\($0)"})
+                queryItems = getQueryItems(fromQueryNames:
+                    [("fields" , apiQueryNames.fields(courseFields)),
+                        ("ids" , apiQueryNames.ids(idsAssociatedData)),
+                        ("includes", apiQueryNames.includes(includesString))]
+                )
+                url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
+            } else {
+                queryItems = getQueryItems(fromQueryNames:
+                    [("fields" , apiQueryNames.fields(courseFields)),
+                        ("includes", apiQueryNames.includes(includesString))]
+                )
+                url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
+            }
+        }
+        else {
+            if let inputArray = ids {
+                var idsAssciatedData = ",".join(inputArray.map{"\($0)"})
+                queryItems = getQueryItems(fromQueryNames:
+                    [("fields", apiQueryNames.fields(fields)),
+                        ("ids", apiQueryNames.ids(idsAssciatedData))]
+                )
+            }
+        }
+        
+        url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
         
         if let data = NSData(contentsOfURL: url) {
             jsonDataArray = parseJSONData(data)
         } else {
             assert(false,"Error retrieving data from url \(url)")
         }
-        
         return jsonDataArray
     }
+   
+    func createSession(sessionJSONData: Dictionary<String,AnyObject>) -> Session {
+        
+        var session = Session()
+        
+        for (apiKey,modelKey) in sessionFields {
+            
+            var dateSet = false
+            var day = Int()
+            var month = Int()
+            var year = Int()
+            
+            switch apiKey {
+                
+            case "id":
+                if let value = sessionJSONData[apiKey] as? Int {
+                    session.setValue(value, forKey:modelKey)
+                } else {
+                    println("Key \(apiKey) missing")
+                }
+                
+            case "name","durationString","homeLink":
+                if let value = sessionJSONData[apiKey] as? String{
+                    session.setValue(value, forKey:modelKey)
+                } else {
+                    println("Key \(apiKey) missing")
+                }
+                
+            case "startDay","startMonth","startYear":
+                if (!dateSet) {
+                    var dateComponents = NSDateComponents()
+                    if let value = sessionJSONData["startDay"] as? Int {
+                        dateComponents.day = value
+                    }
+                    if let value = sessionJSONData["startMonth"] as? Int {
+                        dateComponents.month = value
+                    }
+                    if let value = sessionJSONData["startYear"] as? Int {
+                        dateComponents.year = value
+                    }
+                    
+                    if let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian){
+                        if let date = calendar.dateFromComponents(dateComponents){
+                            session.startDate = date
+                        }
+                    }
+                    dateSet = true
+                }
+                
+            default:
+                println("Should not be here")
+            }
+        }
+        return session
+    }
     
-
+    
+    func createUniversity(universityJSONData: Dictionary<String,AnyObject>) -> University {
+        
+        var university = University()
+        
+        for (apiKey,modelKey) in universityFields {
+            var imageSet = false
+            switch apiKey {
+                
+            case "id":
+                if let value = universityJSONData[apiKey] as? Int {
+                    university.setValue(value, forKey:modelKey)
+                } else {
+                    println("Key \(apiKey) missing")
+                }
+                
+            case "name","description","website":
+                if let value = universityJSONData[apiKey] as? String{
+                    university.setValue(value, forKey:modelKey)
+                } else {
+                    println("Key \(apiKey) missing")
+                }
+            
+            case "banner","classLogo":
+                if (!imageSet) {
+                    var image = Image()
+                    
+                    image.photoData = imageData(fromDictionary:universityJSONData, forKey: "banner")
+                    image.smallIconData = imageData(fromDictionary:universityJSONData, forKey: "classLogo")
+                    
+                    university.image = image
+                    imageSet = true
+                }
+                
+            default:
+                println("Should not be here")
+            }
+        }
+        return university
+    }
+    
+    
     func createCategory(categoryJSONData: Dictionary<String,AnyObject>) -> Category {
         
         var category = Category()
@@ -174,7 +261,7 @@ class CourseraApiManager
                     println("Key \(apiKey) missing")
                 }
                 
-            case "name":
+            case "name","description":
                 if let value = categoryJSONData[apiKey] as? String{
                     category.setValue(value, forKey:modelKey)
                 } else {
@@ -186,28 +273,6 @@ class CourseraApiManager
             }
         }
         return category
-    }
-    
-    //MARK: - Instructor Creation Methods
-    func getInstructorJSONData(ids: [Int]) -> [Dictionary<String,AnyObject>]{
-        
-        let endpoint = "instructors"
-        var idsAssciatedData = ",".join( ids.map{"\($0)"})
-        let queryItems = getQueryItems(fromQueryNames:
-            [("fields", apiQueryNames.fields(instructorFields)),
-                ("ids", apiQueryNames.ids(idsAssciatedData))]
-        )
-        
-        let url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
-        var fetchedApiObjects = [Dictionary<String,AnyObject>]()
-        if let data = NSData(contentsOfURL: url) {
-            fetchedApiObjects = parseJSONData(data)
-        } else {
-            assert(false,"Error retrieving data from url \(url)")
-        }
-        
-        return fetchedApiObjects
-        
     }
     
     func createInstructor(instructorJSONData: Dictionary<String,AnyObject>) -> Instructor {
@@ -275,40 +340,6 @@ class CourseraApiManager
         }
         return instructor
     }
-    
-    //MARK: - Course creation methods
-    func getCoursesJSONData(ids: [Int]?) -> [Dictionary<String,AnyObject>] {
-        // setup url and get json data
-        let endpoint = "courses"
-        let includesString = "instructors,categories"
-        var url = NSURL()
-        
-        if let inputArray = ids {
-            var idsAssociatedData = ",".join(inputArray.map{"\($0)"})
-            let queryItems = getQueryItems(fromQueryNames:
-                [("fields" , apiQueryNames.fields(courseFields)),
-                    ("ids" , apiQueryNames.ids(idsAssociatedData)),
-                    ("includes", apiQueryNames.includes(includesString))]
-            )
-            url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
-        } else {
-            let queryItems = getQueryItems(fromQueryNames:
-                [("fields" , apiQueryNames.fields(courseFields)),
-                ("includes", apiQueryNames.includes(includesString))]
-            )
-            url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
-        }
-        
-        var coursesJSONData = [Dictionary<String,AnyObject>]()
-        if let data = NSData(contentsOfURL: url) {
-            coursesJSONData = parseJSONData(data)
-        } else {
-            assert(false,"Error retrieving data from url \(url)")
-        }
-        
-        return coursesJSONData
-    }
-    
     
     func createCourse(courseJSONData: Dictionary<String,AnyObject>) ->
         (Course,
@@ -384,24 +415,22 @@ class CourseraApiManager
         var categoryJSONData = [Dictionary<String,AnyObject>]()
 
         if let ids = links["instructors"] {
-            instructorJSONData = getInstructorJSONData(ids)
+            instructorJSONData = getJSONData("instructors",fields: instructorFields,ids: ids)
         }
         
         if let ids = links["sessions"] {
-            //sessionJSONData = getSessionJSONData(ids)
+            sessionJSONData = getJSONData("sessions",fields:sessionFields,ids:ids)
         }
         
         if let ids = links["universities"]{
-            //universityJSONData = getUniversityJSONData(ids)
+            universityJSONData = getJSONData("universities", fields:universityFields, ids: ids)
         }
         
         if let ids = links["categories"]{
-            println(ids)
-            categoryJSONData = getCategoryJSONData(ids)
+            categoryJSONData = getJSONData("categories", fields:categoryFields, ids: ids)
         }
         
         return (course, instructorJSONData, sessionJSONData, universityJSONData, categoryJSONData)
-    
     }
     
     // Root function call. Create a Course and all the relative objects connected to it
@@ -411,14 +440,12 @@ class CourseraApiManager
         var mooc = Mooc()
         mooc.name = "Coursera"
         
-        //TODO, make the input ids optional, therefore, you get all the courses and the output optional also
-        var coursesJSONData = getCoursesJSONData([69,2163,1322,2822,1411])
+        var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [69,2163,1322,2822,1411])
         
         //loop through all fetchedCourses and construct Course model
         for courseData in coursesJSONData
         {
             ///// For each Course, here are the steps /////
-            ///// Deletegate this customization ////
             var results = createCourse(courseData)
             var course = results.0
             var instructorJSONData = results.1
@@ -471,27 +498,40 @@ class CourseraApiManager
                     category.courses.append(course)
                     
                 }
-
-//                for universityData in universityJSONData {
-//                    
-//                    //FIXME: This is performing redundant network calls
-//                    var university = createUniversity(universityData)
-//                
-//                    if !contains(universities,university){
-//                        universities.append(university)
-//                    } else {
-//                        var index = (universities as NSArray).indexOfObject(category)
-//                        university = (universities as NSArray).objectAtIndex(index) as! Category
-//                    }
-//                    
-//                    course.universities.append(university)
-//                    university.courses.append(university)
-//                    
-//                }
                 
+                for sessionData in sessionJSONData {
+                    
+                    //FIXME: This is performing redundant network calls
+                    var session = createSession(sessionData)
+                    
+                    if !contains(sessions,session){
+                        sessions.append(session)
+                    } else {
+                        var index = (sessions as NSArray).indexOfObject(session)
+                        session = (sessions as NSArray).objectAtIndex(index) as! Session
+                    }
+                    
+                    course.sessions.append(session)
+                    session.course = course
+                    
+                }
                 
+                for universityData in universityJSONData {
+                    
+                    //FIXME: This is performing redundant network calls
+                    var university = createUniversity(universityData)
                 
-                
+                    if !contains(universities,university){
+                        universities.append(university)
+                    } else {
+                        var index = (universities as NSArray).indexOfObject(university)
+                        university = (universities as NSArray).objectAtIndex(index) as! University
+                    }
+                    
+                    course.universities.append(university)
+                    university.courses.append(course)
+                    
+                }
                 
             }
             else {
@@ -535,7 +575,7 @@ class CourseraApiManager
                     if let data = NSData(contentsOfURL: URL){
                         return data
                     } else {
-                        println("Error create NSData")
+                        println("Error create NSData: \(URL)")
                     }
                 } else {
                     println("Error creating URL")
