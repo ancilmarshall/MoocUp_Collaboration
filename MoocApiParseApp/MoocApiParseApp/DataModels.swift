@@ -46,6 +46,7 @@ class Course : Base
 class Mooc : Base {
     
     var website = String()
+    var courses = [Course]()
 }
 
 class Language : Base {
@@ -63,11 +64,21 @@ class Category : Base
 {
     var moocCategoryName = String()
     var image = Image()
+    var courses = [Course]()
 }
 
 class User : Base
 {
     var settings = [UserSettings]()
+    var location = Location()
+}
+
+class Location: Base
+{
+    var city = String()
+    var state = String()
+    var country = String()
+    
 }
 
 class UserSettings : Base

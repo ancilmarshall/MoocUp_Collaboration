@@ -87,10 +87,10 @@ class CourseTableViewController: UITableViewController {
 //            cell.universityIdsLabel?.text = "Universities: \(universityIds)"
 //        }
 //        
-//        if let categoryIds = course.categoryIds {
-//            cell.categoryIdsLabel?.text = "Categories: \(categoryIds)"
-//        }
-//
+        if let firstCategory = course.categories.first {
+            cell.categoryIdsLabel?.text = firstCategory.name
+        }
+
         if let firstInstructor = course.instructors.first {
             cell.instructorIdsLabel?.text = firstInstructor.name
         }
