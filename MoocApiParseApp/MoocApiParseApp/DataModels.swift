@@ -11,6 +11,7 @@
 //
 
 import Foundation
+import Parse
 
 class Base : NSObject {
     
@@ -90,7 +91,6 @@ class Instructor : Base
 {
     var image = Image()
     var courses = [Course]()
-    var sessions = [Session]()
     var website = String()
     
     //test for Instructor equality based on the name
@@ -107,7 +107,6 @@ class University : Base
 {
     var website = String()
     var image = Image()
-    var instructors = [Instructor]()
     var courses = [Course]()
 }
 
@@ -124,6 +123,25 @@ class Review: Base
 {
     var rating = String()
 }
+
+
+// Activity Models
+
+class FollowCourse {
+    let fromUser: PFUser
+    let toCourse: Course
+    
+    init(fromUser: PFUser, toCourse: Course){
+        self.fromUser = fromUser
+        self.toCourse = toCourse
+    }
+}
+
+
+
+
+
+
 
 
 

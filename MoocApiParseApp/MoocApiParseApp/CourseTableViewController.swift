@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 let kTableViewCellIdentifier = "cell"
-let kCourseClassName = "MUCourse"
+let kCourseClassName = "Course"
 
 class CourseTableViewController: UITableViewController {
 
@@ -30,26 +30,25 @@ class CourseTableViewController: UITableViewController {
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        fetchFromMoocApi(nil)
+        //fetchFromMoocApi(nil)
     }
     
     @IBAction func fetchFromMoocApi(sender:AnyObject?)
     {
 
         moocApiManager.fetchCoursesFromApiWithBlock { newCourses in
-            self.courses = newCourses
+            //self.courses = newCourses
             dispatch_async(dispatch_get_main_queue()){
-                self.tableView.reloadData()
-                
-                //self.moocApiManager.saveCoursesToParse(self.courses)
+                //self.tableView.reloadData()
+                self.moocApiManager.saveCoursesToParse(newCourses)
             }
         }
     }
 
     @IBAction func fetchFromParse(sender:AnyObject?)
     {
-        
         var query = PFQuery(className: kCourseClassName)
+        query.includeKey("image")
         parseManager.fetchCourses(query) { (newCourses) -> Void in
 
             self.courses = newCourses
@@ -58,7 +57,6 @@ class CourseTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
-        
     }
     
     //MARK: - TableView Data Source Delegate Methods

@@ -11,7 +11,6 @@ import Parse
 
 class ParseManager
 {
-    
     func fetchCourses(query:PFQuery, completionHandler:(courses:[Course])->Void )
     {
         var courses = [Course]()
@@ -20,12 +19,17 @@ class ParseManager
             ( foundCourses: [AnyObject]?, error: NSError?) -> Void in
             
             if error == nil {
-                
                 for course in foundCourses as! [PFObject] {
                     var newCourse = Course()
                     newCourse.name = course["name"] as! String
-//                    newCourse.photo = course["photo"] as! String
-//                    newCourse.mooc = course["mooc"] as! String
+                    
+//                    var newImage = Image()
+//                    if let imageObject = course["image"] as? PFObject{
+//                        let photoImageFile = imageObject["photo"] as! PFFile
+//                            if let photoData = photoImageFile.getData(){
+//                                newImage.photoData = photoData
+//                        }
+//                    }
                     
                     courses.append(newCourse)
                 }

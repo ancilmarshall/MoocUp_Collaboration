@@ -11,7 +11,6 @@ import Parse
 
 class CourseraApiManager
 {
-    
     let MUServerScheme = "https"
     let MUServerHost = "api.coursera.org"
     let MUServerPath = "/api/catalog.v1/"
@@ -23,9 +22,9 @@ class CourseraApiManager
         ("id","id"), //Int
         ("name","name"),
         ("shortDescription","summary"),
-        ("photo","Image.photo"),
-        ("smallIcon","Image.smallIcon"),
-        ("largeIcon","Image.largeIcon"),
+        ("photo","image.photo"),
+        ("smallIcon","image.smallIcon"),
+        ("largeIcon","image.largeIcon"),
         ("language","language"),
         ("estimatedClassWorkload","workload"),
         ("targetAudience","targetAudience"),
@@ -59,7 +58,7 @@ class CourseraApiManager
     let categoryFields = [
         ("id","id"),
         ("name","name"),
-        ("description","summary"),
+        ("description","summary")
 
     ]
     
@@ -144,7 +143,7 @@ class CourseraApiManager
         if let data = NSData(contentsOfURL: url) {
             jsonDataArray = parseJSONData(data)
         } else {
-            assert(false,"Error retrieving data from url \(url)")
+            println("Error retrieving data from url \(url)")
         }
         return jsonDataArray
     }
@@ -440,11 +439,18 @@ class CourseraApiManager
         var mooc = Mooc()
         mooc.name = "Coursera"
         
-        var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [69,2163,1322,2822,1411])
+        var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [2163,1322])
+        //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [69,2163,1322,2822,1411])
+        //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: nil)
+        
+        var count = 0
+        var totalCount = coursesJSONData.count
         
         //loop through all fetchedCourses and construct Course model
         for courseData in coursesJSONData
         {
+            println("Parsing course \(count++) of \(totalCount)...")
+            
             ///// For each Course, here are the steps /////
             var results = createCourse(courseData)
             var course = results.0
@@ -560,11 +566,12 @@ class CourseraApiManager
             if let jsonData = jsonDict["elements"] as? [Dictionary<String,AnyObject>] {
                 return jsonData
             } else {
-                assert(false,"Expected returned JSON 'elements' key to be non-nil")
+                println("Expected returned JSON 'elements' key to be non-nil")
             }
         } else {
-            assert(false,"Expected returned JSON data to be non-nil")
+            println("Expected returned JSON data to be non-nil")
         }
+        return [Dictionary<String,AnyObject>()]
     }
     
     func imageData(fromDictionary dict: Dictionary<String,AnyObject>,
@@ -575,7 +582,7 @@ class CourseraApiManager
                     if let data = NSData(contentsOfURL: URL){
                         return data
                     } else {
-                        println("Error create NSData: \(URL)")
+                        //println("Error create NSData: \(URL)")
                     }
                 } else {
                     println("Error creating URL")
@@ -586,23 +593,48 @@ class CourseraApiManager
             return NSData()
     }
     
-    
+    var saveCount = 0
     //FIXME: Convert to strings the attributes in Course model that are not other models
     func saveCoursesToParse(courses: [Course]) -> Void
     {
+        //TODO: replace with better logic to add Mooc as PFRelation. Temp for now
+        var moocEntity = PFObject(className: kMoocName)
+
         for course in courses {
             var entity = PFObject(className: kCourseClassName )
             
-            //can only set String values when iterating over this for loop
-            for (apiKey,modelKey) in courseFields {
-                //TODO: Change all these Course values to Strings
-                var entityValue = course.valueForKey(apiKey) as! String
-                entity.setValue(entityValue, forKey: modelKey)
+            //TODO: synchronous for now, change late
+            var photoFileEntity = PFFile(data:course.image.photoData )
+            var smallIconFileEntity = PFFile(data:course.image.smallIconData)
+            var largeIconFileEntity = PFFile(data:course.image.largeIconData)
+            var image = PFObject(className: "Image")
+            image.setObject(photoFileEntity, forKey: "photo")
+            image.setObject(smallIconFileEntity, forKey: "smallIcon")
+            image.setObject(largeIconFileEntity, forKey: "largeIcon")
+            
+            for (_,modelKey) in courseFields {
+                                
+                switch modelKey
+                {
+                case "id":
+                    entity.setValue(course.id, forKey: modelKey)
+                case "name","summary","workload","targetAudience","videoLink","prerequisite":
+                    entity.setObject(course.valueForKey(modelKey) as! String, forKey: modelKey)
+                    
+                default:
+                    var dummy = Int()
+                    //println("Missing the setting of a Course attribute")
+                }
             }
             
+            entity["image"] = image
+            
             //set fixed values and relationships to other models manually here
-            entity["mooc"] = kMoocName
-            //entity.saveInBackground()
+//            var moocRelation = entity.relationForKey("moocs")
+//            moocRelation.addObject(moocEntity)
+            
+            entity.saveInBackground()
+            println("Courses saved \(++saveCount)")
         }
     }
     
@@ -614,7 +646,7 @@ class CourseraApiManager
             if let value = getQueryValue(forName: queries) {
                 queryItems.append(NSURLQueryItem(name: name, value: value))
             } else {
-                assert(false,"Error in getQueryItems(fromQueryNames)")
+                println("Error in getQueryItems(fromQueryNames)")
             }
         }
         return queryItems
@@ -654,8 +686,9 @@ class CourseraApiManager
         if let url = components.URL{
             return url
         } else {
-            assert(false,"Error in getNSURL(fromEndpoint,andQueryItems)")
+            println("Error in getNSURL(fromEndpoint,andQueryItems)")
         }
+        return NSURL() //TODO Fix this.... return an Optional
     }
     
 
