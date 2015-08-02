@@ -12,7 +12,6 @@ import Parse
 class UsersTableViewController: UITableViewController {
 
     var usernames = [""]
-    var userids = [""]
     var isFollowing = ["":false]
     
     var refresher: UIRefreshControl!
@@ -29,6 +28,8 @@ class UsersTableViewController: UITableViewController {
         self.tableView.addSubview(refresher)
         
         refresh()
+        
+        navigationItem.title = PFUser.currentUser()?.username
 
     }
     
@@ -41,7 +42,6 @@ class UsersTableViewController: UITableViewController {
             if let users = objects {
                 
                 self.usernames.removeAll(keepCapacity: true)
-                self.userids.removeAll(keepCapacity: true)
                 self.isFollowing.removeAll(keepCapacity: true)
                 
                 for object in users {
@@ -51,12 +51,11 @@ class UsersTableViewController: UITableViewController {
                         if user.objectId! != PFUser.currentUser()?.objectId {
                             
                             self.usernames.append(user.username!)
-                            self.userids.append(user.objectId!)
                             
                             var query = PFQuery(className: "FollowUser")
                             
-                            query.whereKey("fromUser", equalTo: PFUser.currentUser()!.objectId!)
-                            query.whereKey("toUser", equalTo: user.objectId!)
+                            query.whereKey("fromUser", equalTo: PFUser.currentUser()!.username!)
+                            query.whereKey("toUser", equalTo: user.username!)
                             
                             query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
                                 
@@ -64,11 +63,11 @@ class UsersTableViewController: UITableViewController {
                                     
                                     if objects.count > 0 {
                                         
-                                        self.isFollowing[user.objectId!] = true
+                                        self.isFollowing[user.username!] = true
                                         
                                     } else {
                                         
-                                        self.isFollowing[user.objectId!] = false
+                                        self.isFollowing[user.username!] = false
                                         
                                     }
                                 }
@@ -111,7 +110,7 @@ class UsersTableViewController: UITableViewController {
         
         cell.textLabel?.text = usernames[indexPath.row]
         
-        let followedObjectId = userids[indexPath.row]
+        let followedObjectId = usernames[indexPath.row]
         
         if isFollowing[followedObjectId] == true {
         
@@ -128,7 +127,7 @@ class UsersTableViewController: UITableViewController {
         
         var cell:UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
         
-        let followedObjectId = userids[indexPath.row]
+        let followedObjectId = usernames[indexPath.row]
         
         if isFollowing[followedObjectId] == false {
             
@@ -137,8 +136,8 @@ class UsersTableViewController: UITableViewController {
             cell.accessoryType = UITableViewCellAccessoryType.Checkmark
             
             var following = PFObject(className: "FollowUser")
-            following["toUser"] = userids[indexPath.row]
-            following["fromUser"] = PFUser.currentUser()?.objectId
+            following["toUser"] = usernames[indexPath.row]
+            following["fromUser"] = PFUser.currentUser()?.username
             
             following.saveInBackgroundWithBlock({ (success, error) -> Void in
                 
@@ -153,8 +152,8 @@ class UsersTableViewController: UITableViewController {
             
             var query = PFQuery(className: "FollowUser")
             
-            query.whereKey("fromUser", equalTo: PFUser.currentUser()!.objectId!)
-            query.whereKey("toUser", equalTo: userids[indexPath.row])
+            query.whereKey("fromUser", equalTo: PFUser.currentUser()!.username!)
+            query.whereKey("toUser", equalTo: usernames[indexPath.row])
             
             query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
                 

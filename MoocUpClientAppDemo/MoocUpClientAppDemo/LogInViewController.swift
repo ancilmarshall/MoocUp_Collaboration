@@ -50,7 +50,7 @@ class LogInViewController: UIViewController {
         
         if username.text == "" || password.text == "" {
             
-            displayAlert("Error in form", message: "Please enter a username and password")
+            Utility.displayAlert(self,title: "Error in form", message: "Please enter a username and password")
             
         } else {
             
@@ -86,7 +86,7 @@ class LogInViewController: UIViewController {
                         
                         errorMessage = error!.localizedDescription
                         
-                        self.displayAlert("Failed SignUp", message: errorMessage)
+                        Utility.displayAlert(self,title: "Failed SignUp", message: errorMessage)
                         
                     }
                     
@@ -111,7 +111,7 @@ class LogInViewController: UIViewController {
                         
                         errorMessage = error!.localizedDescription
                         
-                        self.displayAlert("Failed Login", message: errorMessage)
+                        Utility.displayAlert(self, title: "Failed Login", message: errorMessage)
                         
                     }
                     
@@ -184,20 +184,19 @@ class LogInViewController: UIViewController {
 
 
     
-    //MARK: - Helper functions
-    func displayAlert(title: String, message: String) {
-        
-        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction((UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
-            
-        })))
-        
-        self.presentViewController(alert, animated: true, completion: nil)
-        
-        
-    }
+//    //MARK: - Helper functions
+//    func displayAlert(title: String, message: String) {
+//        
+//        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+//        alert.addAction((UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+//            
+//            self.dismissViewControllerAnimated(true, completion: nil)
+//            
+//        })))
+//        
+//        self.presentViewController(alert, animated: true, completion: nil)
+//        
+//    }
 
 
 }

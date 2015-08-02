@@ -9,44 +9,43 @@
 import UIKit
 import Parse
 
-class NewMessageTableViewController: UITableViewController {
+class NewMessageTableViewController: UITableViewController, UITextFieldDelegate {
 
     var usernames = [String]()
-    var userids = [String]()
+    
+    @IBOutlet weak var messageInput: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         //Find all users that I am following,ie where fromUser is me
         var followUserQuery = PFQuery(className: "FollowUser")
-        followUserQuery.whereKey("fromUser", equalTo: PFUser.currentUser()!.objectId!)
+        followUserQuery.whereKey("fromUser", equalTo: PFUser.currentUser()!.username!)
         
         //Using the returned FollowUser objects, give me the users in the "toUsers" attribute
         var userQuery = PFUser.query()!
-        userQuery.whereKey("objectId", notEqualTo: PFUser.currentUser()!.objectId!)
-        userQuery.whereKey("objectId", matchesKey: "toUser", inQuery: followUserQuery)
+        userQuery.whereKey("username", notEqualTo: PFUser.currentUser()!.username!)
+        userQuery.whereKey("username", matchesKey: "toUser", inQuery: followUserQuery)
         
         //Note: Query on userQuery to return PFUser objects so I can get username
         userQuery.findObjectsInBackgroundWithBlock{ (objects, error) -> Void in
             
             if let followers = objects as? [PFUser] {
-                
-                usernames = followers.map{ $0.username as! String }
-                
-                
-                for user in followers {
-                    self.usernames.append(user.username!)
-                    self.userids.append(user.objectId!)
+                if followers.count > 0 {
+                    self.usernames = followers.map { $0.username!}
                     dispatch_async(dispatch_get_main_queue()){
                         self.tableView.reloadData()
+                        
                     }
+                } else {
+                    Utility.displayAlert(self, title: "No Followers", message: "Can only send messages to your followers")
+                    
+                    
                 }
             }
         }
     }
     
-
-
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -62,53 +61,67 @@ class NewMessageTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("newMessageCell", forIndexPath: indexPath) as! UITableViewCell
 
         cell.textLabel?.text = usernames[indexPath.row]
+        
+        
+        if indexPath == sendToUserIndexPath {
+            cell.accessoryType = .Checkmark
+        } else {
+            cell.accessoryType = .None
+        }
+        
         return cell
     }
 
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        send(nil)
+        
+        return false
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    var sendToUserIndexPath:NSIndexPath?
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        var cell:UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
+        sendToUserIndexPath = indexPath
+        tableView.reloadData()
+        
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
+        
+    @IBAction func send(sender:AnyObject?) {
+        
+        messageInput.resignFirstResponder()
+        
+        if messageInput.text == "" {
+            Utility.displayAlert(self, title: "Empty Message", message: "Please enter a message in the message text field")
+        } else if sendToUserIndexPath == nil {
+            Utility.displayAlert(self, title: "No receipient", message: "Please select one of your followers")
+        }
+        else {
+            //create message PFObject
+            var message = PFObject(className: "Message")
+            message["fromUser"] = PFUser.currentUser()?.username!
+            message["toUser"] = usernames[sendToUserIndexPath!.row]
+            message["message"] = messageInput.text
+            
+            message.saveInBackgroundWithBlock { (success, error) -> Void in
+                
+                if error != nil {
+                    println("Error saving message")
+                }
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+            }
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
+    
+    @IBAction func cancel(sender:AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

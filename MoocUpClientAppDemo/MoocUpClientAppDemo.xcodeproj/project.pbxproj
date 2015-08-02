@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DA2CCC41B6EAAEB00D10025 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2CCC31B6EAAEB00D10025 /* Utility.swift */; };
 		1DF0BCD41B6BEBCB00B179C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0BCD31B6BEBCB00B179C9 /* AppDelegate.swift */; };
 		1DF0BCD61B6BEBCB00B179C9 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0BCD51B6BEBCB00B179C9 /* LogInViewController.swift */; };
 		1DF0BCD91B6BEBCB00B179C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF0BCD71B6BEBCB00B179C9 /* Main.storyboard */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1DA2CCC31B6EAAEB00D10025 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		1DF0BCCE1B6BEBCB00B179C9 /* MoocUpClientAppDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoocUpClientAppDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF0BCD21B6BEBCB00B179C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DF0BCD31B6BEBCB00B179C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -132,12 +134,13 @@
 				1DF0BCD51B6BEBCB00B179C9 /* LogInViewController.swift */,
 				1DF0BD101B6D499100B179C9 /* UsersTableViewController.swift */,
 				1DF0BD121B6E1EB400B179C9 /* MessagesTableViewController.swift */,
+				1DF0BD161B6E28B400B179C9 /* ConversationTableViewController.swift */,
 				1DF0BD141B6E24EA00B179C9 /* NewMessageTableViewController.swift */,
+				1DA2CCC31B6EAAEB00D10025 /* Utility.swift */,
 				1DF0BCD71B6BEBCB00B179C9 /* Main.storyboard */,
 				1DF0BCDA1B6BEBCB00B179C9 /* Images.xcassets */,
 				1DF0BCDC1B6BEBCB00B179C9 /* LaunchScreen.xib */,
 				1DF0BCD11B6BEBCB00B179C9 /* Supporting Files */,
-				1DF0BD161B6E28B400B179C9 /* ConversationTableViewController.swift */,
 			);
 			path = MoocUpClientAppDemo;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DA2CCC41B6EAAEB00D10025 /* Utility.swift in Sources */,
 				1DF0BCD61B6BEBCB00B179C9 /* LogInViewController.swift in Sources */,
 				1DF0BD131B6E1EB400B179C9 /* MessagesTableViewController.swift in Sources */,
 				1DF0BD171B6E28B400B179C9 /* ConversationTableViewController.swift in Sources */,

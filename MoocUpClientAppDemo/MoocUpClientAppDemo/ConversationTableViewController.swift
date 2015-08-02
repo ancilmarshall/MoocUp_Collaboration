@@ -7,17 +7,17 @@
 //
 
 import UIKit
+import Parse
 
 class ConversationTableViewController: UITableViewController {
 
+    var withUser =  String()
+    var messages =  [PFObject]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        navigationItem.title = withUser
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,26 +28,44 @@ class ConversationTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
+        return messages.count
     }
 
-    /*
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("conversationCell", forIndexPath: indexPath) as! UITableViewCell
 
-        // Configure the cell...
-
+        var message = messages[indexPath.row]
+        if let msgStr = message["message"] as? String {
+            cell.textLabel?.text = msgStr
+        }
+        
+        if let sentFromStr = message["fromUser"] as? String {
+            cell.detailTextLabel?.text = sentFromStr
+        }
+        
         return cell
     }
-    */
+    
+    
+    //MARK: - Helper function
+    func conversationWith(msg: PFObject) -> String{
+        
+        var withUserId = String()
+        var myUserId = PFUser.currentUser()!.username!
+        let fromUserId = msg["fromUser"] as! String
+        let toUserId = msg["toUser"] as! String
+        if myUserId == fromUserId {
+            withUserId = toUserId
+        } else {
+            withUserId = fromUserId
+        }
+        return withUserId
+    }
 
     /*
     // Override to support conditional editing of the table view.
