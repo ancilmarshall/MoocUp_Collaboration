@@ -439,7 +439,7 @@ class CourseraApiManager
         var mooc = Mooc()
         mooc.name = "Coursera"
         
-        var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [2163,1322])
+        var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [2163])
         //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [69,2163,1322,2822,1411])
         //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: nil)
         
@@ -449,7 +449,7 @@ class CourseraApiManager
         //loop through all fetchedCourses and construct Course model
         for courseData in coursesJSONData
         {
-            println("Parsing course \(count++) of \(totalCount)...")
+            println("Parsing course \(++count) of \(totalCount)...")
             
             ///// For each Course, here are the steps /////
             var results = createCourse(courseData)
@@ -604,9 +604,9 @@ class CourseraApiManager
             var entity = PFObject(className: kCourseClassName )
             
             //TODO: synchronous for now, change late
-            var photoFileEntity = PFFile(data:course.image.photoData )
-            var smallIconFileEntity = PFFile(data:course.image.smallIconData)
-            var largeIconFileEntity = PFFile(data:course.image.largeIconData)
+            var photoFileEntity = PFFile(name:"photo.jpg", data:course.image.photoData )
+            var smallIconFileEntity = PFFile(name:"smallIcon.jpg", data:course.image.smallIconData)
+            var largeIconFileEntity = PFFile(name:"largeIcon.jpg", data:course.image.largeIconData)
             var image = PFObject(className: "Image")
             image.setObject(photoFileEntity, forKey: "photo")
             image.setObject(smallIconFileEntity, forKey: "smallIcon")
