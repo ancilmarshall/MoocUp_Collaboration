@@ -12,6 +12,7 @@ import Parse
 class MessagesTableViewController: UITableViewController {
     
     var messages = Dictionary<String,[PFObject]>()
+    var messagesKeys = [String]()
     var conversationMessages = [PFObject]()
     var refresher: UIRefreshControl!
  
@@ -34,6 +35,7 @@ class MessagesTableViewController: UITableViewController {
         
         conversationMessages.removeAll(keepCapacity: true)
         messages.removeAll(keepCapacity: true)
+        messagesKeys.removeAll(keepCapacity: true)
         
         var messagesFromMeQuery = PFQuery(className: "Message")
         messagesFromMeQuery.whereKey("fromUser", equalTo: PFUser.currentUser()!.username!)
@@ -55,10 +57,14 @@ class MessagesTableViewController: UITableViewController {
                         //can be in either the "fromUser" or "toUser" attribute
                         var withUserId = self.conversationWith(object)
                         
+                        //TODO: Change this. Not keeping the ording of the messages when 
+                        // using dictionary keys
                         if self.messages[withUserId] != nil {
                             self.messages[withUserId]!.append(object)
                         } else {
+                            //FIXME: There was a crash here, caused by a zero messagesKey array? Why?
                             self.messages[withUserId] = [object]
+                            self.messagesKeys.append(withUserId)
                         }
                     }
                     self.tableView.reloadData()
@@ -92,7 +98,7 @@ class MessagesTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("messagesCell", forIndexPath: indexPath) as! UITableViewCell
 
-        let messagesKeys = (messages as NSDictionary).allKeys as! [String]
+        //let messagesKeys = (messages as NSDictionary).allKeys as! [String]
         var messageArray = messages[messagesKeys[indexPath.row]]
         var mostRecentMessage = messageArray?.first!
         
@@ -129,7 +135,7 @@ class MessagesTableViewController: UITableViewController {
     
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let messagesKeys = (messages as NSDictionary).allKeys as! [String]
+        //let messagesKeys = (messages as NSDictionary).allKeys as! [String]
         conversationMessages = messages[messagesKeys[indexPath.row]]!
         
         performSegueWithIdentifier("showConversation", sender: self)
