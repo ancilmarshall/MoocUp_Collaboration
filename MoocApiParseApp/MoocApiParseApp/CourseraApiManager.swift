@@ -439,8 +439,8 @@ class CourseraApiManager
         var mooc = Mooc()
         mooc.name = "Coursera"
         
-        var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [2163])
-        //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [69,2163,1322,2822,1411])
+        //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [2163])
+        var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [69,2163,1322,2822,1411])
         //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: nil)
         
         var count = 0

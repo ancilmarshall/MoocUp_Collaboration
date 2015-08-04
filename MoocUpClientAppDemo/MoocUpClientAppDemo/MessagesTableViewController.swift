@@ -55,16 +55,19 @@ class MessagesTableViewController: UITableViewController {
                         
                         //determine who I'm having the conversation with
                         //can be in either the "fromUser" or "toUser" attribute
-                        var withUserId = self.conversationWith(object)
+                        var withUsername = self.conversationWith(object)
                         
                         //TODO: Change this. Not keeping the ording of the messages when 
-                        // using dictionary keys
-                        if self.messages[withUserId] != nil {
-                            self.messages[withUserId]!.append(object)
+                        // using dictionary keys because creating an array of keys in not
+                        // sorted. Let's keep keys in a separate array
+                        
+                        if self.messages[withUsername] != nil {
+                            self.messages[withUsername]!.append(object)
                         } else {
                             //FIXME: There was a crash here, caused by a zero messagesKey array? Why?
-                            self.messages[withUserId] = [object]
-                            self.messagesKeys.append(withUserId)
+                            // The bug went away by itself... not good!
+                            self.messages[withUsername] = [object]
+                            self.messagesKeys.append(withUsername)
                         }
                     }
                     self.tableView.reloadData()

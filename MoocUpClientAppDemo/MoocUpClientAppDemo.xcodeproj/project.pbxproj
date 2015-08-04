@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1DA2CCC41B6EAAEB00D10025 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2CCC31B6EAAEB00D10025 /* Utility.swift */; };
+		1DA2CCC61B6F741800D10025 /* ConversationSenderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2CCC51B6F741800D10025 /* ConversationSenderTableViewCell.swift */; };
+		1DA2CCC81B6F742B00D10025 /* ConversationReceiverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2CCC71B6F742B00D10025 /* ConversationReceiverTableViewCell.swift */; };
+		1DA2CCCA1B6F80F200D10025 /* placeholderImage44.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1DA2CCC91B6F80F100D10025 /* placeholderImage44.jpg */; };
 		1DF0BCD41B6BEBCB00B179C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0BCD31B6BEBCB00B179C9 /* AppDelegate.swift */; };
 		1DF0BCD61B6BEBCB00B179C9 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0BCD51B6BEBCB00B179C9 /* LogInViewController.swift */; };
 		1DF0BCD91B6BEBCB00B179C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF0BCD71B6BEBCB00B179C9 /* Main.storyboard */; };
@@ -46,6 +49,9 @@
 
 /* Begin PBXFileReference section */
 		1DA2CCC31B6EAAEB00D10025 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		1DA2CCC51B6F741800D10025 /* ConversationSenderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationSenderTableViewCell.swift; sourceTree = "<group>"; };
+		1DA2CCC71B6F742B00D10025 /* ConversationReceiverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationReceiverTableViewCell.swift; sourceTree = "<group>"; };
+		1DA2CCC91B6F80F100D10025 /* placeholderImage44.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholderImage44.jpg; sourceTree = "<group>"; };
 		1DF0BCCE1B6BEBCB00B179C9 /* MoocUpClientAppDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoocUpClientAppDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF0BCD21B6BEBCB00B179C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DF0BCD31B6BEBCB00B179C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -130,11 +136,14 @@
 		1DF0BCD01B6BEBCB00B179C9 /* MoocUpClientAppDemo */ = {
 			isa = PBXGroup;
 			children = (
+				1DA2CCC91B6F80F100D10025 /* placeholderImage44.jpg */,
 				1DF0BCD31B6BEBCB00B179C9 /* AppDelegate.swift */,
 				1DF0BCD51B6BEBCB00B179C9 /* LogInViewController.swift */,
 				1DF0BD101B6D499100B179C9 /* UsersTableViewController.swift */,
 				1DF0BD121B6E1EB400B179C9 /* MessagesTableViewController.swift */,
 				1DF0BD161B6E28B400B179C9 /* ConversationTableViewController.swift */,
+				1DA2CCC51B6F741800D10025 /* ConversationSenderTableViewCell.swift */,
+				1DA2CCC71B6F742B00D10025 /* ConversationReceiverTableViewCell.swift */,
 				1DF0BD141B6E24EA00B179C9 /* NewMessageTableViewController.swift */,
 				1DA2CCC31B6EAAEB00D10025 /* Utility.swift */,
 				1DF0BCD71B6BEBCB00B179C9 /* Main.storyboard */,
@@ -274,6 +283,7 @@
 				1DF0BCD91B6BEBCB00B179C9 /* Main.storyboard in Resources */,
 				1DF0BCDE1B6BEBCB00B179C9 /* LaunchScreen.xib in Resources */,
 				1DF0BCDB1B6BEBCB00B179C9 /* Images.xcassets in Resources */,
+				1DA2CCCA1B6F80F200D10025 /* placeholderImage44.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,12 +302,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DA2CCC41B6EAAEB00D10025 /* Utility.swift in Sources */,
+				1DA2CCC81B6F742B00D10025 /* ConversationReceiverTableViewCell.swift in Sources */,
 				1DF0BCD61B6BEBCB00B179C9 /* LogInViewController.swift in Sources */,
 				1DF0BD131B6E1EB400B179C9 /* MessagesTableViewController.swift in Sources */,
 				1DF0BD171B6E28B400B179C9 /* ConversationTableViewController.swift in Sources */,
 				1DF0BCD41B6BEBCB00B179C9 /* AppDelegate.swift in Sources */,
 				1DF0BD111B6D499100B179C9 /* UsersTableViewController.swift in Sources */,
 				1DF0BD151B6E24EA00B179C9 /* NewMessageTableViewController.swift in Sources */,
+				1DA2CCC61B6F741800D10025 /* ConversationSenderTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

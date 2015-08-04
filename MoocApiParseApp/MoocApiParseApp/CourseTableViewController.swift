@@ -39,8 +39,8 @@ class CourseTableViewController: UITableViewController {
         moocApiManager.fetchCoursesFromApiWithBlock { newCourses in
             //self.courses = newCourses
             dispatch_async(dispatch_get_main_queue()){
-                //self.tableView.reloadData()
-                self.moocApiManager.saveCoursesToParse(newCourses)
+                self.tableView.reloadData()
+                //self.moocApiManager.saveCoursesToParse(newCourses)
             }
         }
     }

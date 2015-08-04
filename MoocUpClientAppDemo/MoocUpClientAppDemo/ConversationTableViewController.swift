@@ -13,17 +13,49 @@ class ConversationTableViewController: UITableViewController {
 
     var withUser =  String()
     var messages =  [PFObject]()
+    var replyView = UITextView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         navigationItem.title = withUser
         
+        tableView.estimatedRowHeight = tableView.rowHeight
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        tableView.reloadData()
+        
+        //crazy that I need to do this again here. 
+        tableView.setNeedsDisplay()
+        tableView.layoutIfNeeded()
+        tableView.reloadData()
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setTableFooterView()
+    
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        replyView.removeFromSuperview()
+    }
+    
+    
+    func setTableFooterView(){
+        if let frame = tabBarController?.tabBar.frame {
+            replyView = UITextView(frame: CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame)))
+            replyView.text = "test"
+            replyView.opaque = true
+            replyView.backgroundColor=UIColor.whiteColor()
+            tabBarController?.tabBar.addSubview(replyView)
+        }
+    }
+    
 
     // MARK: - Table view data source
 
@@ -34,21 +66,65 @@ class ConversationTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
-
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("conversationCell", forIndexPath: indexPath) as! UITableViewCell
-
+        
         var message = messages[indexPath.row]
-        if let msgStr = message["message"] as? String {
-            cell.textLabel?.text = msgStr
-        }
+        var returnCell = UITableViewCell()
         
-        if let sentFromStr = message["fromUser"] as? String {
-            cell.detailTextLabel?.text = sentFromStr
-        }
+        var formatter = NSDateFormatter()
+        formatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        formatter.timeStyle = NSDateFormatterStyle.MediumStyle
         
-        return cell
+        if let sentFrom = message["fromUser"] as? String {
+            if sentFrom == PFUser.currentUser()?.username {
+                let cell = tableView.dequeueReusableCellWithIdentifier(
+                    "conversationReceiverCell", forIndexPath: indexPath) as! ConversationReceiverTableViewCell
+                
+                if let msgStr = message["message"] as? String {
+                    cell.message.text = msgStr
+                    cell.message.layer.cornerRadius = 5.0
+                    cell.message.clipsToBounds = true
+                }
+                
+                if let sentFrom = message["fromUser"] as? String {
+                    //cell.detailTextLabel?.text = sentFrom
+                }
+                
+                if let date = message.createdAt {
+                    cell.date.text = formatter.stringFromDate(date)
+                }
+                returnCell = cell
+                
+            } else {
+                
+                let cell = tableView.dequeueReusableCellWithIdentifier(
+                    "conversationSenderCell", forIndexPath: indexPath) as! ConversationSenderTableViewCell
+                
+                if let msgStr = message["message"] as? String {
+                    cell.message.text = msgStr
+                    cell.message.layer.cornerRadius = 5.0
+                    cell.message.clipsToBounds = true
+                }
+                
+                if let sentFrom = message["fromUser"] as? String {
+                    //cell.detailTextLabel?.text = sentFrom
+                }
+                
+                if let date = message.createdAt {
+                    cell.date.text = formatter.stringFromDate(date)
+                }
+                
+                cell.imageView?.image =
+                    UIImage(named: "placeholderImage44.jpg")
+                cell.imageView?.bounds = CGRectMake(0, 0, 44, 44)
+                cell.imageView?.layer.cornerRadius = 22
+                cell.imageView?.clipsToBounds = true
+                returnCell = cell
+            }
+        }
+
+        return returnCell
     }
     
     

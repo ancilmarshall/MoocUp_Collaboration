@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Log In View Controller-->
@@ -352,7 +353,7 @@
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fep-D5-RoW">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="widthClass=compact">
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -361,7 +362,7 @@
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7X9-cL-q72">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="widthClass=compact">
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -403,36 +404,191 @@
         <scene sceneID="ttt-53-PDR">
             <objects>
                 <tableViewController id="RPV-Ie-vlV" customClass="ConversationTableViewController" customModule="MoocUpClientAppDemo" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="z2X-1E-BGP">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="z2X-1E-BGP">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="conversationCell" textLabel="Vf3-af-l5o" detailTextLabel="C9t-DB-dOj" style="IBUITableViewCellStyleSubtitle" id="Vri-Nc-n6M">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="conversationSenderCell" rowHeight="80" id="Zgt-31-sgf" customClass="ConversationSenderTableViewCell" customModule="MoocUpClientAppDemo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vri-Nc-n6M" id="Lgg-2j-37i">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zgt-31-sgf" id="uex-Fc-G9b">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vf3-af-l5o">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="56G-et-i4n">
+                                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Sender's Message" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mea-vW-mP1">
+                                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                            <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="230" id="z4j-7C-UPN"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="z4j-7C-UPN"/>
+                                                </mask>
+                                            </variation>
                                             <variation key="widthClass=compact">
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <mask key="constraints">
+                                                    <include reference="z4j-7C-UPN"/>
+                                                </mask>
                                             </variation>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="C9t-DB-dOj">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uJL-ga-4mU">
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="44" id="6MD-GP-9Ae"/>
+                                                <constraint firstAttribute="width" constant="44" id="C7R-XH-3pf"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="6MD-GP-9Ae"/>
+                                                    <exclude reference="C7R-XH-3pf"/>
+                                                </mask>
+                                            </variation>
                                             <variation key="widthClass=compact">
-                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <mask key="constraints">
+                                                    <include reference="6MD-GP-9Ae"/>
+                                                    <include reference="C7R-XH-3pf"/>
+                                                </mask>
+                                            </variation>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="56G-et-i4n" firstAttribute="leading" secondItem="uJL-ga-4mU" secondAttribute="trailing" constant="12" id="11L-mD-doB"/>
+                                        <constraint firstAttribute="trailing" secondItem="56G-et-i4n" secondAttribute="trailing" constant="8" id="4ex-SX-oV7"/>
+                                        <constraint firstAttribute="bottom" secondItem="Mea-vW-mP1" secondAttribute="bottom" constant="8" id="94M-yV-gWs"/>
+                                        <constraint firstItem="Mea-vW-mP1" firstAttribute="top" secondItem="56G-et-i4n" secondAttribute="bottom" constant="8" id="YAi-Fg-Jk5"/>
+                                        <constraint firstItem="uJL-ga-4mU" firstAttribute="leading" secondItem="uex-Fc-G9b" secondAttribute="leading" constant="8" id="grZ-pC-0nZ"/>
+                                        <constraint firstItem="56G-et-i4n" firstAttribute="top" relation="greaterThanOrEqual" secondItem="uex-Fc-G9b" secondAttribute="top" constant="8" id="lSf-BJ-Lm1"/>
+                                        <constraint firstItem="Mea-vW-mP1" firstAttribute="leading" secondItem="uJL-ga-4mU" secondAttribute="trailing" constant="12" id="oBd-dZ-eAX"/>
+                                        <constraint firstItem="uJL-ga-4mU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="uex-Fc-G9b" secondAttribute="top" priority="999" constant="19" id="sv1-0Z-mUn"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="uJL-ga-4mU" secondAttribute="bottomMargin" constant="8" id="upf-Oj-nTo"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="subviews">
+                                            <exclude reference="56G-et-i4n"/>
+                                            <exclude reference="Mea-vW-mP1"/>
+                                            <exclude reference="uJL-ga-4mU"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <exclude reference="11L-mD-doB"/>
+                                            <exclude reference="4ex-SX-oV7"/>
+                                            <exclude reference="lSf-BJ-Lm1"/>
+                                            <exclude reference="94M-yV-gWs"/>
+                                            <exclude reference="YAi-Fg-Jk5"/>
+                                            <exclude reference="oBd-dZ-eAX"/>
+                                            <exclude reference="grZ-pC-0nZ"/>
+                                            <exclude reference="sv1-0Z-mUn"/>
+                                            <exclude reference="upf-Oj-nTo"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="widthClass=compact">
+                                        <mask key="subviews">
+                                            <include reference="56G-et-i4n"/>
+                                            <include reference="Mea-vW-mP1"/>
+                                            <include reference="uJL-ga-4mU"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <include reference="11L-mD-doB"/>
+                                            <include reference="4ex-SX-oV7"/>
+                                            <include reference="lSf-BJ-Lm1"/>
+                                            <include reference="94M-yV-gWs"/>
+                                            <include reference="YAi-Fg-Jk5"/>
+                                            <include reference="oBd-dZ-eAX"/>
+                                            <include reference="grZ-pC-0nZ"/>
+                                            <include reference="sv1-0Z-mUn"/>
+                                            <include reference="upf-Oj-nTo"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="date" destination="56G-et-i4n" id="ohg-tk-GVx"/>
+                                    <outlet property="message" destination="Mea-vW-mP1" id="Feq-tJ-Abm"/>
+                                    <outlet property="userImage" destination="uJL-ga-4mU" id="hlF-ab-cSe"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="conversationReceiverCell" rowHeight="80" id="qIk-Ab-f6n" customClass="ConversationReceiverTableViewCell" customModule="MoocUpClientAppDemo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qIk-Ab-f6n" id="eZp-Qa-zok">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z9c-UR-6r3">
+                                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Reciever's Message" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfD-ug-3gv">
+                                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                            <color key="backgroundColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="230" id="1Jb-9e-HSH"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="1Jb-9e-HSH"/>
+                                                </mask>
+                                            </variation>
+                                            <variation key="widthClass=compact">
+                                                <mask key="constraints">
+                                                    <include reference="1Jb-9e-HSH"/>
+                                                </mask>
                                             </variation>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="zfD-ug-3gv" secondAttribute="trailing" constant="12" id="041-Aa-KeF"/>
+                                        <constraint firstItem="Z9c-UR-6r3" firstAttribute="leading" secondItem="eZp-Qa-zok" secondAttribute="leading" constant="8" id="2fj-VA-3rl"/>
+                                        <constraint firstAttribute="bottom" secondItem="zfD-ug-3gv" secondAttribute="bottom" constant="8" id="8F5-sO-0e3"/>
+                                        <constraint firstAttribute="trailing" secondItem="Z9c-UR-6r3" secondAttribute="trailing" constant="15" id="QvS-mo-dbd"/>
+                                        <constraint firstItem="zfD-ug-3gv" firstAttribute="top" secondItem="Z9c-UR-6r3" secondAttribute="bottom" constant="8" id="bJB-Oj-4gy"/>
+                                        <constraint firstItem="Z9c-UR-6r3" firstAttribute="top" secondItem="eZp-Qa-zok" secondAttribute="top" constant="8" id="mgN-Kv-daz"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="subviews">
+                                            <exclude reference="Z9c-UR-6r3"/>
+                                            <exclude reference="zfD-ug-3gv"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <exclude reference="2fj-VA-3rl"/>
+                                            <exclude reference="QvS-mo-dbd"/>
+                                            <exclude reference="mgN-Kv-daz"/>
+                                            <exclude reference="041-Aa-KeF"/>
+                                            <exclude reference="8F5-sO-0e3"/>
+                                            <exclude reference="bJB-Oj-4gy"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="widthClass=compact">
+                                        <mask key="subviews">
+                                            <include reference="Z9c-UR-6r3"/>
+                                            <include reference="zfD-ug-3gv"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <include reference="2fj-VA-3rl"/>
+                                            <include reference="QvS-mo-dbd"/>
+                                            <include reference="mgN-Kv-daz"/>
+                                            <include reference="041-Aa-KeF"/>
+                                            <include reference="8F5-sO-0e3"/>
+                                            <include reference="bJB-Oj-4gy"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="date" destination="Z9c-UR-6r3" id="lES-Ft-R2u"/>
+                                    <outlet property="message" destination="zfD-ug-3gv" id="vGi-KA-qOe"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
