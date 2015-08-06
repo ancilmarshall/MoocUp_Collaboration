@@ -9,12 +9,14 @@
 import UIKit
 import Parse
 
-class ConversationTableViewController: UITableViewController {
+class ConversationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var withUser =  String()
     var messages =  [PFObject]()
     var replyView = UITextView()
-    
+    var formatter = NSDateFormatter()
+    @IBOutlet weak var tableView: UITableView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -26,9 +28,14 @@ class ConversationTableViewController: UITableViewController {
         tableView.reloadData()
         
         //crazy that I need to do this again here. 
+        //TODO: get rid of needing to do this... this does not make sense!
+//        tableView.setNeedsUpdateConstraints()
+//        tableView.updateConstraintsIfNeeded()
+        
         tableView.setNeedsDisplay()
         tableView.layoutIfNeeded()
         tableView.reloadData()
+        
         
     }
     
@@ -56,27 +63,27 @@ class ConversationTableViewController: UITableViewController {
         }
     }
     
-
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var message = messages[indexPath.row]
         var returnCell = UITableViewCell()
         
-        var formatter = NSDateFormatter()
+        
         formatter.dateStyle = NSDateFormatterStyle.MediumStyle
         formatter.timeStyle = NSDateFormatterStyle.MediumStyle
         
         if let sentFrom = message["fromUser"] as? String {
+            
             if sentFrom == PFUser.currentUser()?.username {
                 let cell = tableView.dequeueReusableCellWithIdentifier(
                     "conversationReceiverCell", forIndexPath: indexPath) as! ConversationReceiverTableViewCell
@@ -92,6 +99,7 @@ class ConversationTableViewController: UITableViewController {
                 }
                 
                 if let date = message.createdAt {
+                    //TODO: Use Time or Date depending on how long ago message was sent
                     cell.date.text = formatter.stringFromDate(date)
                 }
                 returnCell = cell

@@ -13,4 +13,6 @@ class ConversationReceiverTableViewCell: UITableViewCell {
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var message: UILabel!
 
+    
+
 }

@@ -115,8 +115,8 @@ class MessagesTableViewController: UITableViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.destinationViewController is ConversationTableViewController {
-            var destVC = segue.destinationViewController as! ConversationTableViewController
+        if segue.destinationViewController is ConversationViewController {
+            var destVC = segue.destinationViewController as! ConversationViewController
             destVC.messages = conversationMessages
             
             //find who this conversation is with
