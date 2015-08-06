@@ -39,15 +39,12 @@ class NewMessageTableViewController: UITableViewController, UITextFieldDelegate 
                     }
                 } else {
                     Utility.displayAlert(self, title: "No Followers", message: "Can only send messages to your followers")
-                    
-                    
                 }
             }
         }
     }
     
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }

@@ -18,6 +18,8 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     @IBOutlet weak var newMessageEntryView: ResizableView!
     @IBOutlet weak var newMessageTextView: ResizableTextView!
     @IBOutlet weak var sendButton: UIButton!
+    
+    let kNewMessagePlaceholderText = "Say Something nice"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +102,9 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
                 let screenHeight = UIScreen.mainScreen().bounds.size.height
                 self.view.frame.size.height = screenHeight
                 self.view.setNeedsLayout()
+                if (self.newMessageTextView.text == ""){
+                    self.resetNewMessageTextView()
+                }
                 
                 if let duration = animationDuration {
                     UIView.animateWithDuration(duration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
@@ -120,30 +125,31 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     //MARK:- Send new message
 
     @IBAction func send(sender: UIButton) {
-        inMiddleOfEditingNewMessage = false
         
         newMessageTextView.resignFirstResponder()
         
-        //create message PFObject
-        var message = PFObject(className: "Message")
-        message["fromUser"] = PFUser.currentUser()?.username!
-        message["toUser"] = withUser
-        message["message"] = newMessageTextView.text
+        if (newMessageTextView.text != "" && inMiddleOfEditingNewMessage==true) {
         
-        message.saveInBackgroundWithBlock { (success, error) -> Void in
+            //create message PFObject
+            var message = PFObject(className: "Message")
+            message["fromUser"] = PFUser.currentUser()?.username!
+            message["toUser"] = withUser
+            message["message"] = newMessageTextView.text
             
-            if error != nil {
-                println("Error saving message")
-            } else {
-                self.newMessageTextView.textColor = UIColor.lightGrayColor()
-                self.newMessageTextView.text = "Say something nice"
-                self.messages.append(message)
-                self.tableView.reloadData()
-                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.messages.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+            message.saveInBackgroundWithBlock { (success, error) -> Void in
+                
+                if error != nil {
+                    println("Error saving message")
+                } else {
+                    self.resetNewMessageTextView()
+                    self.messages.append(message)
+                    self.tableView.reloadData()
+                    self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.messages.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
 
+                }
             }
         }
-
+        inMiddleOfEditingNewMessage = false
     }
     
     
@@ -152,11 +158,16 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     
     func textViewDidBeginEditing(textView: UITextView) {
         if (inMiddleOfEditingNewMessage == false) {
-            println("begin")
             newMessageTextView.textColor = UIColor.blackColor()
             newMessageTextView.text = ""
             inMiddleOfEditingNewMessage = true
         }
+    }
+    
+    func resetNewMessageTextView () {
+        inMiddleOfEditingNewMessage = false
+        newMessageTextView.textColor = UIColor.lightGrayColor()
+        newMessageTextView.text = kNewMessagePlaceholderText
     }
     
     // MARK: - Table view data source

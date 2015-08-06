@@ -14,7 +14,7 @@ import UIKit
 */
 
 class ResizableTextView: UITextView {
-
+    
 //    override func updateConstraints() {
 //        //println("updateConstraints - Text")
 //        var contentSize = sizeThatFits(CGSizeMake(frame.size.width, CGFloat.max))
@@ -36,4 +36,19 @@ class ResizableTextView: UITextView {
 //    }
 
 
+}
+
+extension UITextView {
+    
+    var trimmedText: String! {
+        get {
+            //Note: this is not a mutating function, so need to reassign the returned value to make
+            //the underlying change
+            text = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            return text
+        }
+        set {
+            text = newValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        }
+    }    
 }
