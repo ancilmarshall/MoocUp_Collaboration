@@ -30,17 +30,16 @@ class CourseTableViewController: UITableViewController {
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        //fetchFromMoocApi(nil)
+        fetchFromMoocApi(nil)
     }
     
     @IBAction func fetchFromMoocApi(sender:AnyObject?)
     {
-
         moocApiManager.fetchCoursesFromApiWithBlock { newCourses in
-            //self.courses = newCourses
+            self.courses = newCourses
             dispatch_async(dispatch_get_main_queue()){
-                //self.tableView.reloadData()
-                self.moocApiManager.saveCoursesToParse(newCourses)
+                self.tableView.reloadData()
+                //self.moocApiManager.saveCoursesToParse(newCourses)
             }
         }
     }
