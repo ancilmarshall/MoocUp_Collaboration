@@ -1,0 +1,463 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C738C51D1B73B41700174C65 /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C738C51C1B73B41700174C65 /* NameTableViewCell.swift */; };
+		C741C1931B727D9E00E67F5E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741C1921B727D9E00E67F5E /* Constants.swift */; };
+		C741E7F91B72754B0093BDA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741E7F81B72754B0093BDA9 /* AppDelegate.swift */; };
+		C741E7FE1B72754B0093BDA9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C741E7FC1B72754B0093BDA9 /* Main.storyboard */; };
+		C741E8001B72754B0093BDA9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C741E7FF1B72754B0093BDA9 /* Images.xcassets */; };
+		C741E8031B72754B0093BDA9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C741E8011B72754B0093BDA9 /* LaunchScreen.xib */; };
+		C741E80F1B72754C0093BDA9 /* FakeMoocUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741E80E1B72754C0093BDA9 /* FakeMoocUpTests.swift */; };
+		C741E81B1B7275740093BDA9 /* JSONService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741E8181B7275740093BDA9 /* JSONService.swift */; };
+		C741E81C1B7275740093BDA9 /* NSURLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741E8191B7275740093BDA9 /* NSURLService.swift */; };
+		C741E81D1B7275740093BDA9 /* CoursesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741E81A1B7275740093BDA9 /* CoursesListViewController.swift */; };
+		C741E8201B7275C70093BDA9 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741E81E1B7275C70093BDA9 /* Course.swift */; };
+		C7FD653C1B72A2400084D01B /* CourseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FD653B1B72A2400084D01B /* CourseTableViewController.swift */; };
+		C7FD653E1B72A8410084D01B /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FD653D1B72A8410084D01B /* TextViewTableViewCell.swift */; };
+		C7FD65401B72BB430084D01B /* FiltersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FD653F1B72BB430084D01B /* FiltersTableViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C741E8091B72754C0093BDA9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C741E7EB1B72754B0093BDA9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C741E7F21B72754B0093BDA9;
+			remoteInfo = FakeMoocUp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C738C51C1B73B41700174C65 /* NameTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
+		C741C1921B727D9E00E67F5E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C741E7F31B72754B0093BDA9 /* FakeMoocUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeMoocUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C741E7F71B72754B0093BDA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C741E7F81B72754B0093BDA9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C741E7FD1B72754B0093BDA9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C741E7FF1B72754B0093BDA9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		C741E8021B72754B0093BDA9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		C741E8081B72754C0093BDA9 /* FakeMoocUpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeMoocUpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C741E80D1B72754C0093BDA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C741E80E1B72754C0093BDA9 /* FakeMoocUpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMoocUpTests.swift; sourceTree = "<group>"; };
+		C741E8181B7275740093BDA9 /* JSONService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONService.swift; sourceTree = "<group>"; };
+		C741E8191B7275740093BDA9 /* NSURLService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLService.swift; sourceTree = "<group>"; };
+		C741E81A1B7275740093BDA9 /* CoursesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesListViewController.swift; sourceTree = "<group>"; };
+		C741E81E1B7275C70093BDA9 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		C7FD653A1B728D910084D01B /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
+		C7FD653B1B72A2400084D01B /* CourseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTableViewController.swift; sourceTree = "<group>"; };
+		C7FD653D1B72A8410084D01B /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
+		C7FD653F1B72BB430084D01B /* FiltersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersTableViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C741E7F01B72754B0093BDA9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C741E8051B72754C0093BDA9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C741E7EA1B72754B0093BDA9 = {
+			isa = PBXGroup;
+			children = (
+				C7FD653A1B728D910084D01B /* MyPlayground.playground */,
+				C741E7F51B72754B0093BDA9 /* FakeMoocUp */,
+				C741E80B1B72754C0093BDA9 /* FakeMoocUpTests */,
+				C741E7F41B72754B0093BDA9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C741E7F41B72754B0093BDA9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C741E7F31B72754B0093BDA9 /* FakeMoocUp.app */,
+				C741E8081B72754C0093BDA9 /* FakeMoocUpTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C741E7F51B72754B0093BDA9 /* FakeMoocUp */ = {
+			isa = PBXGroup;
+			children = (
+				C741E7F81B72754B0093BDA9 /* AppDelegate.swift */,
+				C741E7FC1B72754B0093BDA9 /* Main.storyboard */,
+				C741E81A1B7275740093BDA9 /* CoursesListViewController.swift */,
+				C7FD653B1B72A2400084D01B /* CourseTableViewController.swift */,
+				C7FD653F1B72BB430084D01B /* FiltersTableViewController.swift */,
+				C7FD653D1B72A8410084D01B /* TextViewTableViewCell.swift */,
+				C738C51C1B73B41700174C65 /* NameTableViewCell.swift */,
+				C741E8181B7275740093BDA9 /* JSONService.swift */,
+				C741E8191B7275740093BDA9 /* NSURLService.swift */,
+				C741E81E1B7275C70093BDA9 /* Course.swift */,
+				C741C1921B727D9E00E67F5E /* Constants.swift */,
+				C741E7FF1B72754B0093BDA9 /* Images.xcassets */,
+				C741E8011B72754B0093BDA9 /* LaunchScreen.xib */,
+				C741E7F61B72754B0093BDA9 /* Supporting Files */,
+			);
+			path = FakeMoocUp;
+			sourceTree = "<group>";
+		};
+		C741E7F61B72754B0093BDA9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C741E7F71B72754B0093BDA9 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C741E80B1B72754C0093BDA9 /* FakeMoocUpTests */ = {
+			isa = PBXGroup;
+			children = (
+				C741E80E1B72754C0093BDA9 /* FakeMoocUpTests.swift */,
+				C741E80C1B72754C0093BDA9 /* Supporting Files */,
+			);
+			path = FakeMoocUpTests;
+			sourceTree = "<group>";
+		};
+		C741E80C1B72754C0093BDA9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C741E80D1B72754C0093BDA9 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C741E7F21B72754B0093BDA9 /* FakeMoocUp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C741E8121B72754C0093BDA9 /* Build configuration list for PBXNativeTarget "FakeMoocUp" */;
+			buildPhases = (
+				C741E7EF1B72754B0093BDA9 /* Sources */,
+				C741E7F01B72754B0093BDA9 /* Frameworks */,
+				C741E7F11B72754B0093BDA9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FakeMoocUp;
+			productName = FakeMoocUp;
+			productReference = C741E7F31B72754B0093BDA9 /* FakeMoocUp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C741E8071B72754C0093BDA9 /* FakeMoocUpTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C741E8151B72754C0093BDA9 /* Build configuration list for PBXNativeTarget "FakeMoocUpTests" */;
+			buildPhases = (
+				C741E8041B72754C0093BDA9 /* Sources */,
+				C741E8051B72754C0093BDA9 /* Frameworks */,
+				C741E8061B72754C0093BDA9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C741E80A1B72754C0093BDA9 /* PBXTargetDependency */,
+			);
+			name = FakeMoocUpTests;
+			productName = FakeMoocUpTests;
+			productReference = C741E8081B72754C0093BDA9 /* FakeMoocUpTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C741E7EB1B72754B0093BDA9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = "Imanou PETIT";
+				TargetAttributes = {
+					C741E7F21B72754B0093BDA9 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					C741E8071B72754C0093BDA9 = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = C741E7F21B72754B0093BDA9;
+					};
+				};
+			};
+			buildConfigurationList = C741E7EE1B72754B0093BDA9 /* Build configuration list for PBXProject "FakeMoocUp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C741E7EA1B72754B0093BDA9;
+			productRefGroup = C741E7F41B72754B0093BDA9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C741E7F21B72754B0093BDA9 /* FakeMoocUp */,
+				C741E8071B72754C0093BDA9 /* FakeMoocUpTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C741E7F11B72754B0093BDA9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C741E7FE1B72754B0093BDA9 /* Main.storyboard in Resources */,
+				C741E8031B72754B0093BDA9 /* LaunchScreen.xib in Resources */,
+				C741E8001B72754B0093BDA9 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C741E8061B72754C0093BDA9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C741E7EF1B72754B0093BDA9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C741E81B1B7275740093BDA9 /* JSONService.swift in Sources */,
+				C741E8201B7275C70093BDA9 /* Course.swift in Sources */,
+				C741E81C1B7275740093BDA9 /* NSURLService.swift in Sources */,
+				C741E81D1B7275740093BDA9 /* CoursesListViewController.swift in Sources */,
+				C738C51D1B73B41700174C65 /* NameTableViewCell.swift in Sources */,
+				C7FD653C1B72A2400084D01B /* CourseTableViewController.swift in Sources */,
+				C7FD653E1B72A8410084D01B /* TextViewTableViewCell.swift in Sources */,
+				C7FD65401B72BB430084D01B /* FiltersTableViewController.swift in Sources */,
+				C741E7F91B72754B0093BDA9 /* AppDelegate.swift in Sources */,
+				C741C1931B727D9E00E67F5E /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C741E8041B72754C0093BDA9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C741E80F1B72754C0093BDA9 /* FakeMoocUpTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C741E80A1B72754C0093BDA9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C741E7F21B72754B0093BDA9 /* FakeMoocUp */;
+			targetProxy = C741E8091B72754C0093BDA9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C741E7FC1B72754B0093BDA9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C741E7FD1B72754B0093BDA9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C741E8011B72754B0093BDA9 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C741E8021B72754B0093BDA9 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C741E8101B72754C0093BDA9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C741E8111B72754C0093BDA9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C741E8131B72754C0093BDA9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = FakeMoocUp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C741E8141B72754C0093BDA9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = FakeMoocUp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C741E8161B72754C0093BDA9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = FakeMoocUpTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FakeMoocUp.app/FakeMoocUp";
+			};
+			name = Debug;
+		};
+		C741E8171B72754C0093BDA9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = FakeMoocUpTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FakeMoocUp.app/FakeMoocUp";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C741E7EE1B72754B0093BDA9 /* Build configuration list for PBXProject "FakeMoocUp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C741E8101B72754C0093BDA9 /* Debug */,
+				C741E8111B72754C0093BDA9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C741E8121B72754C0093BDA9 /* Build configuration list for PBXNativeTarget "FakeMoocUp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C741E8131B72754C0093BDA9 /* Debug */,
+				C741E8141B72754C0093BDA9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C741E8151B72754C0093BDA9 /* Build configuration list for PBXNativeTarget "FakeMoocUpTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C741E8161B72754C0093BDA9 /* Debug */,
+				C741E8171B72754C0093BDA9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C741E7EB1B72754B0093BDA9 /* Project object */;
+}
