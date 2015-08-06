@@ -18,6 +18,7 @@
 		C741E81C1B7275740093BDA9 /* NSURLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741E8191B7275740093BDA9 /* NSURLService.swift */; };
 		C741E81D1B7275740093BDA9 /* CoursesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741E81A1B7275740093BDA9 /* CoursesListViewController.swift */; };
 		C741E8201B7275C70093BDA9 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741E81E1B7275C70093BDA9 /* Course.swift */; };
+		C75DFA1B1B73F01900964F09 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75DFA1A1B73F01900964F09 /* MapViewController.swift */; };
 		C7FD653C1B72A2400084D01B /* CourseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FD653B1B72A2400084D01B /* CourseTableViewController.swift */; };
 		C7FD653E1B72A8410084D01B /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FD653D1B72A8410084D01B /* TextViewTableViewCell.swift */; };
 		C7FD65401B72BB430084D01B /* FiltersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FD653F1B72BB430084D01B /* FiltersTableViewController.swift */; };
@@ -49,6 +50,7 @@
 		C741E8191B7275740093BDA9 /* NSURLService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLService.swift; sourceTree = "<group>"; };
 		C741E81A1B7275740093BDA9 /* CoursesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesListViewController.swift; sourceTree = "<group>"; };
 		C741E81E1B7275C70093BDA9 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		C75DFA1A1B73F01900964F09 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C7FD653A1B728D910084D01B /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		C7FD653B1B72A2400084D01B /* CourseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTableViewController.swift; sourceTree = "<group>"; };
 		C7FD653D1B72A8410084D01B /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			children = (
 				C741E7F81B72754B0093BDA9 /* AppDelegate.swift */,
 				C741E7FC1B72754B0093BDA9 /* Main.storyboard */,
+				C75DFA1A1B73F01900964F09 /* MapViewController.swift */,
 				C741E81A1B7275740093BDA9 /* CoursesListViewController.swift */,
 				C7FD653B1B72A2400084D01B /* CourseTableViewController.swift */,
 				C7FD653F1B72BB430084D01B /* FiltersTableViewController.swift */,
@@ -188,6 +191,11 @@
 				TargetAttributes = {
 					C741E7F21B72754B0093BDA9 = {
 						CreatedOnToolsVersion = 6.4;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 					C741E8071B72754C0093BDA9 = {
 						CreatedOnToolsVersion = 6.4;
@@ -239,6 +247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75DFA1B1B73F01900964F09 /* MapViewController.swift in Sources */,
 				C741E81B1B7275740093BDA9 /* JSONService.swift in Sources */,
 				C741E8201B7275C70093BDA9 /* Course.swift in Sources */,
 				C741E81C1B7275740093BDA9 /* NSURLService.swift in Sources */,
