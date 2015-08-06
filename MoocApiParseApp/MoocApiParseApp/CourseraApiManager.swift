@@ -14,7 +14,13 @@ class CourseraApiManager
     let MUServerScheme = "https"
     let MUServerHost = "api.coursera.org"
     let MUServerPath = "/api/catalog.v1/"
+    
     let kCourseClassName = "Course"
+    let kInstructorClassName = "Instructor"
+    let kCategoryClassName = "Category"
+    let kSessionClassName = "Session"
+    let kUniversityClassName = "University"
+    
     let kMoocName = "Coursera"
     
     //(apiKey, modelKey)
@@ -104,12 +110,17 @@ class CourseraApiManager
     
     
     //MARK:- Data Models Creation Methods
-    func getJSONData(endpoint: String, fields:[(String,String)], ids:[Int]?) -> [Dictionary<String,AnyObject>]{
+    
+    //generic function to get JSON data dictionary given an endpoing and query parameters
+    // ids are an Optional, therefore, if nil, all the data is fetched from the API
+    func getJSONData(endpoint: String, fields:[(String,String)], ids:[Int]?) -> [Dictionary<String,AnyObject>]?{
         
-        var jsonDataArray = [Dictionary<String,AnyObject>]()
-        var url = NSURL()
+        var jsonDataArray: [Dictionary<String,AnyObject>]?
+        var url:NSURL?
         var queryItems = [NSURLQueryItem]()
         
+        //since the courses endpoint serves as a root endpoint to get all the other
+        // included data, it is handled separately
         if endpoint == "courses" {
             let includesString = "instructors,categories,sessions,universities"
             if let inputArray = ids {
@@ -120,7 +131,9 @@ class CourseraApiManager
                         ("includes", apiQueryNames.includes(includesString))]
                 )
                 url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
-            } else {
+                
+            } else { // no ids are specified, so get all the data available
+            
                 queryItems = getQueryItems(fromQueryNames:
                     [("fields" , apiQueryNames.fields(courseFields)),
                         ("includes", apiQueryNames.includes(includesString))]
@@ -128,7 +141,7 @@ class CourseraApiManager
                 url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
             }
         }
-        else {
+        else { // all other endpoints are lookedup based on ids passed
             if let inputArray = ids {
                 var idsAssciatedData = ",".join(inputArray.map{"\($0)"})
                 queryItems = getQueryItems(fromQueryNames:
@@ -140,12 +153,17 @@ class CourseraApiManager
         
         url = getNSURL(fromEnpoint: endpoint, andQueryItems: queryItems)
         
-        if let data = NSData(contentsOfURL: url) {
-            jsonDataArray = parseJSONData(data)
+        if let url = url {
+            if let data = NSData(contentsOfURL: url) {
+                jsonDataArray = parseJSONData(data)
+                return jsonDataArray
+            } else {
+                println("Error retrieving data from url \(url)")
+            }
         } else {
-            println("Error retrieving data from url \(url)")
+            return nil
         }
-        return jsonDataArray
+        return nil
     }
    
     func createSession(sessionJSONData: Dictionary<String,AnyObject>) -> Session {
@@ -340,12 +358,16 @@ class CourseraApiManager
         return instructor
     }
     
+    // This function takes the JSONData dictionary for a Course which includes
+    // relationships for sessions, instructions, universities, and categories
+    // and returns the Course, along with the relationship data as a dictionary
+    // as a tuple.
     func createCourse(courseJSONData: Dictionary<String,AnyObject>) ->
         (Course,
-         [Dictionary<String,AnyObject>],
-         [Dictionary<String,AnyObject>],
-         [Dictionary<String,AnyObject>],
-         [Dictionary<String,AnyObject>])
+         [Dictionary<String,AnyObject>]?,
+         [Dictionary<String,AnyObject>]?,
+         [Dictionary<String,AnyObject>]?,
+         [Dictionary<String,AnyObject>]?)
     {
         var course = Course()
         
@@ -408,10 +430,10 @@ class CourseraApiManager
         }
         
         var links = courseJSONData["links"] as! Dictionary<String,[Int]>
-        var instructorJSONData = [Dictionary<String,AnyObject>]()
-        var sessionJSONData = [Dictionary<String,AnyObject>]()
-        var universityJSONData = [Dictionary<String,AnyObject>]()
-        var categoryJSONData = [Dictionary<String,AnyObject>]()
+        var instructorJSONData: [Dictionary<String,AnyObject>]?
+        var sessionJSONData: [Dictionary<String,AnyObject>]?
+        var universityJSONData: [Dictionary<String,AnyObject>]?
+        var categoryJSONData: [Dictionary<String,AnyObject>]?
 
         if let ids = links["instructors"] {
             instructorJSONData = getJSONData("instructors",fields: instructorFields,ids: ids)
@@ -428,10 +450,11 @@ class CourseraApiManager
         if let ids = links["categories"]{
             categoryJSONData = getJSONData("categories", fields:categoryFields, ids: ids)
         }
-        
         return (course, instructorJSONData, sessionJSONData, universityJSONData, categoryJSONData)
     }
     
+    
+    //MARK: - Root Function Call. Start here!
     // Root function call. Create a Course and all the relative objects connected to it
     func fetchCoursesFromApi() -> [Course]
     {
@@ -440,16 +463,23 @@ class CourseraApiManager
         mooc.name = "Coursera"
         
         //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [2163])
-        var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [69,2163,1322,2822,1411])
-        //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: nil)
+        //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [69,2163,1322,2822,1411])
+        var coursesJSONData = getJSONData("courses",fields:courseFields, ids: nil)
+        
+        if coursesJSONData == nil {
+            println("Error fetching courses, exiting early")
+        }
         
         var count = 0
-        var totalCount = coursesJSONData.count
+        var totalCount = coursesJSONData!.count
         
         //loop through all fetchedCourses and construct Course model
-        for courseData in coursesJSONData
+        for courseData in coursesJSONData!
         {
             println("Parsing course \(++count) of \(totalCount)...")
+            if (count == 20){
+                break
+            }
             
             ///// For each Course, here are the steps /////
             var results = createCourse(courseData)
@@ -463,85 +493,97 @@ class CourseraApiManager
             {
                 courses.append(course)
                 
-                //TODO: This if not nil first
-                for instructorData in instructorJSONData {
-                    
-                    //get instructor with basic information filled out
-                    var instructor = createInstructor(instructorData)
-                    
-                    //check if this instructor is not already in list of instructors
-                    if !contains(instructors,instructor){
-                        //so this is a brand new instructor, append it to the global list
-                        instructors.append(instructor)
+                if let data = instructorJSONData  {
+                    for instructorData in data {
+                        //get instructor with basic information filled out
+                        var instructor = createInstructor(instructorData)
                         
-                    } else
-                    // get the instructor pointer from the list of instructors (replacing the newInstructor)
-                    {
-                        //TODO: Check that this actually works for a many-many relationship
-                        var index = (instructors as NSArray).indexOfObject(instructor)
-                        instructor = (instructors as NSArray).objectAtIndex(index) as! Instructor
+                        //check if this instructor is not already in list of instructors
+                        if !contains(instructors,instructor){
+                            //so this is a brand new instructor, append it to the global list
+                            instructors.append(instructor)
+                            
+                        } else
+                        // get the instructor pointer from the list of instructors (replacing the newInstructor)
+                        {
+                            //TODO: Check that this actually works for a many-many relationship
+                            var index = (instructors as NSArray).indexOfObject(instructor)
+                            instructor = (instructors as NSArray).objectAtIndex(index) as! Instructor
+                            
+                        }
+                        
+                        // then add the connection between instructor and course
+                        course.instructors.append(instructor)
+                        instructor.courses.append(course)
+                    }
+                } else {
+                    println("Instructor data is nil for course: \(course.name). Skipping ... ")
+                }
+                
+                if let data = categoryJSONData {
+                    for categoryData in data {
+                        
+                        //FIXME: This is performing redundant network calls
+                        var category = createCategory(categoryData)
+                        
+                        if !contains(categories,category){
+                            categories.append(category)
+                        } else {
+                            var index = (categories as NSArray).indexOfObject(category)
+                            category = (categories as NSArray).objectAtIndex(index) as! Category
+                        }
+                        
+                        course.categories.append(category)
+                        category.courses.append(course)
                         
                     }
-                    
-                    // then add the connection between instructor and course
-                    course.instructors.append(instructor)
-                    instructor.courses.append(course)
+                } else {
+                    println("Category data is nil for course: \(course.name). Skipping ... ")
                 }
                 
-                for categoryData in categoryJSONData {
-                    
-                    //FIXME: This is performing redundant network calls
-                    var category = createCategory(categoryData)
-                    
-                    if !contains(categories,category){
-                        categories.append(category)
-                    } else {
-                        var index = (categories as NSArray).indexOfObject(category)
-                        category = (categories as NSArray).objectAtIndex(index) as! Category
+                if let data = sessionJSONData {
+                    for sessionData in data {
+                        
+                        //FIXME: This is performing redundant network calls
+                        var session = createSession(sessionData)
+                        
+                        if !contains(sessions,session){
+                            sessions.append(session)
+                        } else {
+                            var index = (sessions as NSArray).indexOfObject(session)
+                            session = (sessions as NSArray).objectAtIndex(index) as! Session
+                        }
+                        
+                        course.sessions.append(session)
+                        session.course = course
+                        
                     }
-                    
-                    course.categories.append(category)
-                    category.courses.append(course)
-                    
+                } else {
+                    println("Session data is nil for course: \(course.name). Skipping ... ")
                 }
                 
-                for sessionData in sessionJSONData {
+                if let data = universityJSONData {
+                    for universityData in data {
+                        
+                        //FIXME: This is performing redundant network calls
+                        var university = createUniversity(universityData)
                     
-                    //FIXME: This is performing redundant network calls
-                    var session = createSession(sessionData)
-                    
-                    if !contains(sessions,session){
-                        sessions.append(session)
-                    } else {
-                        var index = (sessions as NSArray).indexOfObject(session)
-                        session = (sessions as NSArray).objectAtIndex(index) as! Session
+                        if !contains(universities,university){
+                            universities.append(university)
+                        } else {
+                            var index = (universities as NSArray).indexOfObject(university)
+                            university = (universities as NSArray).objectAtIndex(index) as! University
+                        }
+                        
+                        course.universities.append(university)
+                        university.courses.append(course)
                     }
-                    
-                    course.sessions.append(session)
-                    session.course = course
-                    
+                } else {
+                    println("University data is nil for course: \(course.name). Skipping ... ")
                 }
-                
-                for universityData in universityJSONData {
-                    
-                    //FIXME: This is performing redundant network calls
-                    var university = createUniversity(universityData)
-                
-                    if !contains(universities,university){
-                        universities.append(university)
-                    } else {
-                        var index = (universities as NSArray).indexOfObject(university)
-                        university = (universities as NSArray).objectAtIndex(index) as! University
-                    }
-                    
-                    course.universities.append(university)
-                    university.courses.append(course)
-                    
-                }
-                
             }
             else {
-                //get course pointer from list. Should not happen since courses are out root object created. Only created once
+                //get course pointer from list. Should not happen since courses are our root object created. Only created once
             }
             
             //TODO: make this a many to many relationship for future
@@ -555,8 +597,8 @@ class CourseraApiManager
     }
     
     //MARK: - Helper functions
-    // guarantee that this function returns and unwrapped Optional
-    func parseJSONData(data: NSData) -> [Dictionary<String,AnyObject>] {
+
+    func parseJSONData(data: NSData) -> [Dictionary<String,AnyObject>]? {
         
         //get data as a dictionary
         if let jsonDict = NSJSONSerialization.JSONObjectWithData(
@@ -571,7 +613,7 @@ class CourseraApiManager
         } else {
             println("Expected returned JSON data to be non-nil")
         }
-        return [Dictionary<String,AnyObject>()]
+        return nil
     }
     
     func imageData(fromDictionary dict: Dictionary<String,AnyObject>,
@@ -673,7 +715,7 @@ class CourseraApiManager
     }
     
     var networkRequests = 0
-    func getNSURL(fromEnpoint endpoint: String, andQueryItems items:[NSURLQueryItem])->NSURL
+    func getNSURL(fromEnpoint endpoint: String, andQueryItems items:[NSURLQueryItem])->NSURL?
     {
         networkRequests++
         
@@ -688,7 +730,7 @@ class CourseraApiManager
         } else {
             println("Error in getNSURL(fromEndpoint,andQueryItems)")
         }
-        return NSURL() //TODO Fix this.... return an Optional
+        return nil
     }
     
 
