@@ -139,7 +139,7 @@ class MessagesTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //let messagesKeys = (messages as NSDictionary).allKeys as! [String]
-        conversationMessages = messages[messagesKeys[indexPath.row]]!
+        conversationMessages = reverse(messages[messagesKeys[indexPath.row]]!)
         
         performSegueWithIdentifier("showConversation", sender: self)
     }

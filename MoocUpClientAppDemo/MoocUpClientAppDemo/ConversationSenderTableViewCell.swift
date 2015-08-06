@@ -12,7 +12,7 @@ class ConversationSenderTableViewCell: UITableViewCell {
 
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var userImage: UIImageView!
-    @IBOutlet weak var message: UILabel!
+    @IBOutlet weak var message: UITextView!
     
 //    override func layoutSubviews() {
 //        println("layout subviews")

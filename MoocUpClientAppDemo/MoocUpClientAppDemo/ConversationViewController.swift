@@ -9,62 +9,157 @@
 import UIKit
 import Parse
 
-class ConversationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ConversationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate {
 
     var withUser =  String()
     var messages =  [PFObject]()
-    var replyView = UITextView()
     var formatter = NSDateFormatter()
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var newMessageEntryView: ResizableView!
+    @IBOutlet weak var newMessageTextView: ResizableTextView!
+    @IBOutlet weak var sendButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
                 
         navigationItem.title = withUser
-        
-        tableView.estimatedRowHeight = tableView.rowHeight
+
+        //TODO: still not happy with the fact that I need to hard code the estimate row height
+        tableView.estimatedRowHeight = 100//tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
-        
         tableView.reloadData()
         
         //crazy that I need to do this again here. 
         //TODO: get rid of needing to do this... this does not make sense!
-//        tableView.setNeedsUpdateConstraints()
-//        tableView.updateConstraintsIfNeeded()
-        
         tableView.setNeedsDisplay()
         tableView.layoutIfNeeded()
         tableView.reloadData()
         
+        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: messages.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+        
+        sendButton.layer.cornerRadius = 10.0
+        sendButton.clipsToBounds = true
         
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController?.tabBar.hidden = true;
         
-        setTableFooterView()
+        //setup keyboard notification
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillAppear:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillDisappear:"), name: UIKeyboardWillHideNotification, object: nil)
+
+        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: messages.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
     
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        tabBarController?.tabBar.hidden = false;
         
-        replyView.removeFromSuperview()
+        
+        
+        
+        //must remove self from notification center when view disappears
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+
     }
     
     
-    func setTableFooterView(){
-        if let frame = tabBarController?.tabBar.frame {
-            replyView = UITextView(frame: CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame)))
-            replyView.text = "test"
-            replyView.opaque = true
-            replyView.backgroundColor=UIColor.whiteColor()
-            tabBarController?.tabBar.addSubview(replyView)
+    //MARK:- Keyboard Notifications
+    func keyboardWillAppear(notification: NSNotification){
+        if let userInfo = notification.userInfo as? Dictionary<String,AnyObject>  {
+            let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey]?.doubleValue
+            let keyboardheight = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue().size.height
+            
+            if let height = keyboardheight {
+                if let duration = animationDuration {
+                    UIView.animateWithDuration(duration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                        
+                        //get the screen size
+                        let screenHeight = UIScreen.mainScreen().bounds.size.height
+                        self.view.frame.size.height = screenHeight - height
+                        self.view.setNeedsLayout()
+                        self.view.layoutIfNeeded()
+                        self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.messages.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
+                        }, completion: nil)
+                }
+            }
+        }
+    }
+    
+    func keyboardWillDisappear(notification: NSNotification){
+        if let userInfo = notification.userInfo as? Dictionary<String,AnyObject>  {
+            let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey]?.doubleValue
+            let keyboardheight = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue().size.height
+            
+            if let height = keyboardheight {
+                //get the screen size
+                let screenHeight = UIScreen.mainScreen().bounds.size.height
+                self.view.frame.size.height = screenHeight
+                self.view.setNeedsLayout()
+                
+                if let duration = animationDuration {
+                    UIView.animateWithDuration(duration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                        self.view.layoutIfNeeded()
+                        }, completion: nil)
+                }
+            }
+        }
+    }
+    
+    //MARK:- Tap Gesture
+    @IBAction func handleTap(sender: UITapGestureRecognizer) {
+        if sender.state == UIGestureRecognizerState.Ended {
+            newMessageTextView.resignFirstResponder()
+        }
+    }
+    
+    //MARK:- Send new message
+
+    @IBAction func send(sender: UIButton) {
+        inMiddleOfEditingNewMessage = false
+        
+        newMessageTextView.resignFirstResponder()
+        
+        //create message PFObject
+        var message = PFObject(className: "Message")
+        message["fromUser"] = PFUser.currentUser()?.username!
+        message["toUser"] = withUser
+        message["message"] = newMessageTextView.text
+        
+        message.saveInBackgroundWithBlock { (success, error) -> Void in
+            
+            if error != nil {
+                println("Error saving message")
+            } else {
+                self.newMessageTextView.textColor = UIColor.lightGrayColor()
+                self.newMessageTextView.text = "Say something nice"
+                self.messages.append(message)
+                self.tableView.reloadData()
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.messages.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+
+            }
+        }
+
+    }
+    
+    
+    //MARK:- Text Field Delegate
+    var inMiddleOfEditingNewMessage = false
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if (inMiddleOfEditingNewMessage == false) {
+            println("begin")
+            newMessageTextView.textColor = UIColor.blackColor()
+            newMessageTextView.text = ""
+            inMiddleOfEditingNewMessage = true
         }
     }
     
     // MARK: - Table view data source
-
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -83,6 +178,7 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
         formatter.timeStyle = NSDateFormatterStyle.MediumStyle
         
         if let sentFrom = message["fromUser"] as? String {
+        
             
             if sentFrom == PFUser.currentUser()?.username {
                 let cell = tableView.dequeueReusableCellWithIdentifier(
