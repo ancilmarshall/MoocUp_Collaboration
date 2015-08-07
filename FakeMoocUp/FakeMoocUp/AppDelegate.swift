@@ -11,10 +11,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         let tabBarController = self.window!.rootViewController as! UITabBarController
         
-        let splitViewController = tabBarController.viewControllers?.first as! UISplitViewController
-        let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-        navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
-        splitViewController.delegate = self
+        let coursesSplitViewController = tabBarController.viewControllers?.first as! UISplitViewController
+        let coursesNavigationController = coursesSplitViewController.viewControllers[coursesSplitViewController.viewControllers.count-1] as! UINavigationController
+        coursesNavigationController.topViewController.navigationItem.leftBarButtonItem = coursesSplitViewController.displayModeButtonItem()
+        coursesSplitViewController.delegate = self
+
+        let messagesSplitViewController = tabBarController.viewControllers?.last as! UISplitViewController
+        let messagesNavigationController = messagesSplitViewController.viewControllers[messagesSplitViewController.viewControllers.count-1] as! UINavigationController
+        messagesNavigationController.topViewController.navigationItem.leftBarButtonItem = messagesSplitViewController.displayModeButtonItem()
+        messagesSplitViewController.delegate = self
 
         return true
     }
