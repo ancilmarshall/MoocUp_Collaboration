@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C70BB0391B7448D500D33606 /* FriendAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BB0381B7448D500D33606 /* FriendAnnotation.swift */; };
 		C738C51D1B73B41700174C65 /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C738C51C1B73B41700174C65 /* NameTableViewCell.swift */; };
 		C741C1931B727D9E00E67F5E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741C1921B727D9E00E67F5E /* Constants.swift */; };
 		C741E7F91B72754B0093BDA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741E7F81B72754B0093BDA9 /* AppDelegate.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C70BB0381B7448D500D33606 /* FriendAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendAnnotation.swift; sourceTree = "<group>"; };
 		C738C51C1B73B41700174C65 /* NameTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
 		C741C1921B727D9E00E67F5E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C741E7F31B72754B0093BDA9 /* FakeMoocUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeMoocUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 				C738C51C1B73B41700174C65 /* NameTableViewCell.swift */,
 				C741E8181B7275740093BDA9 /* JSONService.swift */,
 				C741E8191B7275740093BDA9 /* NSURLService.swift */,
+				C70BB0381B7448D500D33606 /* FriendAnnotation.swift */,
 				C741E81E1B7275C70093BDA9 /* Course.swift */,
 				C741C1921B727D9E00E67F5E /* Constants.swift */,
 				C741E7FF1B72754B0093BDA9 /* Images.xcassets */,
@@ -255,6 +258,7 @@
 				C738C51D1B73B41700174C65 /* NameTableViewCell.swift in Sources */,
 				C7FD653C1B72A2400084D01B /* CourseTableViewController.swift in Sources */,
 				C7FD653E1B72A8410084D01B /* TextViewTableViewCell.swift in Sources */,
+				C70BB0391B7448D500D33606 /* FriendAnnotation.swift in Sources */,
 				C7FD65401B72BB430084D01B /* FiltersTableViewController.swift in Sources */,
 				C741E7F91B72754B0093BDA9 /* AppDelegate.swift in Sources */,
 				C741C1931B727D9E00E67F5E /* Constants.swift in Sources */,

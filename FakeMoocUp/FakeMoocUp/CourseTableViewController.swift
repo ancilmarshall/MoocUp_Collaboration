@@ -17,7 +17,7 @@ class CourseTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let _ = course {
+        if course != nil {
             switch section {
             case 0: return 2
             default: return 1
@@ -28,12 +28,17 @@ class CourseTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 1: return "Description"
-        case 2: return "recommended Background"
-        default: return ""
+        if course != nil {
+            switch section {
+            case 1: return "Description"
+            case 2: return "recommended Background"
+            default: return ""
+            }
+        } else {
+            return nil
         }
     }
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
         case (0, 0):

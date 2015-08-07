@@ -40,5 +40,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Localize user (this comment will appear in alertController)</string>
 </dict>
 </plist>
