@@ -9,31 +9,83 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
 
+    let locationManager = CLLocationManager()
     @IBOutlet weak var mapView: MKMapView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        mapView.delegate = self
+
+        // Add pin gesture
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: "handleLongPressGesture:")
+        longPressGesture.minimumPressDuration = 0.6 // 1
+        mapView.addGestureRecognizer(longPressGesture)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        setUserLocation()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func setUserLocation() {
+        if CLLocationManager.authorizationStatus() == .NotDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        }
+        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+            mapView.setUserTrackingMode(.Follow, animated: true)
+        }
     }
-    */
+    
+    func handleLongPressGesture(gestureRecognizer: UIGestureRecognizer) {
+        if gestureRecognizer.state == UIGestureRecognizerState.Began {
+            let touchPoint = gestureRecognizer.locationInView(mapView)
+            let coordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
+            
+            /*
+            // MKPointAnnotation (no need for MKMapViewDelegate)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = "New pin"
+            mapView.addAnnotation(annotation)
+            */
+            
+            // FriendAnnotation (subclass of MKAnnotation)
+            let annotation = FriendAnnotation(title: "New pin", locationName: "Bô kay manman'w", coordinate: coordinate)
+            mapView.addAnnotation(annotation)
+        }
+    }
+    
+    // MARK: - MKMapViewDelegate
+    // Add accessoryView to comments
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        if let annotation = annotation as? FriendAnnotation {
+            let identifier = "pin"
+            var view: MKPinAnnotationView
+            
+            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                view.canShowCallout = true // default: false
+                
+                //
+                view.draggable = true
+                view.canShowCallout = true
+                view.animatesDrop = true
+                //
+
+                view.calloutOffset = CGPoint(x: -5, y: 5)
+                view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView // UIButtonType
+            }
+            
+            return view
+        }
+        return nil
+    }
 
 }
