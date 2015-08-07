@@ -39,7 +39,7 @@ class CourseTableViewController: UITableViewController {
             self.courses = newCourses
             dispatch_async(dispatch_get_main_queue()){
                 self.tableView.reloadData()
-                //self.moocApiManager.saveCoursesToParse(newCourses)
+                self.moocApiManager.saveCoursesToParse(newCourses)
             }
         }
     }

@@ -15,7 +15,7 @@ import Parse
 
 class Base : NSObject {
     
-    var id = Int()
+    var id = String()
     var name = String()
     var summary = String()
     

@@ -20,18 +20,20 @@ class CourseraApiManager
     let kCategoryClassName = "Category"
     let kSessionClassName = "Session"
     let kUniversityClassName = "University"
+    let kLanguageClassName = "Language"
+    let kMoocClassName = "Mooc"
     
     let kMoocName = "Coursera"
     
     //(apiKey, modelKey)
     let courseFields = [
-        ("id","id"), //Int
+        ("id","id"),
         ("name","name"),
         ("shortDescription","summary"),
-        ("photo","image.photo"),
-        ("smallIcon","image.smallIcon"),
-        ("largeIcon","image.largeIcon"),
-        ("language","language"),
+        ("photo","Image.photo"),
+        ("smallIcon","Image.smallIcon"),
+        ("largeIcon","Image.largeIcon"),
+        ("language","Language.name"),
         ("estimatedClassWorkload","workload"),
         ("targetAudience","targetAudience"),
         ("video","videoLink"),
@@ -44,16 +46,16 @@ class CourseraApiManager
         ("name","name"),
         ("durationString","duration"),
         ("homeLink","homeLink"),
-        ("startDay","startDate"),
-        ("startMonth","startDate"),
-        ("startYear","startDate")
+        ("startDay","Date.startDate"),
+        ("startMonth","Date.startDate"),
+        ("startYear","Date.startDate")
     ]
     
     //(apiKey,modelKey)
     let instructorFields = [
         ("id","id"),
-        ("firstName","name"),
-        ("lastName","name"),
+        ("firstName","Name.name"),
+        ("lastName","Name.name"),
         ("bio","summary"),
         ("photo","Image.photo"),
         ("photo150","Image.largeIcon"),
@@ -181,7 +183,7 @@ class CourseraApiManager
                 
             case "id":
                 if let value = sessionJSONData[apiKey] as? Int {
-                    session.setValue(value, forKey:modelKey)
+                    session.setValue("\(value)", forKey:modelKey)
                 } else {
                     println("Key \(apiKey) missing")
                 }
@@ -232,7 +234,7 @@ class CourseraApiManager
                 
             case "id":
                 if let value = universityJSONData[apiKey] as? Int {
-                    university.setValue(value, forKey:modelKey)
+                    university.setValue("\(value)", forKey:modelKey)
                 } else {
                     println("Key \(apiKey) missing")
                 }
@@ -273,7 +275,7 @@ class CourseraApiManager
                 
             case "id":
                 if let value = categoryJSONData[apiKey] as? Int {
-                    category.setValue(value, forKey:modelKey)
+                    category.setValue("\(value)", forKey:modelKey)
                 } else {
                     println("Key \(apiKey) missing")
                 }
@@ -308,7 +310,7 @@ class CourseraApiManager
                 
             case "id":
                 if let value = instructorJSONData[apiKey] as? Int {
-                    instructor.setValue(value, forKey:modelKey)
+                    instructor.setValue("\(value)", forKey:modelKey)
                 } else {
                     println("Key \(apiKey) missing from Instructor")
                 }
@@ -378,7 +380,7 @@ class CourseraApiManager
                 
             case "id":
                 if let value = courseJSONData[apiKey] as? Int {
-                    course.setValue(value, forKey:modelKey)
+                    course.setValue("\(value)", forKey:modelKey)
                 } else {
                     println("Key \(apiKey) missing from Course")
                 }
@@ -398,12 +400,12 @@ class CourseraApiManager
                 
             case "language":
                 //TODO Check many-many relation
-                //TODO transform from en to English
+                //TODO transform from en to English, add name and shortname
                 
                 var newLanguage = Language()
                 
                 if let value = courseJSONData[apiKey] as? String{
-                    newLanguage.language = value
+                    newLanguage.name = value
                 } else {
                     println("Key \(apiKey) missing from Course with Id: \(course.id)")
                 }
@@ -453,8 +455,10 @@ class CourseraApiManager
         return (course, instructorJSONData, sessionJSONData, universityJSONData, categoryJSONData)
     }
     
-    
-    //MARK: - Root Function Call. Start here!
+    //MARK:- ==================================
+    //MARK:  Root Function Call. Start here!
+    //MARK:  ==================================
+
     // Root function call. Create a Course and all the relative objects connected to it
     func fetchCoursesFromApi() -> [Course]
     {
@@ -477,7 +481,7 @@ class CourseraApiManager
         for courseData in coursesJSONData!
         {
             println("Parsing course \(++count) of \(totalCount)...")
-            if (count == 20){
+            if (count == 6){
                 break
             }
             
@@ -637,48 +641,123 @@ class CourseraApiManager
     
     var saveCount = 0
     //FIXME: Convert to strings the attributes in Course model that are not other models
-    func saveCoursesToParse(courses: [Course]) -> Void
+    func saveCoursesToParse(courses: [Course])
     {
         //TODO: replace with better logic to add Mooc as PFRelation. Temp for now
-        var moocEntity = PFObject(className: kMoocName)
+        var moocEntity = PFObject(className: "Mooc")
+        moocEntity.setObject("Coursera", forKey: "name")
+        moocEntity.setObject("www.coursera.com", forKey: "website")
+        moocEntity.save() // synchronous
         
         for course in courses {
             var entity = PFObject(className: kCourseClassName )
             
+            var imageSet = false
             //TODO: synchronous for now, change late
-            var photoFileEntity = PFFile(name:"photo.jpg", data:course.image.photoData )
-            var smallIconFileEntity = PFFile(name:"smallIcon.jpg", data:course.image.smallIconData)
-            var largeIconFileEntity = PFFile(name:"largeIcon.jpg", data:course.image.largeIconData)
-            var image = PFObject(className: "Image")
-            image.setObject(photoFileEntity, forKey: "photo")
-            image.setObject(smallIconFileEntity, forKey: "smallIcon")
-            image.setObject(largeIconFileEntity, forKey: "largeIcon")
-            
             for (_,modelKey) in courseFields {
-                
-                switch modelKey
-                {
-                case "id":
-                    entity.setValue(course.id, forKey: modelKey)
-                case "name","summary","workload","targetAudience","videoLink","prerequisite":
-                    entity.setObject(course.valueForKey(modelKey) as! String, forKey: modelKey)
+                if modelKey.hasPrefix("Image") {
+                    if !imageSet {
+                        imageSet = true
+
+                        addImage(course.image, toEntity: entity)
+
+                    }
                     
-                default:
-                    var dummy = Int()
-                    //println("Missing the setting of a Course attribute")
+                } else if modelKey.hasPrefix("Language") {
+                    
+                    var className = kLanguageClassName
+                    var relationObjects = course.languages
+                    var relationObject = relationObjects.first!
+                    var relationKey = "languages"
+                    
+                    //only expect to add one relation object at a time. So can put this in for loop if there are more objects to add
+                    //only pass in strings for the key/value pair of the dictionary
+                    var keyValueDict = [ "name":"en"  ]
+                    
+                    addRelation(toEntity: entity, forRelationKey: "languages", withObjectClass: kLanguageClassName, andObjectKeyValueDict: keyValueDict)
+                    
+                } else {
+                    entity.setObject(course.valueForKey(modelKey) as! String, forKey: modelKey)
                 }
             }
             
-            entity["image"] = image
+            var keyValueDict = [ "name" : "Coursera"]
+            addRelation(toEntity: entity, forRelationKey: "moocs", withObjectClass: kMoocClassName, andObjectKeyValueDict: keyValueDict)
             
-            //set fixed values and relationships to other models manually here
-            //            var moocRelation = entity.relationForKey("moocs")
-            //            moocRelation.addObject(moocEntity)
             
             entity.saveInBackground()
-            println("Courses saved \(++saveCount)")
+            println("Courses saved ...  \(++saveCount)")
         }
     }
+    
+    
+    //MARK: - save to Parse helper functions
+    //This function verifies that the related object does not already exist in Parse
+    //TODO: pass in the complete object to get other data that is not a string
+    func addRelation(toEntity entity: PFObject, forRelationKey relationKey: String, withObjectClass className: String, andObjectKeyValueDict dict: Dictionary<String,AnyObject> ) {
+        var query = PFQuery(className: className)
+        
+        //add constraints to query based on the searched object's properties passed in as a dict
+        //only pass in strings for the key/values of the dictionary
+        (dict as NSDictionary).enumerateKeysAndObjectsUsingBlock({
+            (key: AnyObject!, obj: AnyObject!, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+            if let key = key as? String{
+                if let obj = obj as? String {
+                    query.whereKey(key, equalTo: obj)
+                }
+            }
+        })
+        
+        var error = NSErrorPointer()
+        var objects = query.findObjects(error) //synchronous
+        
+        if error != nil {
+            println("error finding object in Parse")
+        } else {
+            //define the new relationEntity to add to the root entity
+            var relationEntity = PFObject(className:className)
+            
+            if objects?.count > 0 {
+                //TODO: could also make sure that there are not other objects with the same object id Parse
+                
+                // already exists, so use it
+                let relationEntities = objects as! [PFObject]
+                relationEntity = relationEntities.first!
+            }
+            else {
+                //does not exist, so let's create one and save it to Parse
+                (dict as NSDictionary).enumerateKeysAndObjectsUsingBlock({
+                    (key: AnyObject!, obj: AnyObject!, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+                    if let key = key as? String{
+                        if let obj = obj as? String {
+                            relationEntity.setObject(obj, forKey: key)
+                        }
+                    }
+                    
+                })
+                
+                //could add here other attribute classes, such as dates and images
+                
+                relationEntity.save() //synchronous
+            }
+            
+            var newRelation = entity.relationForKey(relationKey)
+            newRelation.addObject(relationEntity)
+            
+        }
+    }
+    
+    func addImage(image:Image, toEntity entity:PFObject){
+        var photoFileEntity = PFFile(name:"photo.jpg", data:image.photoData )
+        var smallIconFileEntity = PFFile(name:"smallIcon.jpg", data:image.smallIconData)
+        var largeIconFileEntity = PFFile(name:"largeIcon.jpg", data:image.largeIconData)
+        var image = PFObject(className: "Image")
+        image.setObject(photoFileEntity, forKey: "photo")
+        image.setObject(smallIconFileEntity, forKey: "smallIcon")
+        image.setObject(largeIconFileEntity, forKey: "largeIcon")
+        entity.setObject(image, forKey: "image")
+    }
+    
     
     //MARK: -  URL Contruction
     func getQueryItems(fromQueryNames names:[(String,apiQueryNames)])->[NSURLQueryItem]
