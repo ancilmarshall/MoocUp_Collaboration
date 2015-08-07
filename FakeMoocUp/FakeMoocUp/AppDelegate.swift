@@ -11,6 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         let tabBarController = self.window!.rootViewController as! UITabBarController
         
+        // Set UISplitViewController properties for Courses UIViewControllers & UITableViewControllers
         let coursesSplitViewController = tabBarController.viewControllers?.first as! UISplitViewController
         let coursesNavigationController = coursesSplitViewController.viewControllers[coursesSplitViewController.viewControllers.count-1] as! UINavigationController
         coursesNavigationController.topViewController.navigationItem.leftBarButtonItem = coursesSplitViewController.displayModeButtonItem()
