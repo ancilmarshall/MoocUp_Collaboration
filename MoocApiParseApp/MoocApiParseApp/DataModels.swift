@@ -30,7 +30,6 @@ class Base : NSObject {
 
 class Course : Base
 {
-    var targetAudience = String()
     var prerequisite = String()
     var workload = String()
     var videoLink = String()
@@ -62,6 +61,7 @@ class Image : Base
     var largeIconData = NSData()
 }
 
+//TODO: Add a category image, by designing new graphics or using external resource
 class Category : Base
 {
     var moocCategoryName = String()

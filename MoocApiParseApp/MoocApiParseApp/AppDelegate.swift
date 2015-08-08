@@ -15,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // [Optional] Power your app with Local Datastore. For more info, go to
@@ -23,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Parse.enableLocalDatastore()
         
         // Initialize Parse.
-        Parse.setApplicationId("hEztfu2eQ8RQR3I6sN4aiVSg0kbwfhd54EBiR6lj",
-            clientKey: "t5zcVn2roKukjqmJJ387Z9GWoVUXI2yABj2NiX0l")
+        Parse.setApplicationId("V7qeQoqBdCe0URaXYO7zWXFZbUg87KlpqUyIB6gV",
+            clientKey: "wL5olZpt4gCtnylt8LWtdd9EOQhxh9ESGvcRYPTV")
         
         // [Optional] Track statistics around application opens.
         // PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)

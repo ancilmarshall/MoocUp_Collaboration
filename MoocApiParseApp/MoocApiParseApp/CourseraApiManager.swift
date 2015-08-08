@@ -35,7 +35,6 @@ class CourseraApiManager
         ("largeIcon","Image.largeIcon"),
         ("language","Language.name"),
         ("estimatedClassWorkload","workload"),
-        ("targetAudience","targetAudience"),
         ("video","videoLink"),
         ("recommendedBackground","prerequisite")
     ]
@@ -465,6 +464,7 @@ class CourseraApiManager
         //create a Coursera Mooc instance
         var mooc = Mooc()
         mooc.name = "Coursera"
+        mooc.website = "www.coursera.com"
         
         //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [2163])
         //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [69,2163,1322,2822,1411])
@@ -481,7 +481,7 @@ class CourseraApiManager
         for courseData in coursesJSONData!
         {
             println("Parsing course \(++count) of \(totalCount)...")
-            if (count == 6){
+            if (count == 101){
                 break
             }
             
@@ -507,10 +507,8 @@ class CourseraApiManager
                             //so this is a brand new instructor, append it to the global list
                             instructors.append(instructor)
                             
-                        } else
+                        } else {
                             // get the instructor pointer from the list of instructors (replacing the newInstructor)
-                        {
-                            //TODO: Check that this actually works for a many-many relationship
                             var index = (instructors as NSArray).indexOfObject(instructor)
                             instructor = (instructors as NSArray).objectAtIndex(index) as! Instructor
                             
@@ -527,7 +525,7 @@ class CourseraApiManager
                 if let data = categoryJSONData {
                     for categoryData in data {
                         
-                        //FIXME: This is performing redundant network calls
+                        //Note: This may be performing redundant network calls
                         var category = createCategory(categoryData)
                         
                         if !contains(categories,category){
@@ -548,7 +546,6 @@ class CourseraApiManager
                 if let data = sessionJSONData {
                     for sessionData in data {
                         
-                        //FIXME: This is performing redundant network calls
                         var session = createSession(sessionData)
                         
                         if !contains(sessions,session){
@@ -569,7 +566,6 @@ class CourseraApiManager
                 if let data = universityJSONData {
                     for universityData in data {
                         
-                        //FIXME: This is performing redundant network calls
                         var university = createUniversity(universityData)
                         
                         if !contains(universities,university){
@@ -590,8 +586,7 @@ class CourseraApiManager
                 //get course pointer from list. Should not happen since courses are our root object created. Only created once
             }
             
-            //TODO: make this a many to many relationship for future
-            //For now, keep it 1-many
+            // add to moocs attribute
             course.moocs.append(mooc)
             mooc.courses.append(course)
             
@@ -639,62 +634,159 @@ class CourseraApiManager
             return NSData()
     }
     
+    //MARK: - Save to Parse Methods
     var saveCount = 0
-    //FIXME: Convert to strings the attributes in Course model that are not other models
     func saveCoursesToParse(courses: [Course])
     {
-        //TODO: replace with better logic to add Mooc as PFRelation. Temp for now
-        var moocEntity = PFObject(className: "Mooc")
-        moocEntity.setObject("Coursera", forKey: "name")
-        moocEntity.setObject("www.coursera.com", forKey: "website")
-        moocEntity.save() // synchronous
-        
         for course in courses {
             var entity = PFObject(className: kCourseClassName )
             
+            //Add all course attributes
             var imageSet = false
-            //TODO: synchronous for now, change late
+            //Note: synchronous for now for easier handling of returned data.
+            //TODO: Background using blocks at an update
             for (_,modelKey) in courseFields {
                 if modelKey.hasPrefix("Image") {
-                    if !imageSet {
+                    if !imageSet
+                    {
                         imageSet = true
-
                         addImage(course.image, toEntity: entity)
-
                     }
                     
                 } else if modelKey.hasPrefix("Language") {
                     
-                    var className = kLanguageClassName
-                    var relationObjects = course.languages
-                    var relationObject = relationObjects.first!
-                    var relationKey = "languages"
-                    
-                    //only expect to add one relation object at a time. So can put this in for loop if there are more objects to add
-                    //only pass in strings for the key/value pair of the dictionary
-                    var keyValueDict = [ "name":"en"  ]
-                    
-                    addRelation(toEntity: entity, forRelationKey: "languages", withObjectClass: kLanguageClassName, andObjectKeyValueDict: keyValueDict)
+                    for language in course.languages {
+                        
+                        //only pass in strings for the key/value pair of the dictionary
+                        var keyValueDict = [ "name": language.valueForKey("name") as! String ]
+                        
+                        addRelation(toEntity: entity, forRelationKey: "languages",
+                            withObjectClass: kLanguageClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
+                    }
                     
                 } else {
                     entity.setObject(course.valueForKey(modelKey) as! String, forKey: modelKey)
                 }
             }
             
-            var keyValueDict = [ "name" : "Coursera"]
-            addRelation(toEntity: entity, forRelationKey: "moocs", withObjectClass: kMoocClassName, andObjectKeyValueDict: keyValueDict)
+            // add Mooc relations to course
+            for mooc in course.moocs {
             
+                var keyValueDict = [ "name" :mooc.name]
+                keyValueDict["website"] = mooc.website
+                
+                addRelation(toEntity: entity, forRelationKey: "moocs",
+                    withObjectClass: kMoocClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
+            }
+            
+            // add Instructor relations to course
+            for instructor in course.instructors {
+                
+                var dict = Dictionary<String,String>()
+                var extraAttrs = Dictionary<String,AnyObject>()
+                var imageSet = false
+                var nameSet = false
+                for (_,modelKey) in instructorFields {
+                    if modelKey.hasPrefix("Image"){
+                        if !imageSet {
+                            imageSet = true
+                            extraAttrs["image"] = instructor.image
+                        }
+                    }
+                    else if modelKey.hasPrefix("Name") {
+                        if !nameSet {
+                            nameSet = true
+                            dict["name"] = instructor.name
+                        }
+                    }
+                    else {
+                        dict.updateValue(instructor.valueForKey(modelKey) as! String, forKey: modelKey)
+                    }
+                }
+                
+                addRelation(toEntity: entity, forRelationKey: "instructors",
+                    withObjectClass: kInstructorClassName, andObjectKeyValueDict: dict,
+                    extraAttrs: extraAttrs)
+                
+            }
+            
+            // add University relations to a course
+            for university in course.universities {
+                
+                var dict = Dictionary<String,String>()
+                var extraAttrs = Dictionary<String,AnyObject>()
+                var imageSet = false
+                for (_,modelKey) in universityFields {
+                    if modelKey.hasPrefix("Image"){
+                        if !imageSet {
+                            imageSet = true
+                            extraAttrs["image"] = university.image
+                        }
+                    }
+                    else {
+                        dict.updateValue(university.valueForKey(modelKey) as! String, forKey: modelKey)
+                    }
+                }
+                
+                addRelation(toEntity: entity, forRelationKey: "universities",
+                    withObjectClass: kUniversityClassName, andObjectKeyValueDict: dict,
+                    extraAttrs: extraAttrs)
+            }
+            
+            // add Category relations to a course
+            for category in course.categories {
+                var dict = Dictionary<String,String>()
+                var extraAttrs = Dictionary<String,AnyObject>()
+                var imageSet = false
+                for (_,modelKey) in categoryFields {
+                    if modelKey.hasPrefix("Image"){
+                        if !imageSet {
+                            imageSet = true
+                            extraAttrs["image"] = category.image
+                        }
+                    }
+                    else {
+                        dict.updateValue(category.valueForKey(modelKey) as! String, forKey: modelKey)
+                    }
+                }
+                
+                addRelation(toEntity: entity, forRelationKey: "categories",
+                    withObjectClass: kCategoryClassName, andObjectKeyValueDict: dict,
+                    extraAttrs: extraAttrs)
+            }
+            
+            // add sessions
+            for session in course.sessions {
+                var dict = Dictionary<String,String>()
+                var extraAttrs = Dictionary<String,AnyObject>()
+                var dateSet = false
+                for (_,modelKey) in sessionFields {
+                    if modelKey.hasPrefix("Date"){
+                        if !dateSet {
+                            dateSet = true
+                            extraAttrs["startDate"] = session.startDate
+                        }
+                    }
+                    else {
+                        dict.updateValue(session.valueForKey(modelKey) as! String, forKey: modelKey)
+                    }
+                }
+                
+                addRelation(toEntity: entity, forRelationKey: "sessions",
+                    withObjectClass: kSessionClassName, andObjectKeyValueDict: dict,
+                    extraAttrs: extraAttrs)
+            }
             
             entity.saveInBackground()
             println("Courses saved ...  \(++saveCount)")
         }
     }
     
-    
-    //MARK: - save to Parse helper functions
     //This function verifies that the related object does not already exist in Parse
-    //TODO: pass in the complete object to get other data that is not a string
-    func addRelation(toEntity entity: PFObject, forRelationKey relationKey: String, withObjectClass className: String, andObjectKeyValueDict dict: Dictionary<String,AnyObject> ) {
+    func addRelation(toEntity entity: PFObject, forRelationKey relationKey: String,
+        withObjectClass className: String, andObjectKeyValueDict dict: Dictionary<String,AnyObject>,
+        extraAttrs attrs: Dictionary<String,AnyObject>?)
+    {
         var query = PFQuery(className: className)
         
         //add constraints to query based on the searched object's properties passed in as a dict
@@ -733,11 +825,27 @@ class CourseraApiManager
                             relationEntity.setObject(obj, forKey: key)
                         }
                     }
-                    
                 })
                 
-                //could add here other attribute classes, such as dates and images
-                
+                //add extra attributes, such as dates and images
+                if let attributes = attrs {
+                    
+                    (attributes as NSDictionary).enumerateKeysAndObjectsUsingBlock({
+                        (key: AnyObject!, obj:AnyObject!, stop: UnsafeMutablePointer) -> Void in
+                        
+                        if let key = key as? String {
+                            
+                            if key == "image" {
+                                var image = obj as! Image
+                                self.addImage(image, toEntity: relationEntity)
+                            }
+                            else if key == "date" {
+                                var date = obj as! NSDate
+                                relationEntity.setObject("date", forKey: "startDate")
+                            }
+                        }
+                    })
+                }
                 relationEntity.save() //synchronous
             }
             
@@ -748,6 +856,8 @@ class CourseraApiManager
     }
     
     func addImage(image:Image, toEntity entity:PFObject){
+        
+        //TODO: handle case if the one of the image attributes is empty ...
         var photoFileEntity = PFFile(name:"photo.jpg", data:image.photoData )
         var smallIconFileEntity = PFFile(name:"smallIcon.jpg", data:image.smallIconData)
         var largeIconFileEntity = PFFile(name:"largeIcon.jpg", data:image.largeIconData)
@@ -758,7 +868,7 @@ class CourseraApiManager
         entity.setObject(image, forKey: "image")
     }
     
-    
+
     //MARK: -  URL Contruction
     func getQueryItems(fromQueryNames names:[(String,apiQueryNames)])->[NSURLQueryItem]
     {
