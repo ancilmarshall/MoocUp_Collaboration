@@ -30,7 +30,7 @@ class CourseTableViewController: UITableViewController {
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        //fetchFromMoocApi(nil)
+        fetchFromMoocApi(nil)
     }
     
         

@@ -615,13 +615,31 @@ class CourseraApiManager
         return nil
     }
     
+    let kMaxImageSizeBytes = CGFloat(5000000.0) // 5 MB
+    
     func imageData(fromDictionary dict: Dictionary<String,AnyObject>,
         forKey key: String) -> NSData {
+            
+            var returnedData = NSData()
             
             if let URLString = dict[key] as? String {
                 if let URL =  NSURL(string: URLString) {
                     if let data = NSData(contentsOfURL: URL){
-                        return data
+                        let length = CGFloat(data.length)
+                        if length > kMaxImageSizeBytes {
+                            let scale = kMaxImageSizeBytes/length
+                            println("Image size: \(length) exceeds max size: \(kMaxImageSizeBytes) ... reducing ... ")
+                            
+                            if let scaledData = scaleImageData2(data, scale:0.95) {
+                                println("New Image size: \(scaledData.length)")
+                                returnedData = scaledData
+                            }
+                            
+                            
+                        } else {
+                            returnedData = data
+                        }
+                        return returnedData
                     } else {
                         //println("Error create NSData: \(URL)")
                     }
@@ -633,6 +651,33 @@ class CourseraApiManager
             }
             return NSData()
     }
+    
+    
+    func scaleImageData(data: NSData, scale: CGFloat) -> NSData? {
+        
+        if let image = UIImage(data: data) {
+            let imageSize = image.size
+            let newSize = CGSizeMake(imageSize.width*scale, imageSize.height*scale)
+            let hasAlpha = false
+            let scale: CGFloat = 0.0
+            UIGraphicsBeginImageContextWithOptions(newSize, !hasAlpha, scale)
+            image.drawInRect(CGRect(origin: CGPointZero, size: newSize))
+            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return UIImageJPEGRepresentation(scaledImage, 0.95)
+        }
+        return nil
+    }
+    
+    // Poor man's version of an image size reducer
+    func scaleImageData2(data: NSData, scale: CGFloat) -> NSData? {
+        
+        if let image = UIImage(data:data) {
+            return UIImageJPEGRepresentation(image, scale)
+        }
+        return nil
+    }
+    
     
     //MARK: - Save to Parse Methods
     var saveCount = 0
@@ -678,6 +723,8 @@ class CourseraApiManager
                 addRelation(toEntity: entity, forRelationKey: "moocs",
                     withObjectClass: kMoocClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
             }
+            
+            
             
             // add Instructor relations to course
             for instructor in course.instructors {
