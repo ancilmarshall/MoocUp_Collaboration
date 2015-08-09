@@ -16,22 +16,26 @@ class ParseManager
         var courses = [Course]()
                 
         query.findObjectsInBackgroundWithBlock {
-            ( foundCourses: [AnyObject]?, error: NSError?) -> Void in
+            ( objects: [AnyObject]?, error: NSError?) -> Void in
             
             if error == nil {
-                for course in foundCourses as! [PFObject] {
-                    var newCourse = Course()
-                    newCourse.name = course["name"] as! String
-                    
-//                    var newImage = Image()
-//                    if let imageObject = course["image"] as? PFObject{
-//                        let photoImageFile = imageObject["photo"] as! PFFile
-//                            if let photoData = photoImageFile.getData(){
-//                                newImage.photoData = photoData
-//                        }
-//                    }
-                    
-                    courses.append(newCourse)
+                
+                if let foundCourses = objects as? [PFObject] {
+                
+                    for course in foundCourses  {
+                        var newCourse = Course()
+                        newCourse.name = course["name"] as! String
+                        
+    //                    var newImage = Image()
+    //                    if let imageObject = course["image"] as? PFObject{
+    //                        let photoImageFile = imageObject["photo"] as! PFFile
+    //                            if let photoData = photoImageFile.getData(){
+    //                                newImage.photoData = photoData
+    //                        }
+    //                    }
+                        
+                        courses.append(newCourse)
+                    }
                 }
             }
             else {

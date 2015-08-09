@@ -480,10 +480,10 @@ class CourseraApiManager
         //loop through all fetchedCourses and construct Course model
         for courseData in coursesJSONData!
         {
-            println("Parsing course \(++count) of \(totalCount)...")
-            if (count == 101){
+            if (count == 1){
                 break
             }
+            println("Parsing course \(++count) of \(totalCount)...")
             
             ///// For each Course, here are the steps /////
             var results = createCourse(courseData)
@@ -681,21 +681,25 @@ class CourseraApiManager
     
     //MARK: - Save to Parse Methods
     var saveCount = 0
+    // Uploads to Parse courses array
     func saveCoursesToParse(courses: [Course])
     {
+
         for course in courses {
-            var entity = PFObject(className: kCourseClassName )
             
-            //Add all course attributes
+            var courseEntity = PFObject(className: kCourseClassName )
+            
+            //Add all the course attributes 
             var imageSet = false
-            //Note: synchronous for now for easier handling of returned data.
-            //TODO: Background using blocks at an update
+
+            //TODO: Background using blocks
             for (_,modelKey) in courseFields {
+                
                 if modelKey.hasPrefix("Image") {
                     if !imageSet
                     {
                         imageSet = true
-                        addImage(course.image, toEntity: entity)
+                        addImage(course.image, toEntity: courseEntity)
                     }
                     
                 } else if modelKey.hasPrefix("Language") {
@@ -705,12 +709,12 @@ class CourseraApiManager
                         //only pass in strings for the key/value pair of the dictionary
                         var keyValueDict = [ "name": language.valueForKey("name") as! String ]
                         
-                        addRelation(toEntity: entity, forRelationKey: "languages",
+                        addRelation(toEntity: courseEntity, forRelationKey: "languages",
                             withObjectClass: kLanguageClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
                     }
                     
                 } else {
-                    entity.setObject(course.valueForKey(modelKey) as! String, forKey: modelKey)
+                    courseEntity.setObject(course.valueForKey(modelKey) as! String, forKey: modelKey)
                 }
             }
             
@@ -720,10 +724,9 @@ class CourseraApiManager
                 var keyValueDict = [ "name" :mooc.name]
                 keyValueDict["website"] = mooc.website
                 
-                addRelation(toEntity: entity, forRelationKey: "moocs",
+                addRelation(toEntity: courseEntity, forRelationKey: "moocs",
                     withObjectClass: kMoocClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
             }
-            
             
             
             // add Instructor relations to course
@@ -737,13 +740,13 @@ class CourseraApiManager
                     if modelKey.hasPrefix("Image"){
                         if !imageSet {
                             imageSet = true
-                            extraAttrs["image"] = instructor.image
+                            extraAttrs["image"] = instructor.valueForKey("image") as? Image
                         }
                     }
                     else if modelKey.hasPrefix("Name") {
                         if !nameSet {
                             nameSet = true
-                            dict["name"] = instructor.name
+                            dict["name"] = instructor.valueForKey("name") as? String
                         }
                     }
                     else {
@@ -751,7 +754,7 @@ class CourseraApiManager
                     }
                 }
                 
-                addRelation(toEntity: entity, forRelationKey: "instructors",
+                addRelation(toEntity: courseEntity, forRelationKey: "instructors",
                     withObjectClass: kInstructorClassName, andObjectKeyValueDict: dict,
                     extraAttrs: extraAttrs)
                 
@@ -775,7 +778,7 @@ class CourseraApiManager
                     }
                 }
                 
-                addRelation(toEntity: entity, forRelationKey: "universities",
+                addRelation(toEntity: courseEntity, forRelationKey: "universities",
                     withObjectClass: kUniversityClassName, andObjectKeyValueDict: dict,
                     extraAttrs: extraAttrs)
             }
@@ -797,7 +800,7 @@ class CourseraApiManager
                     }
                 }
                 
-                addRelation(toEntity: entity, forRelationKey: "categories",
+                addRelation(toEntity: courseEntity, forRelationKey: "categories",
                     withObjectClass: kCategoryClassName, andObjectKeyValueDict: dict,
                     extraAttrs: extraAttrs)
             }
@@ -819,12 +822,14 @@ class CourseraApiManager
                     }
                 }
                 
-                addRelation(toEntity: entity, forRelationKey: "sessions",
+                addRelation(toEntity: courseEntity, forRelationKey: "sessions",
                     withObjectClass: kSessionClassName, andObjectKeyValueDict: dict,
                     extraAttrs: extraAttrs)
             }
             
-            entity.saveInBackground()
+            let id = courseEntity.valueForKey("id") as! String
+            println("Course id is: \(id) ")
+            courseEntity.saveInBackground()
             println("Courses saved ...  \(++saveCount)")
         }
     }

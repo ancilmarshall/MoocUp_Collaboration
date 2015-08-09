@@ -30,10 +30,10 @@ class CourseTableViewController: UITableViewController {
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        fetchFromMoocApi(nil)
+        //fetchFromMoocApi(nil)
+        fetchFromParse(nil)
     }
     
-        
     
     @IBAction func fetchFromMoocApi(sender:AnyObject?)
     {
@@ -46,16 +46,174 @@ class CourseTableViewController: UITableViewController {
         }
     }
 
+    let queryLimit :Int? = 20
+    
     @IBAction func fetchFromParse(sender:AnyObject?)
     {
         var query = PFQuery(className: kCourseClassName)
         query.includeKey("image")
-        parseManager.fetchCourses(query) { (newCourses) -> Void in
+        if let limit = queryLimit {
+            query.limit = limit
+        }
+        
+        query.findObjectsInBackgroundWithBlock {
+            ( objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                
+                if let foundCourses = objects as? [PFObject] {
+                    
+                    for course in foundCourses  {
+                        
+                        var newCourse = Course()
+                        newCourse.id = course["id"] as! String
+                        newCourse.name = course["name"] as! String
+                        newCourse.summary = course["summary"] as! String
+                        
+                        
+                        //can only perform this step if "image" is an includeKey for the query
+                        
+                        
+                        
+                        var newImage = Image()
+                        if let imageObject = course["image"] as? PFObject{
+                            let photoImageFile = imageObject["photo"] as! PFFile
+                            //TODO:Change to background fetch
+                            if let photoData = photoImageFile.getData(){
+                                newImage.photoData = photoData
+                            }
+                            
+                            
+                            
+                        }
+                        newCourse.image = newImage
+                        
+                        self.addInstructors(newCourse,course)
+                        
+                    }
+                }
+            }
+            else {
+                println("Error fetching parse data")
+            }
+        }
+    }
+    
+    
+    func addInstructors(newCourse: Course,_ course:PFObject){
+        
+        var instructorRelation = course.relationForKey("instructors")
+        var instructorQuery = instructorRelation.query()!
+        instructorQuery.findObjectsInBackgroundWithBlock
+        {
+            (objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                
+                if let foundInstructors = objects as? [PFObject] {
+                    
+                    for instructor in foundInstructors {
+                        var newInstructor = Instructor()
+                        newInstructor.name = instructor["name"] as! String
+                        newCourse.instructors.append(newInstructor)
+                        
+                    }
+                }
+            } else {
+                println("Problem fetching instructors")
+            }
+            
+            self.addUniversities(newCourse, course)
+        }
+        
+    }
 
-            self.courses = newCourses
+    func addUniversities(newCourse: Course,_ course:PFObject){
+        
+        var relation = course.relationForKey("universities")
+        var query = relation.query()!
+        query.findObjectsInBackgroundWithBlock
+        {
+            (objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                
+                if let foundObjects = objects as? [PFObject] {
+                    
+                    for object in foundObjects {
+                        var newObject = University()
+                        newObject.name = object["name"] as! String
+                        newCourse.universities.append(newObject)
+                    }
+                }
+            } else {
+                println("Problem fetching instructors")
+            }
+            
+            self.addCategories(newCourse, course)
 
-            dispatch_async(dispatch_get_main_queue()){
-                self.tableView.reloadData()
+        }
+        
+    }
+    
+    func addCategories(newCourse: Course,_ course:PFObject){
+        
+        var relation = course.relationForKey("categories")
+        var query = relation.query()!
+        query.findObjectsInBackgroundWithBlock
+        {
+            (objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                
+                if let foundObjects = objects as? [PFObject] {
+                    
+                    for object in foundObjects {
+                        var newObject = Category()
+                        newObject.name = object["name"] as! String
+                        newCourse.categories.append(newObject)
+                    }
+                }
+            } else {
+                println("Problem fetching instructors")
+            }
+                
+            self.addSessions(newCourse, course)
+    
+        }
+        
+    }
+    
+    func addSessions(newCourse: Course,_ course:PFObject){
+        
+        var relation = course.relationForKey("sessions")
+        var query = relation.query()!
+        query.findObjectsInBackgroundWithBlock
+        {
+            (objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                
+                if let foundObjects = objects as? [PFObject] {
+                    
+                    for object in foundObjects {
+                        var newObject = Session()
+                        newObject.name = object["name"] as! String
+                        newCourse.sessions.append(newObject)
+                    }
+                }
+            } else {
+                println("Problem fetching instructors")
+            }
+            
+            //done last, after the newCourse is fully constructed
+            self.courses.append(newCourse)
+            if let limit = self.queryLimit {
+                if self.courses.count == limit {
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.tableView.reloadData()
+                    }
+                }
             }
         }
     }
