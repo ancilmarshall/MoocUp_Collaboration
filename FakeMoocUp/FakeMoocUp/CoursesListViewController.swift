@@ -1,7 +1,11 @@
 
 import UIKit
+import Haneke
 
 class CoursesListViewController: UITableViewController {
+   
+    
+    
     
     var detailViewController: CourseTableViewController?
     var coursesArray = [Course]()
@@ -18,12 +22,13 @@ class CoursesListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = controllers[controllers.count-1].topViewController as? CourseTableViewController
         }
 
-        NSURLService.loadDataFromURL(Constants.courseraURL) { [weak self] data, error in
+        NSURLService.loadDataFromURL(Constants.courseraURL!) { [weak self] data, error in
             switch (data, error) {
             case let (.Some(data), .None):
                 let array = JSONService.parse(data)
@@ -31,12 +36,18 @@ class CoursesListViewController: UITableViewController {
                 // Parse the json and perform a closure in main queue to retrieve the result
                 dispatch_async(dispatch_get_main_queue()) {
                     self?.coursesArray = array
+                    
+                   
                     self?.tableView.reloadData()
                 }
             default:
                 print(error)
             }
         }
+        
+       // tableView.estimatedRowHeight = 60
+        
+      //tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,13 +55,19 @@ class CoursesListViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! CoursesTableViewCell
         
         let course = coursesArray[indexPath.row]
-        cell.textLabel?.text = course.name
-        cell.detailTextLabel?.text = course.shortDescription
+        cell.titleLabel?.text = course.name
+        cell.subtitleLabel?.text = course.shortDescription
         
-        return cell
+        
+        let url = NSURL(string: course.photo!)
+       cell.imageV?.hnk_setImageFromURL(url!)
+        
+        //cell.backgroundView.hnk_setImageFromURL(url!)
+   
+             return cell
     }
     
     // MARK: - Navigation

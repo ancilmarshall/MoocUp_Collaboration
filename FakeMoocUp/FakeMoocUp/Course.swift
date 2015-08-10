@@ -1,5 +1,6 @@
 
 import Foundation
+import UIKit
 
 struct Course {
     
@@ -7,6 +8,7 @@ struct Course {
     let language: String
     let shortDescription: String?
     let recommendedBackground: String?
+    let photo : String?
 //    let university: String?
     
 }

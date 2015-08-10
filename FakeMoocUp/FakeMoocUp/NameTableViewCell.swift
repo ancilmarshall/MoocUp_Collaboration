@@ -10,7 +10,7 @@ class NameTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         selectionStyle = .None
-        label.numberOfLines = 0
+       label.numberOfLines = 0
         label.font = UIFont.boldSystemFontOfSize(CGFloat(17))
     }
 

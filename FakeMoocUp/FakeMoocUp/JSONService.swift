@@ -15,7 +15,8 @@ class JSONService {
                         if let language = dict["language"] as? String {
                             let shortDescription = dict["shortDescription"] as? String
                             let recommendedBackground = dict["recommendedBackground"] as? String
-                            coursesArray += [ Course(name: name, language: language, shortDescription: shortDescription, recommendedBackground: recommendedBackground)]
+                            let photo = dict["photo"]as?String
+                            coursesArray += [Course(name: name, language: language, shortDescription: shortDescription, recommendedBackground: recommendedBackground, photo:photo)]
                         }
                     }
                 }

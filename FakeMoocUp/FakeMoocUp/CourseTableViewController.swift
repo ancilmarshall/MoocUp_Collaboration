@@ -44,6 +44,8 @@ class CourseTableViewController: UITableViewController {
         case (0, 0):
             let cell = tableView.dequeueReusableCellWithIdentifier("NameTableViewCell", forIndexPath: indexPath) as! NameTableViewCell
             cell.label.text = course?.name
+            
+           
             return cell
         case (0, 1):
             let cell = tableView.dequeueReusableCellWithIdentifier("RightDetailCell", forIndexPath: indexPath) as! UITableViewCell
@@ -51,6 +53,8 @@ class CourseTableViewController: UITableViewController {
             if let course = course {
                 cell.detailTextLabel?.text = NSLocale.currentLocale().displayNameForKey(NSLocaleIdentifier, value: course.language)
             }
+            
+            
             return cell
         case (1, 0):
             let cell = tableView.dequeueReusableCellWithIdentifier("TextViewTableViewCell", forIndexPath: indexPath) as! TextViewTableViewCell
