@@ -2,8 +2,8 @@
 //  DataModels
 //  MoocUpAdminApp
 //
-//  These models are a common set of data models for the MoocUpAdminApp and 
-//  MoocUpClientApp. They should not contain any Parse classes so that the 
+//  These models are a common set of data models for the MoocUpAdminApp and
+//  MoocUpClientApp. They should not contain any Parse classes so that the
 //  MoocUpClientApp does not need to convert Parse objects to desired objects
 //
 //  Created by Ancil on 7/24/15.
@@ -28,6 +28,10 @@ class Base : NSObject {
     }
     
     init(object: PFObject) {
+        
+        if object.createdAt == nil {
+            return
+        }
         
         if let id = object["id"] as? String {
             self.id = id
@@ -76,46 +80,49 @@ class Course : Base
     
     override init(object: PFObject) {
         
-        if let prerequisite = object["prerequisite"] as? String {
-            self.prerequisite = prerequisite
+        if object.createdAt != nil {
+            
+            if let prerequisite = object["prerequisite"] as? String {
+                self.prerequisite = prerequisite
+            }
+            
+            if let workload = object["workload"] as? String {
+                self.workload = workload
+            }
+            
+            if let videoLink = object["videoLink"] as? String {
+                self.videoLink = videoLink
+            }
+            
+            if let image = object["iamge"] as? PFObject {
+                self.image = Image(object: image)
+            }
+            
+            if let moocs = object["moocs"] as? [PFObject] {
+                self.moocs = moocs.map{ Mooc(object: $0)}
+            }
+            
+            if let instructors = object["instructors"] as? [PFObject] {
+                self.instructors = instructors.map{ Instructor(object: $0) }
+            }
+            
+            if let universities = object["universities"] as? [PFObject] {
+                self.universities = universities.map{ University(object: $0) }
+            }
+            
+            if let sessions = object["sessions"] as? [PFObject] {
+                self.sessions = sessions.map{ Session(object: $0) }
+            }
+            
+            if let categories = object["categories"] as? [PFObject] {
+                self.categories = categories.map{ Category(object: $0) }
+            }
         }
         
-        if let workload = object["workload"] as? String {
-            self.workload = workload
-        }
-        
-        if let videoLink = object["videoLink"] as? String {
-            self.videoLink = videoLink
-        }
-        
-        if let image = object["iamge"] as? PFObject {
-            self.image = Image(object: image)
-        }
-        
-        if let moocs = object["moocs"] as? [PFObject] {
-            self.moocs = moocs.map{ Mooc(object: $0)}
-        }
-        
-        if let instructors = object["instructors"] as? [PFObject] {
-            self.instructors = instructors.map{ Instructor(object: $0) }
-        }
-        
-        if let universities = object["universities"] as? [PFObject] {
-            self.universities = universities.map{ University(object: $0) }
-        }
-        
-        if let sessions = object["sessions"] as? [PFObject] {
-            self.sessions = sessions.map{ Session(object: $0) }
-        }
-        
-        if let categories = object["categories"] as? [PFObject] {
-            self.categories = categories.map{ Category(object: $0) }
-        }
-               
         super.init(object: object)
     }
-
-
+    
+    
     
 }
 
@@ -129,11 +136,14 @@ class Mooc : Base {
     }
     
     override init(object: PFObject) {
-
-        if let website = object["website"] as? String {
-            self.website = website
-        }
         
+        if object.createdAt != nil {
+            
+            if let website = object["website"] as? String {
+                self.website = website
+            }
+            
+        }
         // course?
         super.init(object: object)
     }
@@ -159,32 +169,36 @@ class Image : Base
         
         super.init(object: object)
         
-        if let imageObject = object["image"] as? PFObject {
-            if let photoImageFile = imageObject["photo"] as? PFFile {
-                photoImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) in
-                    if let data = data {
-                        self.photoData = data
+        if object.createdAt != nil {
+            
+            if let imageObject = object["image"] as? PFObject {
+                if let photoImageFile = imageObject["photo"] as? PFFile {
+                    photoImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) in
+                        if let data = data {
+                            self.photoData = data
+                        }
+                    }
+                }
+                
+                if let smallIconImageFile = imageObject["smallIcon"] as? PFFile {
+                    smallIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
+                        
+                        if let data = data {
+                            self.smallIconData = data
+                        }
+                    }
+                }
+                
+                if let largeIconImageFile = imageObject["largeIcon"] as? PFFile {
+                    largeIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
+                        
+                        if let data = data {
+                            self.largeIconData = data
+                        }
                     }
                 }
             }
             
-            if let smallIconImageFile = imageObject["smallIcon"] as? PFFile {
-                smallIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
-                    
-                    if let data = data {
-                        self.smallIconData = data
-                    }
-                }
-            }
-            
-            if let largeIconImageFile = imageObject["largeIcon"] as? PFFile {
-                largeIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
-                    
-                    if let data = data {
-                        self.largeIconData = data
-                    }
-                }
-            }
         }
         
     }
@@ -202,6 +216,10 @@ class Category : Base
     }
     
     override init(object: PFObject) {
+        
+        if object.createdAt != nil {
+            
+        }
         
         super.init(object: object)
         
@@ -237,15 +255,18 @@ class Instructor : Base
     var image = Image()
     var courses = [Course]()
     var website = String()
-
+    
     override init() {
         super.init()
     }
     
     override init(object: PFObject) {
         
-        if let website = object["website"] as? String {
-            self.website = website
+        if object.createdAt != nil {
+            
+            if let website = object["website"] as? String {
+                self.website = website
+            }
         }
         
         super.init(object: object)
@@ -278,8 +299,11 @@ class University : Base
     
     override init(object: PFObject) {
         
-        if let website = object["website"] as? String {
-            self.website = website
+        if object.createdAt != nil {
+            
+            if let website = object["website"] as? String {
+                self.website = website
+            }
         }
         
         super.init(object: object)
@@ -303,21 +327,24 @@ class Session : Base
     override init() {
         super.init()
     }
-
+    
     override init(object: PFObject) {
         
-        if let homeLink = object["homeLink"] as? String {
-            self.homeLink = homeLink
+        if object.createdAt != nil {
+            
+            if let homeLink = object["homeLink"] as? String {
+                self.homeLink = homeLink
+            }
+            
+            if let duration = object["duration"] as? String {
+                self.duration = duration
+            }
+            
+            if let startDate = object["startDate"] as? NSDate {
+                self.startDate = startDate
+            }
+            
         }
-        
-        if let duration = object["duration"] as? String {
-            self.duration = duration
-        }
-        
-        if let startDate = object["startDate"] as? NSDate {
-            self.startDate = startDate
-        }
-        
         super.init(object: object)
         
         //TODO: update instructors

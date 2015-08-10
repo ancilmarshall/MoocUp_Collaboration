@@ -480,7 +480,7 @@ class CourseraApiManager
         //loop through all fetchedCourses and construct Course model
         for courseData in coursesJSONData!
         {
-            if (count == 10){
+            if (count == 100){
                 break
             }
             println("Parsing course \(++count) of \(totalCount)...")
@@ -704,14 +704,14 @@ class CourseraApiManager
                     
                 } else if modelKey.hasPrefix("Language") {
                     
-//                    for language in course.languages {
-//                        
-//                        //only pass in strings for the key/value pair of the dictionary
-//                        var keyValueDict = [ "name": language.valueForKey("name") as! String ]
-//                        
-//                        addRelation(toEntity: courseEntity, forRelationKey: "languages",
-//                            withObjectClass: kLanguageClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
-//                    }
+                    for language in course.languages {
+                        
+                        //only pass in strings for the key/value pair of the dictionary
+                        var keyValueDict = [ "name": language.valueForKey("name") as! String ]
+                        
+                        addRelation(toEntity: courseEntity, forRelationKey: "languages",
+                            withObjectClass: kLanguageClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
+                    }
                     
                 } else {
                     courseEntity.setObject(course.valueForKey(modelKey) as! String, forKey: modelKey)
@@ -833,12 +833,9 @@ class CourseraApiManager
             courseEntity.saveInBackgroundWithBlock({ (success, error) -> Void in
                 
                 if error != nil {
-                    println("error detected")
-                    
+                    println("error detected when saving to Parse")
                 }
-                if success {
-                    println("success")
-                }
+
                 
             })
             println("Courses saved ...  \(++saveCount)")
@@ -928,18 +925,6 @@ class CourseraApiManager
         var photoFileEntity = PFFile(name:"photo.jpg", data:image.photoData )
         var smallIconFileEntity = PFFile(name:"smallIcon.jpg", data:image.smallIconData)
         var largeIconFileEntity = PFFile(name:"largeIcon.jpg", data:image.largeIconData)
-        
-        var len:Int
-        var data:NSData
-        data = image.photoData
-        len = data.length
-        println(len)
-        data = image.smallIconData
-        len = data.length
-        println(len)
-        data = image.largeIconData
-        len = data.length
-        println(len)
         
         var image = PFObject(className: "Image")
         image.setObject(photoFileEntity, forKey: "photo")

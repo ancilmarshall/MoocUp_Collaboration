@@ -30,8 +30,8 @@ class CourseTableViewController: UITableViewController {
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        fetchFromMoocApi(nil)
-        //fetchFromParse(nil)
+        //fetchFromMoocApi(nil)
+        fetchFromParse(nil)
     }
     
     
@@ -46,7 +46,7 @@ class CourseTableViewController: UITableViewController {
         }
     }
 
-    let queryLimit :Int = 2
+    let queryLimit :Int = 100
     
     @IBAction func fetchFromParse(sender:AnyObject?)
     {
@@ -56,18 +56,34 @@ class CourseTableViewController: UITableViewController {
         query.includeKey("instructors")
         query.includeKey("categories")
         query.includeKey("sessions")
-        //query.includeKey("universities")
+        query.includeKey("universities")
         query.limit = queryLimit
+        query.orderByAscending("createdAt")
+        
+        var categoryQuery = PFQuery(className: "Category")
+        categoryQuery.whereKey("name", equalTo: "Law")
+        
+        query.whereKey("categories", matchesQuery: categoryQuery)
         
         query.findObjectsInBackgroundWithBlock {
             ( objects: [AnyObject]?, error: NSError?) -> Void in
             
             if error == nil {
-                //success
                 
                 if let foundCourses = objects as? [PFObject] {
                     
                     self.courses = foundCourses.map{ Course(object: $0) }
+                    
+                    for course in self.courses {
+                        
+                        for category in course.categories {
+                            if category.name == "Law"{
+                                println("Law")
+                            }
+                        
+                        }
+                    }
+                    
                     
                     dispatch_async(dispatch_get_main_queue()){
                         self.tableView.reloadData()
@@ -104,7 +120,7 @@ class CourseTableViewController: UITableViewController {
         if let firstUniversity = course.universities.first {
             cell.universityIdsLabel?.text = firstUniversity.name
         }
-
+        
         if let firstCategory = course.categories.first {
             cell.categoryIdsLabel?.text = firstCategory.name
         }
