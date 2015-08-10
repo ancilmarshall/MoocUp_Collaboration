@@ -704,19 +704,21 @@ class CourseraApiManager
                     
                 } else if modelKey.hasPrefix("Language") {
                     
-                    for language in course.languages {
-                        
-                        //only pass in strings for the key/value pair of the dictionary
-                        var keyValueDict = [ "name": language.valueForKey("name") as! String ]
-                        
-                        addRelation(toEntity: courseEntity, forRelationKey: "languages",
-                            withObjectClass: kLanguageClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
-                    }
+//                    for language in course.languages {
+//                        
+//                        //only pass in strings for the key/value pair of the dictionary
+//                        var keyValueDict = [ "name": language.valueForKey("name") as! String ]
+//                        
+//                        addRelation(toEntity: courseEntity, forRelationKey: "languages",
+//                            withObjectClass: kLanguageClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
+//                    }
                     
                 } else {
                     courseEntity.setObject(course.valueForKey(modelKey) as! String, forKey: modelKey)
                 }
             }
+            
+            
             
             // add Mooc relations to course
             for mooc in course.moocs {
@@ -728,7 +730,8 @@ class CourseraApiManager
                     withObjectClass: kMoocClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
             }
             
-            
+            if false {
+
             // add Instructor relations to course
             for instructor in course.instructors {
                 
@@ -826,10 +829,20 @@ class CourseraApiManager
                     withObjectClass: kSessionClassName, andObjectKeyValueDict: dict,
                     extraAttrs: extraAttrs)
             }
-            
-            let id = courseEntity.valueForKey("id") as! String
-            println("Course id is: \(id) ")
-            courseEntity.saveInBackground()
+                
+            }
+
+            courseEntity.saveInBackgroundWithBlock({ (success, error) -> Void in
+                
+                if error != nil {
+                    println("error detected")
+                    
+                }
+                if success {
+                    println("success")
+                }
+                
+            })
             println("Courses saved ...  \(++saveCount)")
         }
     }
@@ -853,7 +866,7 @@ class CourseraApiManager
         })
         
         var error = NSErrorPointer()
-        var objects = query.findObjects(error) //synchronous
+        var objects = query.findObjects(error) //synchronous, issues Warning of long-running operation
         
         if error != nil {
             println("error finding object in Parse")
@@ -898,11 +911,15 @@ class CourseraApiManager
                         }
                     })
                 }
-                relationEntity.save() //synchronous
+                relationEntity.save() //synchronous, issues warning of long-running operation
             }
             
-            var newRelation = entity.relationForKey(relationKey)
-            newRelation.addObject(relationEntity)
+            //add relation using PFRelation
+            //var newRelation = entity.relationForKey(relationKey)
+            //newRelation.addObject(relationEntity)
+            
+            //add relation uing Array
+            entity.addObject(relationEntity, forKey: relationKey)
             
         }
     }
@@ -913,6 +930,19 @@ class CourseraApiManager
         var photoFileEntity = PFFile(name:"photo.jpg", data:image.photoData )
         var smallIconFileEntity = PFFile(name:"smallIcon.jpg", data:image.smallIconData)
         var largeIconFileEntity = PFFile(name:"largeIcon.jpg", data:image.largeIconData)
+        
+        var len:Int
+        var data:NSData
+        data = image.photoData
+        len = data.length
+        println(len)
+        data = image.smallIconData
+        len = data.length
+        println(len)
+        data = image.largeIconData
+        len = data.length
+        println(len)
+        
         var image = PFObject(className: "Image")
         image.setObject(photoFileEntity, forKey: "photo")
         image.setObject(smallIconFileEntity, forKey: "smallIcon")
