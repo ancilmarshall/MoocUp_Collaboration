@@ -480,7 +480,7 @@ class CourseraApiManager
         //loop through all fetchedCourses and construct Course model
         for courseData in coursesJSONData!
         {
-            if (count == 1){
+            if (count == 10){
                 break
             }
             println("Parsing course \(++count) of \(totalCount)...")
@@ -730,7 +730,6 @@ class CourseraApiManager
                     withObjectClass: kMoocClassName, andObjectKeyValueDict: keyValueDict, extraAttrs: nil)
             }
             
-            if false {
 
             // add Instructor relations to course
             for instructor in course.instructors {
@@ -829,8 +828,7 @@ class CourseraApiManager
                     withObjectClass: kSessionClassName, andObjectKeyValueDict: dict,
                     extraAttrs: extraAttrs)
             }
-                
-            }
+            
 
             courseEntity.saveInBackgroundWithBlock({ (success, error) -> Void in
                 

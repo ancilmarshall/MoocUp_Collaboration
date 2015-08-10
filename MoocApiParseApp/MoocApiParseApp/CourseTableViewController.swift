@@ -46,7 +46,7 @@ class CourseTableViewController: UITableViewController {
         }
     }
 
-    let queryLimit :Int? = 5
+    let queryLimit :Int = 2
     
     @IBAction func fetchFromParse(sender:AnyObject?)
     {
@@ -56,60 +56,21 @@ class CourseTableViewController: UITableViewController {
         query.includeKey("instructors")
         query.includeKey("categories")
         query.includeKey("sessions")
-        query.includeKey("universities")
-        if let limit = queryLimit {
-            query.limit = limit
-        }
+        //query.includeKey("universities")
+        query.limit = queryLimit
         
         query.findObjectsInBackgroundWithBlock {
             ( objects: [AnyObject]?, error: NSError?) -> Void in
             
             if error == nil {
+                //success
                 
                 if let foundCourses = objects as? [PFObject] {
                     
-                    for course in foundCourses  {
-                        
-                        var newCourse = Course()
-                        newCourse.id = course["id"] as! String
-                        newCourse.name = course["name"] as! String
-                        newCourse.summary = course["summary"] as! String
-                        
+                    self.courses = foundCourses.map{ Course(object: $0) }
                     
-//                        self.addImage(course, { (image:Image?) in
-//                            if let image = image {
-//                                newCourse.image = image
-//                                dispatch_async(dispatch_get_main_queue()){
-//                                    self.tableView.reloadData()
-//                                }
-//                            }
-//                        })
-                        
-                        if let instructors = course.objectForKey("instructors") as? [PFObject] {
-                            newCourse.instructors = instructors.map{ Instructor(object: $0) }
-                        }
-
-                        if let universities = course["universities"] as? [PFObject] {
-                            newCourse.universities = universities.map{ University(object: $0) }
-                        }
-                        
-                        if let sessions = course["sessions"] as? [PFObject] {
-                            newCourse.sessions = sessions.map{ Session(object: $0) }
-                        }
-                        
-                        if let categories = course["categories"] as? [PFObject] {
-                            newCourse.categories = categories.map{ Category(object: $0) }
-                        }
-                        
-                        self.courses.append(newCourse)
-                        
-                        if let limit = self.queryLimit {
-                            if self.courses.count == limit {
-                                dispatch_async(dispatch_get_main_queue()){
-                                    self.tableView.reloadData()
-                                }
-                            }
-                        }
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.tableView.reloadData()
                     }
                 }
             }
@@ -118,24 +79,6 @@ class CourseTableViewController: UITableViewController {
             }
         }
     }
-    
-
-    
-    func addImage(course:PFObject, _ completionHandler:(image:Image?)->Void ){
-        
-        var newImage = Image()
-        if let imageObject = course["image"] as? PFObject {
-            let photoImageFile = imageObject["photo"] as! PFFile
-            photoImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
-            
-                if let data = data{
-                    newImage.photoData = data
-                }
-            }
-        }
-        completionHandler(image: newImage)
-    }
-    
 
     //MARK: - TableView Data Source Delegate Methods
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
