@@ -19,7 +19,8 @@ class CourseTableViewController: UITableViewController {
     
     let moocApiManager = CourseraApiManager()
     let parseManager = ParseManager()
-    var courses:[Course] = [Course]()
+    var courses = [Course]()
+    var imageSetIndicies = [Int]()
     
     
     //MARK: - View Life Cycle
@@ -30,11 +31,29 @@ class CourseTableViewController: UITableViewController {
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         
+        //TODO: remove the notification
+        NSNotificationCenter.defaultCenter()
+            .addObserver(self, selector: Selector("courseImageSetNotification:"),
+                name: kCourseImageSetNotificationName, object: nil)
+        
         //fetchFromMoocApi(nil)
         fetchFromParse(nil)
     }
+
+
+func courseImageSetNotification(notification:NSNotification) {
+    
+    var course = notification.object as! Course
+    var index = (self.courses as NSArray).indexOfObject(course)
+    var indexPath = NSIndexPath(forRow: index, inSection: 0)
+    
+    //println("Course at index \(index) Image Set Notification Received")
+    
+    //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
     
     
+}
+
     @IBAction func fetchFromMoocApi(sender:AnyObject?)
     {
         moocApiManager.fetchCoursesFromApiWithBlock { newCourses in
@@ -45,8 +64,6 @@ class CourseTableViewController: UITableViewController {
             }
         }
     }
-
-    let queryLimit :Int = 100
     
     @IBAction func fetchFromParse(sender:AnyObject?)
     {
@@ -57,37 +74,20 @@ class CourseTableViewController: UITableViewController {
         query.includeKey("categories")
         query.includeKey("sessions")
         query.includeKey("universities")
-        query.limit = queryLimit
-        query.orderByAscending("createdAt")
+        query.limit = 100
         
-        var categoryQuery = PFQuery(className: "Category")
-        categoryQuery.whereKey("name", equalTo: "Law")
-        
-        query.whereKey("categories", matchesQuery: categoryQuery)
+        //query.orderByAscending("createdAt")
+        //var categoryQuery = PFQuery(className: "Category")
+        //categoryQuery.whereKey("name", equalTo: "Law")
+        //query.whereKey("categories", matchesQuery: categoryQuery)
         
         query.findObjectsInBackgroundWithBlock {
             ( objects: [AnyObject]?, error: NSError?) -> Void in
             
             if error == nil {
-                
                 if let foundCourses = objects as? [PFObject] {
-                    
                     self.courses = foundCourses.map{ Course(object: $0) }
-                    
-                    for course in self.courses {
-                        
-                        for category in course.categories {
-                            if category.name == "Law"{
-                                println("Law")
-                            }
-                        
-                        }
-                    }
-                    
-                    
-                    dispatch_async(dispatch_get_main_queue()){
-                        self.tableView.reloadData()
-                    }
+                    self.tableView.reloadData()
                 }
             }
             else {
@@ -107,6 +107,7 @@ class CourseTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)-> CourseTableViewCell
     {
+        println("cell")
         var cell = tableView.dequeueReusableCellWithIdentifier(kTableViewCellIdentifier)
             as! CourseTableViewCell
         var course = courses[indexPath.row]

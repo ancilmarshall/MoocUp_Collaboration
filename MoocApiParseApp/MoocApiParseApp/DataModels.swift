@@ -13,6 +13,13 @@
 import Foundation
 import Parse
 
+let kImageSetNotificationName = "ImageSetNotificationName"
+let kCourseImageSetNotificationName = "CourseImageSetNotificationName"
+let kInstructorImageSetNotificationName = "InstructorImageSetNotificationName"
+let kUniversityImageSetNotificationName = "UniversityImageSetNotificationName"
+let kCategoryImageSetNotificationName = "CategoryImageSetNotificationName"
+
+//MARK: - Base
 class Base : NSObject {
     
     var id = String()
@@ -20,31 +27,25 @@ class Base : NSObject {
     var summary = String()
     
     override init() {
-        id = String()
-        name = String()
-        summary = String()
-        
         super.init()
     }
     
     init(object: PFObject) {
         
-        if object.createdAt == nil {
-            return
+        if object.createdAt != nil {
+            
+            if let id = object["id"] as? String {
+                self.id = id
+            }
+            
+            if let name = object["name"] as? String {
+                self.name = name
+            }
+            
+            if let summary = object["summary"] as? String {
+                self.summary = summary
+            }
         }
-        
-        if let id = object["id"] as? String {
-            self.id = id
-        }
-        
-        if let name = object["name"] as? String {
-            self.name = name
-        }
-        
-        if let summary = object["summary"] as? String {
-            self.summary = summary
-        }
-        
     }
     
     override func isEqual(object: AnyObject?) -> Bool {
@@ -56,23 +57,19 @@ class Base : NSObject {
     }
 }
 
+//MARK: - Course
 class Course : Base
 {
     var prerequisite = String()
     var workload = String()
     var videoLink = String()
-    var groups = [String]() //not sure about this. Maybe a join table
     var image = Image()
     var moocs = [Mooc]()
     var languages = [Language]()
     var categories = [Category]()
-    //var followers = [User]()
     var universities = [University]()
     var instructors = [Instructor]()
     var sessions = [Session]()
-    
-    var imageSet = false
-    var initialized = false
     
     override init() {
         super.init()
@@ -80,6 +77,8 @@ class Course : Base
     
     override init(object: PFObject) {
         
+        super.init(object: object)
+
         if object.createdAt != nil {
             
             if let prerequisite = object["prerequisite"] as? String {
@@ -94,14 +93,17 @@ class Course : Base
                 self.videoLink = videoLink
             }
             
-            if let image = object["iamge"] as? PFObject {
+            if let image = object["image"] as? PFObject {
                 self.image = Image(object: image)
+                //TODO: remove the notification
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("imageSetNotification:"), name: kImageSetNotificationName, object: self.image)
             }
             
             if let moocs = object["moocs"] as? [PFObject] {
                 self.moocs = moocs.map{ Mooc(object: $0)}
             }
             
+            //TODO: Does the image for the instructor come with, or do I need to do an include?
             if let instructors = object["instructors"] as? [PFObject] {
                 self.instructors = instructors.map{ Instructor(object: $0) }
             }
@@ -118,14 +120,22 @@ class Course : Base
                 self.categories = categories.map{ Category(object: $0) }
             }
         }
-        
-        super.init(object: object)
     }
     
+    func imageSetNotification(notification: NSNotification){
+        
+        assert(notification.name == kImageSetNotificationName,"Expected an ImageSetNotification notification")
+        assert(notification.object as! Image == self.image,"Expected notification object to be image attribute of my instance")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(kCourseImageSetNotificationName, object:self)
+
+        
+    }
     
     
 }
 
+//MARK: - Mooc
 class Mooc : Base {
     
     var website = String()
@@ -141,25 +151,53 @@ class Mooc : Base {
             
             if let website = object["website"] as? String {
                 self.website = website
-            }
-            
+            }            
         }
-        // course?
         super.init(object: object)
     }
-    
-    
 }
 
+//MARK:- Language
 class Language : Base {
     var language = String()
 }
 
+//MARK: - Image
 class Image : Base
 {
     var photoData = NSData()
     var smallIconData = NSData()
     var largeIconData = NSData()
+    
+    var imageSet:Bool = false {
+        didSet{
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName(kImageSetNotificationName, object:self)
+        }
+    }
+    
+    var photoDataSet:Bool = false {
+        
+        didSet{
+            if smallIconDataSet && largeIconDataSet {
+                imageSet = true
+            }
+        }
+    }
+    var smallIconDataSet:Bool = false {
+        didSet{
+            if photoDataSet && largeIconDataSet {
+                imageSet = true
+            }
+        }
+    }
+    var largeIconDataSet:Bool = false {
+        didSet {
+            if photoDataSet && smallIconDataSet {
+                imageSet = true
+            }
+        }
+    }
     
     override init() {
         super.init()
@@ -170,40 +208,43 @@ class Image : Base
         super.init(object: object)
         
         if object.createdAt != nil {
-            
-            if let imageObject = object["image"] as? PFObject {
-                if let photoImageFile = imageObject["photo"] as? PFFile {
-                    photoImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) in
-                        if let data = data {
-                            self.photoData = data
-                        }
+
+            if let photoImageFile = object["photo"] as? PFFile {
+                photoImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) in
+                    if let data = data {
+                        self.photoData = data
+                        self.photoDataSet = true
                     }
                 }
-                
-                if let smallIconImageFile = imageObject["smallIcon"] as? PFFile {
-                    smallIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
+            }
+
+            if let smallIconImageFile = object["smallIcon"] as? PFFile {
+                smallIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
+                    
+                    if let data = data {
+                        self.smallIconData = data
+                        self.smallIconDataSet = true
                         
-                        if let data = data {
-                            self.smallIconData = data
-                        }
                     }
                 }
-                
-                if let largeIconImageFile = imageObject["largeIcon"] as? PFFile {
-                    largeIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
+            }
+        
+            if let largeIconImageFile = object["largeIcon"] as? PFFile {
+                largeIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
+                    
+                    if let data = data {
+                        self.largeIconData = data
+                        self.largeIconDataSet = true
                         
-                        if let data = data {
-                            self.largeIconData = data
-                        }
                     }
                 }
             }
             
         }
-        
     }
 }
 
+//MARK:- Category
 //TODO: Add a category image, by designing new graphics or using external resource
 class Category : Base
 {
@@ -227,28 +268,9 @@ class Category : Base
         //TODO: passing another object to create courses, or a setter
         
     }
-    
-    
 }
 
-class User : Base
-{
-    var settings = [UserSettings]()
-    var location = Location()
-}
-
-class Location: Base
-{
-    var city = String()
-    var state = String()
-    var country = String()
-    
-}
-
-class UserSettings : Base
-{
-    var categories = [Category]()
-}
+//MARK:- Instructor
 
 class Instructor : Base
 {
@@ -271,7 +293,7 @@ class Instructor : Base
         
         super.init(object: object)
         
-        //TODO: update Image
+        //TODO: update Image, and investigate if need to add a new includeKey to get the image
         //TODO: passing another object to create courses, or a setter
         
     }
@@ -287,6 +309,7 @@ class Instructor : Base
     }
 }
 
+//MARK: - University
 class University : Base
 {
     var website = String()
@@ -316,6 +339,7 @@ class University : Base
     
 }
 
+//MARK: - Session
 class Session : Base
 {
     var homeLink = String()
@@ -351,8 +375,26 @@ class Session : Base
         //TODO: passing another object to create courses, or a setter
         
     }
+
+}
+
+class User : Base
+{
+    var settings = [UserSettings]()
+    var location = Location()
+}
+
+class Location: Base
+{
+    var city = String()
+    var state = String()
+    var country = String()
     
-    
+}
+
+class UserSettings : Base
+{
+    var categories = [Category]()
 }
 
 class Review: Base
