@@ -63,6 +63,7 @@ class Course : Base
     var prerequisite = String()
     var workload = String()
     var videoLink = String()
+    //var targetAudience = String()
     var image = Image()
     var moocs = [Mooc]()
     var languages = [Language]()
@@ -129,7 +130,6 @@ class Course : Base
         
         NSNotificationCenter.defaultCenter().postNotificationName(kCourseImageSetNotificationName, object:self)
 
-        
     }
     
     
@@ -284,20 +284,39 @@ class Instructor : Base
     
     override init(object: PFObject) {
         
+        super.init(object: object)
+        
         if object.createdAt != nil {
             
             if let website = object["website"] as? String {
                 self.website = website
             }
+            
+            if let imageObject = object["image"] as? PFObject {
+                
+                if imageObject.createdAt != nil {
+                    self.image = Image(object: imageObject)
+                    NSNotificationCenter.defaultCenter().addObserver(
+                        self, selector: Selector("imageSetNotification:"),
+                        name: kInstructorImageSetNotificationName, object: self.image)
+
+                }
+            }
         }
-        
-        super.init(object: object)
-        
-        //TODO: update Image, and investigate if need to add a new includeKey to get the image
         //TODO: passing another object to create courses, or a setter
-        
     }
     
+    func imageSetNotification(notification: NSNotification){
+        
+        assert(notification.name == kInstructorImageSetNotificationName,
+            "Expected an InstructorImageSetNotification notification")
+        assert(notification.object as! Image == self.image,
+            "Expected notification object to be image attribute of my instance")
+        
+        NSNotificationCenter.defaultCenter()
+            .postNotificationName(kInstructorImageSetNotificationName, object:self)
+        
+    }
     
     //test for Instructor equality based on the name
     override func isEqual(object: AnyObject?) -> Bool {
@@ -335,7 +354,6 @@ class University : Base
         //TODO: passing another object to create courses, or a setter
         
     }
-    
     
 }
 

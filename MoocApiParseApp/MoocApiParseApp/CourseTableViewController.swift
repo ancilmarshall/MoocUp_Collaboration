@@ -41,18 +41,17 @@ class CourseTableViewController: UITableViewController {
     }
 
 
-func courseImageSetNotification(notification:NSNotification) {
-    
-    var course = notification.object as! Course
-    var index = (self.courses as NSArray).indexOfObject(course)
-    var indexPath = NSIndexPath(forRow: index, inSection: 0)
-    
-    //println("Course at index \(index) Image Set Notification Received")
-    
-    //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-    
-    
-}
+    func courseImageSetNotification(notification:NSNotification) {
+        
+        var course = notification.object as! Course
+        var index = (self.courses as NSArray).indexOfObject(course)
+        var indexPath = NSIndexPath(forRow: index, inSection: 0)
+        
+        //println("Course at index \(index) Image Set Notification Received")
+        
+        //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        
+    }
 
     @IBAction func fetchFromMoocApi(sender:AnyObject?)
     {
@@ -71,15 +70,17 @@ func courseImageSetNotification(notification:NSNotification) {
         query.includeKey("image")
         query.includeKey("moocs")
         query.includeKey("instructors")
+        query.includeKey("instructors.image")
         query.includeKey("categories")
         query.includeKey("sessions")
         query.includeKey("universities")
         query.limit = 100
         
         //query.orderByAscending("createdAt")
-        //var categoryQuery = PFQuery(className: "Category")
-        //categoryQuery.whereKey("name", equalTo: "Law")
-        //query.whereKey("categories", matchesQuery: categoryQuery)
+        
+        var categoryQuery = PFQuery(className: "Category")
+        categoryQuery.whereKey("name", equalTo: "Law")
+        query.whereKey("categories", matchesQuery: categoryQuery)
         
         query.findObjectsInBackgroundWithBlock {
             ( objects: [AnyObject]?, error: NSError?) -> Void in
@@ -107,7 +108,6 @@ func courseImageSetNotification(notification:NSNotification) {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)-> CourseTableViewCell
     {
-        println("cell")
         var cell = tableView.dequeueReusableCellWithIdentifier(kTableViewCellIdentifier)
             as! CourseTableViewCell
         var course = courses[indexPath.row]
