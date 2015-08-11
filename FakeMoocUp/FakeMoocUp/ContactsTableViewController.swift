@@ -19,9 +19,9 @@ class ContactsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let split = self.splitViewController {
+        if let split = splitViewController {
             let controllers = split.viewControllers
-            self.detailViewController = controllers[controllers.count-1].topViewController as? MessagesTableViewController
+            detailViewController = controllers.last?.topViewController as? MessagesTableViewController
         }
     }
     
@@ -42,10 +42,12 @@ class ContactsTableViewController: UITableViewController {
             let navigationController = segue.destinationViewController as! UINavigationController
             let controller = navigationController.topViewController as! MessagesTableViewController
             let indexPath = tableView.indexPathForSelectedRow()!
-            controller.contact = contactsArray[indexPath.row]
+            let contactName = contactsArray[indexPath.row]
+            controller.contact = contactName
+            controller.title = "Messages with \(contactName)"
             
             // Split
-            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+            controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem()
             controller.navigationItem.leftItemsSupplementBackButton = true
         }
     }

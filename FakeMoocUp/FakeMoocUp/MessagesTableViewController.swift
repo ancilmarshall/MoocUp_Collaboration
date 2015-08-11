@@ -3,14 +3,9 @@ import UIKit
 
 class MessagesTableViewController: UITableViewController {
 
-    var contact = ""
+    var contact: String!
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

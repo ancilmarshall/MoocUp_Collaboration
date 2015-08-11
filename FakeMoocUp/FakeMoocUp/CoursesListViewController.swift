@@ -20,7 +20,7 @@ class CoursesListViewController: UITableViewController {
         
         if let split = self.splitViewController {
             let controllers = split.viewControllers
-            self.detailViewController = controllers[controllers.count-1].topViewController as? CourseTableViewController
+            detailViewController = controllers[controllers.count-1].topViewController as? CourseTableViewController
         }
 
         NSURLService.loadDataFromURL(Constants.courseraURL) { [weak self] data, error in
@@ -59,12 +59,11 @@ class CoursesListViewController: UITableViewController {
         if segue.identifier == "Course" {
             let navigationController = segue.destinationViewController as! UINavigationController
             let controller = navigationController.topViewController as! CourseTableViewController
-//            let controller = segue.destinationViewController as! CourseTableViewController
             let indexPath = tableView.indexPathForSelectedRow()!
             controller.course = coursesArray[indexPath.row]
             
             // Split
-            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+            controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem()
             controller.navigationItem.leftItemsSupplementBackButton = true
         }
     }

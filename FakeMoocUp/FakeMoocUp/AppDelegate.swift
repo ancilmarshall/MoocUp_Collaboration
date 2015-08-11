@@ -11,16 +11,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         let tabBarController = self.window!.rootViewController as! UITabBarController
         
-        // Set UISplitViewController properties for Courses UIViewControllers & UITableViewControllers
+        // Set split view controller properties for Courses
         let coursesSplitViewController = tabBarController.viewControllers?.first as! UISplitViewController
-        let coursesNavigationController = coursesSplitViewController.viewControllers[coursesSplitViewController.viewControllers.count-1] as! UINavigationController
+        let coursesNavigationController = coursesSplitViewController.viewControllers.last as! UINavigationController
         coursesNavigationController.topViewController.navigationItem.leftBarButtonItem = coursesSplitViewController.displayModeButtonItem()
         coursesSplitViewController.delegate = self
+        coursesSplitViewController.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
 
+        // Set split view controller properties for Contacts & Messages
         let messagesSplitViewController = tabBarController.viewControllers?.last as! UISplitViewController
-        let messagesNavigationController = messagesSplitViewController.viewControllers[messagesSplitViewController.viewControllers.count-1] as! UINavigationController
+        let messagesNavigationController = messagesSplitViewController.viewControllers.last as! UINavigationController
         messagesNavigationController.topViewController.navigationItem.leftBarButtonItem = messagesSplitViewController.displayModeButtonItem()
         messagesSplitViewController.delegate = self
+        messagesSplitViewController.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
+
+        // Set tab bar controller's name and image for Courses
+        coursesSplitViewController.tabBarItem.title = "Courses"
+        coursesSplitViewController.tabBarItem.image = UIImage(named: "first")
+
+        // Set tab bar controller's name and image for Courses
+        messagesSplitViewController.tabBarItem.title = "Contacts"
+        messagesSplitViewController.tabBarItem.image = UIImage(named: "second")
+
+        // Set tab bar controller's name and image for Map
+        let mapNavigationController = tabBarController.viewControllers?[1] as! UINavigationController
+        mapNavigationController.tabBarItem.title = "Map"
+        mapNavigationController.tabBarItem.image = UIImage(named: "second")
 
         return true
     }
@@ -53,7 +69,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         if let secondaryAsNavController = secondaryViewController as? UINavigationController {
             if let topAsDetailController = secondaryAsNavController.topViewController as? CourseTableViewController {
                 if topAsDetailController.course == nil {
-                    // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
+                    return true
+                }
+            }
+            if let topAsDetailController = secondaryAsNavController.topViewController as? MessagesTableViewController {
+                if topAsDetailController.contact == nil {
                     return true
                 }
             }

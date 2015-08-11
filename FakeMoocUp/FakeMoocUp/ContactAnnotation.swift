@@ -1,7 +1,7 @@
 
 import MapKit
 
-class FriendAnnotation: NSObject, MKAnnotation {
+class ContactAnnotation: NSObject, MKAnnotation {
     
     let title: String
     let locationName: String

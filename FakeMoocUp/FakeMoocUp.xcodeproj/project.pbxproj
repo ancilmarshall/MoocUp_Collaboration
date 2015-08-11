@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C70BB0391B7448D500D33606 /* FriendAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BB0381B7448D500D33606 /* FriendAnnotation.swift */; };
+		C70BB0391B7448D500D33606 /* ContactAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BB0381B7448D500D33606 /* ContactAnnotation.swift */; };
 		C720ED051B750D2100BC9DD2 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C720ED041B750D2000BC9DD2 /* ContactsTableViewController.swift */; };
 		C720ED071B750D6600BC9DD2 /* MessagesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C720ED061B750D6600BC9DD2 /* MessagesTableViewController.swift */; };
 		C738C51D1B73B41700174C65 /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C738C51C1B73B41700174C65 /* NameTableViewCell.swift */; };
@@ -38,7 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C70BB0381B7448D500D33606 /* FriendAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendAnnotation.swift; sourceTree = "<group>"; };
+		C70BB0381B7448D500D33606 /* ContactAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactAnnotation.swift; sourceTree = "<group>"; };
 		C720ED041B750D2000BC9DD2 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
 		C720ED061B750D6600BC9DD2 /* MessagesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesTableViewController.swift; sourceTree = "<group>"; };
 		C738C51C1B73B41700174C65 /* NameTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				C75DFA1A1B73F01900964F09 /* MapViewController.swift */,
-				C70BB0381B7448D500D33606 /* FriendAnnotation.swift */,
+				C70BB0381B7448D500D33606 /* ContactAnnotation.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -288,7 +288,7 @@
 				C738C51D1B73B41700174C65 /* NameTableViewCell.swift in Sources */,
 				C7FD653C1B72A2400084D01B /* CourseTableViewController.swift in Sources */,
 				C7FD653E1B72A8410084D01B /* TextViewTableViewCell.swift in Sources */,
-				C70BB0391B7448D500D33606 /* FriendAnnotation.swift in Sources */,
+				C70BB0391B7448D500D33606 /* ContactAnnotation.swift in Sources */,
 				C720ED071B750D6600BC9DD2 /* MessagesTableViewController.swift in Sources */,
 				C7FD65401B72BB430084D01B /* FiltersTableViewController.swift in Sources */,
 				C741E7F91B72754B0093BDA9 /* AppDelegate.swift in Sources */,

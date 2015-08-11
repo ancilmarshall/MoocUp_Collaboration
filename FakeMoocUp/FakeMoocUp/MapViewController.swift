@@ -1,10 +1,3 @@
-//
-//  MapViewController.swift
-//  FakeMoocUp
-//
-//  Created by Imanou PETIT on 06/08/2015.
-//  Copyright (c) 2015 Imanou PETIT. All rights reserved.
-//
 
 import UIKit
 import MapKit
@@ -53,8 +46,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.addAnnotation(annotation)
             */
             
-            // FriendAnnotation (subclass of MKAnnotation)
-            let annotation = FriendAnnotation(title: "New pin", locationName: "Bô kay manman'w", coordinate: coordinate)
+            // ContactAnnotation (subclass of MKAnnotation)
+            let annotation = ContactAnnotation(title: "New pin", locationName: "Bô kay manman'w", coordinate: coordinate)
             mapView.addAnnotation(annotation)
         }
     }
@@ -62,7 +55,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: - MKMapViewDelegate
     // Add accessoryView to comments
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-        if let annotation = annotation as? FriendAnnotation {
+        if let annotation = annotation as? ContactAnnotation {
             let identifier = "pin"
             var view: MKPinAnnotationView
             
