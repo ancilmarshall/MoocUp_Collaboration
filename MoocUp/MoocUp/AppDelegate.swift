@@ -1,21 +1,27 @@
-//
-//  AppDelegate.swift
-//  MoocUp
-//
-//  Created by Ancil on 8/12/15.
-//  Copyright (c) 2015 Ancil Marshall. All rights reserved.
-//
 
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
 
     var window: UIWindow?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+
+        let tabBarController = self.window!.rootViewController as! UITabBarController
+        
+        // Set split view controller properties for Courses
+        let coursesSplitViewController = tabBarController.viewControllers?.first as! UISplitViewController
+        let coursesNavigationController = coursesSplitViewController.viewControllers.last as! UINavigationController
+        coursesNavigationController.topViewController.navigationItem.leftBarButtonItem = coursesSplitViewController.displayModeButtonItem()
+        coursesSplitViewController.delegate = self
+        coursesSplitViewController.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
+
+        // Set tab bar controller's name and image for Courses
+        coursesSplitViewController.tabBarItem.title = "Courses"
+        coursesSplitViewController.tabBarItem.image = UIImage(named: "first")
+
         return true
     }
 
@@ -40,7 +46,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
+    // MARK: - Split view
+    
+    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController!, ontoPrimaryViewController primaryViewController:UIViewController!) -> Bool {
+        if let secondaryAsNavController = secondaryViewController as? UINavigationController {
+            if let topAsDetailController = secondaryAsNavController.topViewController as? CourseDetailViewController {
+                if topAsDetailController.course == nil {
+                    return true
+                }
+            }
+        }
+        return false
+    }
 
 }
-
