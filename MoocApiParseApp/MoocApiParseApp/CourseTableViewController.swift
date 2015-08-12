@@ -20,7 +20,7 @@ class CourseTableViewController: UITableViewController {
     let moocApiManager = CourseraApiManager()
     let parseManager = ParseManager()
     var courses = [Course]()
-    var imageSetIndicies = [Int]()
+    var imageSetIndicies = [Int:Bool]()
     
     
     //MARK: - View Life Cycle
@@ -36,8 +36,8 @@ class CourseTableViewController: UITableViewController {
             .addObserver(self, selector: Selector("courseImageSetNotification:"),
                 name: kCourseImageSetNotificationName, object: nil)
         
-        fetchFromMoocApi(nil)
-        //fetchFromParse(nil)
+        //fetchFromMoocApi(nil)
+        fetchFromParse(nil)
     }
 
 
@@ -46,10 +46,10 @@ class CourseTableViewController: UITableViewController {
         var course = notification.object as! Course
         var index = (self.courses as NSArray).indexOfObject(course)
         var indexPath = NSIndexPath(forRow: index, inSection: 0)
+        imageSetIndicies[index] = true
+        println("Course at index \(index) Image Set Notification Received")
         
-        //println("Course at index \(index) Image Set Notification Received")
-        
-        //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
         
     }
 
@@ -78,9 +78,9 @@ class CourseTableViewController: UITableViewController {
         
         //query.orderByAscending("createdAt")
         
-        var categoryQuery = PFQuery(className: "Category")
-        categoryQuery.whereKey("name", equalTo: "Law")
-        query.whereKey("categories", matchesQuery: categoryQuery)
+//        var categoryQuery = PFQuery(className: "Category")
+//        categoryQuery.whereKey("name", equalTo: "Law")
+//        query.whereKey("categories", matchesQuery: categoryQuery)
         
         query.findObjectsInBackgroundWithBlock {
             ( objects: [AnyObject]?, error: NSError?) -> Void in
@@ -112,6 +112,15 @@ class CourseTableViewController: UITableViewController {
             as! CourseTableViewCell
         var course = courses[indexPath.row]
     
+        
+        if imageSetIndicies[indexPath.row] == true {
+            println("Setting image for cell at index \(indexPath.row)")
+            //cell.image = UIImage(data:course.image.photoData)
+        }
+        else {
+            println("Cell image not yet set")
+        }
+        
         cell.titleLabel?.text =  course.name
         
         if let firstSession = course.sessions.first {

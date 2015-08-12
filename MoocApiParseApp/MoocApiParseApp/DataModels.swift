@@ -120,6 +120,10 @@ class Course : Base
             if let categories = object["categories"] as? [PFObject] {
                 self.categories = categories.map{ Category(object: $0) }
             }
+            
+            if let languages = object["languages"] as? [PFObject] {
+                self.languages = languages.map{ Language(object: $0)}
+            }
         }
     }
     
@@ -159,7 +163,19 @@ class Mooc : Base {
 
 //MARK:- Language
 class Language : Base {
-    var language = String()
+
+    override init() {
+        super.init()
+    }
+    
+    override init(object: PFObject) {
+        
+        if object.createdAt != nil {
+            
+        }
+        super.init(object: object)
+    }
+
 }
 
 //MARK: - Image
