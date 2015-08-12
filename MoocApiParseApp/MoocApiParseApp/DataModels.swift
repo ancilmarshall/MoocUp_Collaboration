@@ -340,20 +340,45 @@ class University : Base
     }
     
     override init(object: PFObject) {
-        
+
+        super.init(object: object)
+
         if object.createdAt != nil {
             
             if let website = object["website"] as? String {
                 self.website = website
             }
+            
+            if let imageObject = object["image"] as? PFObject {
+                
+                if imageObject.createdAt != nil {
+                    self.image = Image(object: imageObject)
+                    NSNotificationCenter.defaultCenter().addObserver(
+                        self, selector: Selector("imageSetNotification:"),
+                        name: kInstructorImageSetNotificationName, object: self.image)
+                    
+                }
+            }
         }
         
-        super.init(object: object)
         
         //TODO: update Image
         //TODO: passing another object to create courses, or a setter
         
     }
+    
+    func imageSetNotification(notification: NSNotification){
+        
+        assert(notification.name == kUniversityImageSetNotificationName,
+            "Expected a UniversityImageSetNotification notification")
+        assert(notification.object as! Image == self.image,
+            "Expected notification object to be image attribute of my instance")
+        
+        NSNotificationCenter.defaultCenter()
+            .postNotificationName(kUniversityImageSetNotificationName, object:self)
+        
+    }
+
     
 }
 

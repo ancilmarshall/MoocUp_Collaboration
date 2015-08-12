@@ -480,7 +480,7 @@ class CourseraApiManager
         //loop through all fetchedCourses and construct Course model
         for courseData in coursesJSONData!
         {
-            if (count == 100){
+            if (count == 10){
                 break
             }
             println("Parsing course \(++count) of \(totalCount)...")

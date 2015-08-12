@@ -36,8 +36,8 @@ class CourseTableViewController: UITableViewController {
             .addObserver(self, selector: Selector("courseImageSetNotification:"),
                 name: kCourseImageSetNotificationName, object: nil)
         
-        //fetchFromMoocApi(nil)
-        fetchFromParse(nil)
+        fetchFromMoocApi(nil)
+        //fetchFromParse(nil)
     }
 
 
@@ -74,7 +74,7 @@ class CourseTableViewController: UITableViewController {
         query.includeKey("categories")
         query.includeKey("sessions")
         query.includeKey("universities")
-        query.limit = 100
+        query.limit = 10
         
         //query.orderByAscending("createdAt")
         
