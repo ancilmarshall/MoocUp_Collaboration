@@ -13,7 +13,7 @@ class MessagesTableViewController: UITableViewController {
     
     var messages = Dictionary<String,[PFObject]>()
     var messagesKeys = [String]()
-    var conversationMessages = [PFObject]()
+    //var conversationMessages = [PFObject]()
     var refresher: UIRefreshControl!
  
     override func viewDidLoad() {
@@ -33,7 +33,7 @@ class MessagesTableViewController: UITableViewController {
     
     func refresh() {
         
-        conversationMessages.removeAll(keepCapacity: true)
+        //conversationMessages.removeAll(keepCapacity: true)
         messages.removeAll(keepCapacity: true)
         messagesKeys.removeAll(keepCapacity: true)
         
@@ -116,32 +116,18 @@ class MessagesTableViewController: UITableViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.destinationViewController is ConversationViewController {
-            var destVC = segue.destinationViewController as! ConversationViewController
-            destVC.messages = conversationMessages
             
-            //find who this conversation is with
-            destVC.withUser = conversationWith(conversationMessages.first!)
-            
+            if segue.identifier == "showConversation" {
+                var destVC = segue.destinationViewController as! ConversationViewController
+                let indexPath = tableView.indexPathForSelectedRow()!
+                let conversation = reverse(messages[messagesKeys[indexPath.row]]!)
+                destVC.messages = conversation
+                
+                //find who this conversation is with
+                destVC.withUser = conversationWith(conversation.first!)
+                
+            }
         }
-        
-    }
-    
-    
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
-        if identifier == "showConversation" {
-            return false
-        } else {
-            return true
-        }
-        
-    }
-    
-
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //let messagesKeys = (messages as NSDictionary).allKeys as! [String]
-        conversationMessages = reverse(messages[messagesKeys[indexPath.row]]!)
-        
-        performSegueWithIdentifier("showConversation", sender: self)
     }
     
     
