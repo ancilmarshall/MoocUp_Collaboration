@@ -1,0 +1,52 @@
+
+import UIKit
+
+class CoursesListViewController: UITableViewController {
+    
+    var detailViewController: CourseDetailViewController?
+    var coursesArray = [AnyObject]()
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            self.clearsSelectionOnViewWillAppear = false
+            self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let split = self.splitViewController {
+            let controllers = split.viewControllers
+            detailViewController = controllers[controllers.count-1].topViewController as? CourseDetailViewController
+        }
+
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return coursesArray.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        
+        return cell
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "Course" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let controller = navigationController.topViewController as! CourseDetailViewController
+            let indexPath = tableView.indexPathForSelectedRow()!
+            
+            // Split
+            controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem()
+            controller.navigationItem.leftItemsSupplementBackButton = true
+        }
+    }
+    
+}

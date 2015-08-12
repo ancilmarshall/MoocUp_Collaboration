@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1DE1E0791B7B756800309277 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1E0781B7B756800309277 /* AppDelegate.swift */; };
-		1DE1E07B1B7B756800309277 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1E07A1B7B756800309277 /* ViewController.swift */; };
-		1DE1E07E1B7B756800309277 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E07C1B7B756800309277 /* Main.storyboard */; };
 		1DE1E0801B7B756800309277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E07F1B7B756800309277 /* Images.xcassets */; };
 		1DE1E0831B7B756800309277 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E0811B7B756800309277 /* LaunchScreen.xib */; };
 		1DE1E08F1B7B756900309277 /* MoocUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1E08E1B7B756900309277 /* MoocUpTests.swift */; };
@@ -25,6 +22,11 @@
 		1DE1E0AB1B7B778800309277 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE1E0AA1B7B778800309277 /* SystemConfiguration.framework */; };
 		1DE1E0AD1B7B779200309277 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE1E0AC1B7B779200309277 /* libz.dylib */; };
 		1DE1E0AF1B7B77A100309277 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE1E0AE1B7B77A100309277 /* libsqlite3.dylib */; };
+		C7F166801B7B7C4A00B90C75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7F1667F1B7B7C4A00B90C75 /* Main.storyboard */; };
+		C7F166821B7B7C6400B90C75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F166811B7B7C6400B90C75 /* AppDelegate.swift */; };
+		C7F166851B7B7CE100B90C75 /* CoursesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F166831B7B7CE100B90C75 /* CoursesListViewController.swift */; };
+		C7F166861B7B7CE100B90C75 /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F166841B7B7CE100B90C75 /* CourseDetailViewController.swift */; };
+		C7F1668A1B7B7D0400B90C75 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F166891B7B7D0400B90C75 /* TextViewTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,9 +42,6 @@
 /* Begin PBXFileReference section */
 		1DE1E0731B7B756800309277 /* MoocUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoocUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DE1E0771B7B756800309277 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1DE1E0781B7B756800309277 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1DE1E07A1B7B756800309277 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1DE1E07D1B7B756800309277 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1DE1E07F1B7B756800309277 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1DE1E0821B7B756800309277 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		1DE1E0881B7B756800309277 /* MoocUpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoocUpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +59,11 @@
 		1DE1E0AA1B7B778800309277 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1DE1E0AC1B7B779200309277 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		1DE1E0AE1B7B77A100309277 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		C7F1667F1B7B7C4A00B90C75 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		C7F166811B7B7C6400B90C75 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C7F166831B7B7CE100B90C75 /* CoursesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesListViewController.swift; sourceTree = "<group>"; };
+		C7F166841B7B7CE100B90C75 /* CourseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
+		C7F166891B7B7D0400B90C75 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +99,6 @@
 		1DE1E06A1B7B756800309277 = {
 			isa = PBXGroup;
 			children = (
-				1DE1E0B01B7B77B200309277 /* Frameworks */,
 				1DE1E0751B7B756800309277 /* MoocUp */,
 				1DE1E08B1B7B756800309277 /* MoocUpTests */,
 				1DE1E0741B7B756800309277 /* Products */,
@@ -114,12 +117,14 @@
 		1DE1E0751B7B756800309277 /* MoocUp */ = {
 			isa = PBXGroup;
 			children = (
-				1DE1E0781B7B756800309277 /* AppDelegate.swift */,
-				1DE1E07A1B7B756800309277 /* ViewController.swift */,
-				1DE1E07C1B7B756800309277 /* Main.storyboard */,
+				C7F166811B7B7C6400B90C75 /* AppDelegate.swift */,
+				C7F1667F1B7B7C4A00B90C75 /* Main.storyboard */,
+				C7F166871B7B7CEB00B90C75 /* Courses */,
+				C7F166881B7B7CF300B90C75 /* Course detail */,
 				1DE1E07F1B7B756800309277 /* Images.xcassets */,
 				1DE1E0811B7B756800309277 /* LaunchScreen.xib */,
 				1DE1E0761B7B756800309277 /* Supporting Files */,
+				1DE1E0B01B7B77B200309277 /* Frameworks */,
 			);
 			path = MoocUp;
 			sourceTree = "<group>";
@@ -166,6 +171,24 @@
 				1DE1E0981B7B76D500309277 /* Parse.framework */,
 			);
 			name = Frameworks;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		C7F166871B7B7CEB00B90C75 /* Courses */ = {
+			isa = PBXGroup;
+			children = (
+				C7F166831B7B7CE100B90C75 /* CoursesListViewController.swift */,
+			);
+			name = Courses;
+			sourceTree = "<group>";
+		};
+		C7F166881B7B7CF300B90C75 /* Course detail */ = {
+			isa = PBXGroup;
+			children = (
+				C7F166841B7B7CE100B90C75 /* CourseDetailViewController.swift */,
+				C7F166891B7B7D0400B90C75 /* TextViewTableViewCell.swift */,
+			);
+			name = "Course detail";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,7 +271,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DE1E07E1B7B756800309277 /* Main.storyboard in Resources */,
+				C7F166801B7B7C4A00B90C75 /* Main.storyboard in Resources */,
 				1DE1E0831B7B756800309277 /* LaunchScreen.xib in Resources */,
 				1DE1E0801B7B756800309277 /* Images.xcassets in Resources */,
 			);
@@ -268,8 +291,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DE1E07B1B7B756800309277 /* ViewController.swift in Sources */,
-				1DE1E0791B7B756800309277 /* AppDelegate.swift in Sources */,
+				C7F166821B7B7C6400B90C75 /* AppDelegate.swift in Sources */,
+				C7F1668A1B7B7D0400B90C75 /* TextViewTableViewCell.swift in Sources */,
+				C7F166861B7B7CE100B90C75 /* CourseDetailViewController.swift in Sources */,
+				C7F166851B7B7CE100B90C75 /* CoursesListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,14 +317,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1DE1E07C1B7B756800309277 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1DE1E07D1B7B756800309277 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1DE1E0811B7B756800309277 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -398,6 +415,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -405,6 +423,7 @@
 				INFOPLIST_FILE = MoocUp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -412,6 +431,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -475,6 +495,7 @@
 				1DE1E0941B7B756900309277 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1DE1E0951B7B756900309277 /* Build configuration list for PBXNativeTarget "MoocUpTests" */ = {
 			isa = XCConfigurationList;
@@ -483,6 +504,7 @@
 				1DE1E0971B7B756900309277 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
