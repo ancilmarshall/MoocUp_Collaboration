@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D7F85221B7B839600CEBA59 /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7F85211B7B839600CEBA59 /* DataModels.swift */; };
 		1DE1E0801B7B756800309277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E07F1B7B756800309277 /* Images.xcassets */; };
 		1DE1E0831B7B756800309277 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E0811B7B756800309277 /* LaunchScreen.xib */; };
 		1DE1E08F1B7B756900309277 /* MoocUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1E08E1B7B756900309277 /* MoocUpTests.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D7F85211B7B839600CEBA59 /* DataModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
 		1DE1E0731B7B756800309277 /* MoocUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoocUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DE1E0771B7B756800309277 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DE1E07F1B7B756800309277 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				C7F166811B7B7C6400B90C75 /* AppDelegate.swift */,
+				1D7F85211B7B839600CEBA59 /* DataModels.swift */,
 				C7F1667F1B7B7C4A00B90C75 /* Main.storyboard */,
 				C7F166871B7B7CEB00B90C75 /* Courses */,
 				C7F166881B7B7CF300B90C75 /* Course detail */,
@@ -293,6 +296,7 @@
 			files = (
 				C7F166821B7B7C6400B90C75 /* AppDelegate.swift in Sources */,
 				C7F1668A1B7B7D0400B90C75 /* TextViewTableViewCell.swift in Sources */,
+				1D7F85221B7B839600CEBA59 /* DataModels.swift in Sources */,
 				C7F166861B7B7CE100B90C75 /* CourseDetailViewController.swift in Sources */,
 				C7F166851B7B7CE100B90C75 /* CoursesListViewController.swift in Sources */,
 			);

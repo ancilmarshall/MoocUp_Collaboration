@@ -1,5 +1,7 @@
 
 import UIKit
+import Parse
+import Bolts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -9,6 +11,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        // [Optional] Power your app with Local Datastore. For more info, go to
+        // https://parse.com/docs/ios_guide#localdatastore/iOS
+        // Parse.enableLocalDatastore()
+        
+        // Initialize Parse.
+        Parse.setApplicationId("V7qeQoqBdCe0URaXYO7zWXFZbUg87KlpqUyIB6gV",
+            clientKey: "wL5olZpt4gCtnylt8LWtdd9EOQhxh9ESGvcRYPTV")
+        
+        // [Optional] Track statistics around application opens.
+        // PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+        
+        
         let tabBarController = self.window!.rootViewController as! UITabBarController
         
         // Set split view controller properties for Courses
