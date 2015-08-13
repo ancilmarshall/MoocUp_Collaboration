@@ -63,7 +63,7 @@ class Course : Base
     var prerequisite = String()
     var workload = String()
     var videoLink = String()
-    //var targetAudience = String()
+    var targetAudience = String()
     var image = Image()
     var moocs = [Mooc]()
     var languages = [Language]()
@@ -94,17 +94,21 @@ class Course : Base
                 self.videoLink = videoLink
             }
             
+            if let targetAudience = object["targetAudience"] as? String {
+                self.targetAudience = targetAudience
+            }
+            
             if let image = object["image"] as? PFObject {
                 self.image = Image(object: image)
-                //TODO: remove the notification
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("imageSetNotification:"), name: kImageSetNotificationName, object: self.image)
+                NSNotificationCenter.defaultCenter()
+                    .addObserver(self, selector: Selector("imageSetNotification:"),
+                        name: kImageSetNotificationName, object: self.image)
             }
             
             if let moocs = object["moocs"] as? [PFObject] {
                 self.moocs = moocs.map{ Mooc(object: $0)}
             }
             
-            //TODO: Does the image for the instructor come with, or do I need to do an include?
             if let instructors = object["instructors"] as? [PFObject] {
                 self.instructors = instructors.map{ Instructor(object: $0) }
             }
@@ -129,11 +133,20 @@ class Course : Base
     
     func imageSetNotification(notification: NSNotification){
         
-        assert(notification.name == kImageSetNotificationName,"Expected an ImageSetNotification notification")
-        assert(notification.object as! Image == self.image,"Expected notification object to be image attribute of my instance")
+        assert(notification.name == kImageSetNotificationName,
+            "Expected an ImageSetNotification notification")
+        assert(notification.object as! Image == self.image,
+            "Expected notification object to be image attribute of my instance")
         
-        NSNotificationCenter.defaultCenter().postNotificationName(kCourseImageSetNotificationName, object:self)
+        NSNotificationCenter.defaultCenter()
+            .postNotificationName(kCourseImageSetNotificationName, object:self)
 
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter()
+            .removeObserver(self, name: kCourseImageSetNotificationName, object: self.image)
+        
     }
     
     
@@ -169,10 +182,6 @@ class Language : Base {
     }
     
     override init(object: PFObject) {
-        
-        if object.createdAt != nil {
-            
-        }
         super.init(object: object)
     }
 
@@ -226,7 +235,8 @@ class Image : Base
         if object.createdAt != nil {
 
             if let photoImageFile = object["photo"] as? PFFile {
-                photoImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) in
+                photoImageFile.getDataInBackgroundWithBlock{
+                    (data:NSData?, error:NSError?) in
                     if let data = data {
                         self.photoData = data
                         self.photoDataSet = true
@@ -235,7 +245,8 @@ class Image : Base
             }
 
             if let smallIconImageFile = object["smallIcon"] as? PFFile {
-                smallIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
+                smallIconImageFile.getDataInBackgroundWithBlock{
+                    (data:NSData?, error:NSError?) -> Void in
                     
                     if let data = data {
                         self.smallIconData = data
@@ -246,7 +257,8 @@ class Image : Base
             }
         
             if let largeIconImageFile = object["largeIcon"] as? PFFile {
-                largeIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
+                largeIconImageFile.getDataInBackgroundWithBlock{
+                    (data:NSData?, error:NSError?) -> Void in
                     
                     if let data = data {
                         self.largeIconData = data
@@ -334,14 +346,11 @@ class Instructor : Base
         
     }
     
-    //test for Instructor equality based on the name
-    override func isEqual(object: AnyObject?) -> Bool {
-        if let obj = object as? Base {
-            return name == obj.name
-        } else {
-            assert(false, "Exected instance of Base class during equality comparison")
-        }
+    deinit {
+        NSNotificationCenter.defaultCenter()
+            .removeObserver(self, name: kInstructorImageSetNotificationName, object: self.image)
     }
+    
 }
 
 //MARK: - University
@@ -371,7 +380,7 @@ class University : Base
                     self.image = Image(object: imageObject)
                     NSNotificationCenter.defaultCenter().addObserver(
                         self, selector: Selector("imageSetNotification:"),
-                        name: kInstructorImageSetNotificationName, object: self.image)
+                        name: kUniversityImageSetNotificationName, object: self.image)
                     
                 }
             }
@@ -395,7 +404,6 @@ class University : Base
         
     }
 
-    
 }
 
 //MARK: - Session
@@ -432,9 +440,7 @@ class Session : Base
         
         //TODO: update instructors
         //TODO: passing another object to create courses, or a setter
-        
     }
-
 }
 
 class User : Base

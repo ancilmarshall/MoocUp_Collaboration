@@ -30,6 +30,7 @@ class CourseraApiManager
         ("id","id"),
         ("name","name"),
         ("shortDescription","summary"),
+        ("targetAudience","targetAudience"),
         ("photo","Image.photo"),
         ("smallIcon","Image.smallIcon"),
         ("largeIcon","Image.largeIcon"),
@@ -398,8 +399,6 @@ class CourseraApiManager
                 }
                 
             case "language":
-                //TODO Check many-many relation
-                //TODO transform from en to English, add name and shortname
                 
                 var newLanguage = Language()
                 

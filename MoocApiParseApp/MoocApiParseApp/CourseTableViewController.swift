@@ -28,8 +28,8 @@ class CourseTableViewController: UITableViewController {
         super.viewDidLoad()
 
         //must correctly use autolayout in the storyboad for this to work
-        tableView.estimatedRowHeight = tableView.rowHeight
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = 200//tableView.rowHeight
+        //tableView.rowHeight = UITableViewAutomaticDimension
         
         //TODO: remove the notification
         NSNotificationCenter.defaultCenter()
@@ -49,7 +49,8 @@ class CourseTableViewController: UITableViewController {
         imageSetIndicies[index] = true
         println("Course at index \(index) Image Set Notification Received")
         
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        tableView.reloadData()
+        //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
         
     }
 
@@ -72,12 +73,13 @@ class CourseTableViewController: UITableViewController {
         query.includeKey("instructors")
         query.includeKey("instructors.image")
         query.includeKey("categories")
+        query.includeKey("categories.image")
         query.includeKey("sessions")
         query.includeKey("universities")
+        query.includeKey("universities.image")
         query.limit = 10
         
         //query.orderByAscending("createdAt")
-        
 //        var categoryQuery = PFQuery(className: "Category")
 //        categoryQuery.whereKey("name", equalTo: "Law")
 //        query.whereKey("categories", matchesQuery: categoryQuery)
@@ -112,10 +114,29 @@ class CourseTableViewController: UITableViewController {
             as! CourseTableViewCell
         var course = courses[indexPath.row]
     
-        
         if imageSetIndicies[indexPath.row] == true {
             println("Setting image for cell at index \(indexPath.row)")
-            //cell.image = UIImage(data:course.image.photoData)
+            cell.customImageView?.image =
+                UIImage(data: course.image.photoData)
+            cell.customImageView?.clipsToBounds = true
+            cell.customImageView?.contentMode = UIViewContentMode.ScaleAspectFill
+
+            var gradient: CAGradientLayer = CAGradientLayer()
+            gradient.frame = cell.gradientView.bounds
+            gradient.colors = [UIColor.clearColor().CGColor, UIColor.blackColor().CGColor]
+            
+            //remove all previous gradient layers
+            if let layers = cell.gradientView?.layer.sublayers {
+                for layer in layers {
+                    if layer is CAGradientLayer {
+                        layer.removeFromSuperlayer()
+                    }
+                }
+            }
+            
+            cell.gradientView?.backgroundColor = UIColor.clearColor()
+            cell.gradientView?.layer.insertSublayer(gradient, atIndex: 0)
+            
         }
         else {
             println("Cell image not yet set")
@@ -138,6 +159,16 @@ class CourseTableViewController: UITableViewController {
         if let firstInstructor = course.instructors.first {
             cell.instructorIdsLabel?.text = firstInstructor.name
         }
+        
+        
+        
+        cell.titleLabel.backgroundColor = UIColor.clearColor()
+        cell.backgroundColor = UIColor.clearColor()
+        
+        
+        
+
+        
         
         return cell
     }
