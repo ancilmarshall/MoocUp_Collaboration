@@ -40,10 +40,10 @@
             </objects>
             <point key="canvasLocation" x="239" y="509"/>
         </scene>
-        <!--Page View Controller-->
+        <!--Login Page Overlay View Controller-->
         <scene sceneID="pBZ-m7-RAp">
             <objects>
-                <pageViewController storyboardIdentifier="LoginPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="lXG-e9-lQ0" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="LoginPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="lXG-e9-lQ0" customClass="LoginPageOverlayViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y2G-GY-8nY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="873" y="509"/>

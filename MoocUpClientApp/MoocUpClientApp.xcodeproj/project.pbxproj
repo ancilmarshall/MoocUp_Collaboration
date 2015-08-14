@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		07D2D1DE1B7E1B2E00C4E8FB /* LoginContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2D1DD1B7E1B2E00C4E8FB /* LoginContentViewController.swift */; };
+		07D2D1E01B7E1F1D00C4E8FB /* LoginPageOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2D1DF1B7E1F1D00C4E8FB /* LoginPageOverlayViewController.swift */; };
 		1D26984C1B624AA200C75B49 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D26984B1B624AA200C75B49 /* AppDelegate.swift */; };
 		1D26984E1B624AA300C75B49 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D26984D1B624AA300C75B49 /* LoginViewController.swift */; };
 		1D2698511B624AA300C75B49 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D26984F1B624AA300C75B49 /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		07D2D1DD1B7E1B2E00C4E8FB /* LoginContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginContentViewController.swift; path = Login/LoginContentViewController.swift; sourceTree = "<group>"; };
+		07D2D1DF1B7E1F1D00C4E8FB /* LoginPageOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginPageOverlayViewController.swift; path = Login/LoginPageOverlayViewController.swift; sourceTree = "<group>"; };
 		1D2698461B624AA200C75B49 /* MoocUpClientApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoocUpClientApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D26984A1B624AA200C75B49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D26984B1B624AA200C75B49 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				1D26984D1B624AA300C75B49 /* LoginViewController.swift */,
+				07D2D1DF1B7E1F1D00C4E8FB /* LoginPageOverlayViewController.swift */,
 				07D2D1DD1B7E1B2E00C4E8FB /* LoginContentViewController.swift */,
 				1D26984F1B624AA300C75B49 /* Main.storyboard */,
 				1D2698491B624AA200C75B49 /* Supporting Files */,
@@ -319,6 +322,7 @@
 			files = (
 				1D26984E1B624AA300C75B49 /* LoginViewController.swift in Sources */,
 				1D26984C1B624AA200C75B49 /* AppDelegate.swift in Sources */,
+				07D2D1E01B7E1F1D00C4E8FB /* LoginPageOverlayViewController.swift in Sources */,
 				07D2D1DE1B7E1B2E00C4E8FB /* LoginContentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
