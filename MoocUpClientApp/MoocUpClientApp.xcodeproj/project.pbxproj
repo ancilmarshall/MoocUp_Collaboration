@@ -117,7 +117,7 @@
 		1D26983D1B624AA200C75B49 = {
 			isa = PBXGroup;
 			children = (
-				4956F7CA1B7D955500388914 /* FrameworkParse */,
+				4956F7CB1B7D967E00388914 /* FrameWorkParse */,
 				49585E901B7D8D2900D58C55 /* Frameworks */,
 				4956F7C11B7D950200388914 /* FrameworkFacebook */,
 				1D2698481B624AA200C75B49 /* MoocUpClientApp */,
@@ -138,11 +138,8 @@
 		1D2698481B624AA200C75B49 /* MoocUpClientApp */ = {
 			isa = PBXGroup;
 			children = (
-				1D26984B1B624AA200C75B49 /* AppDelegate.swift */,
 				1D26984D1B624AA300C75B49 /* LoginViewController.swift */,
 				1D26984F1B624AA300C75B49 /* Main.storyboard */,
-				1D2698521B624AA300C75B49 /* Images.xcassets */,
-				1D2698541B624AA300C75B49 /* LaunchScreen.xib */,
 				1D2698491B624AA200C75B49 /* Supporting Files */,
 				1D26986B1B624AEC00C75B49 /* MoocUpClientApp-Bridging-Header.h */,
 			);
@@ -152,6 +149,9 @@
 		1D2698491B624AA200C75B49 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1D2698521B624AA300C75B49 /* Images.xcassets */,
+				1D2698541B624AA300C75B49 /* LaunchScreen.xib */,
+				1D26984B1B624AA200C75B49 /* AppDelegate.swift */,
 				1D26984A1B624AA200C75B49 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -184,15 +184,15 @@
 			name = FrameworkFacebook;
 			sourceTree = "<group>";
 		};
-		4956F7CA1B7D955500388914 /* FrameworkParse */ = {
+		4956F7CB1B7D967E00388914 /* FrameWorkParse */ = {
 			isa = PBXGroup;
 			children = (
-				4956F7C21B7D954D00388914 /* Bolts.framework */,
-				4956F7C31B7D954D00388914 /* Parse.framework */,
-				4956F7C41B7D954D00388914 /* ParseFacebookUtilsV4.framework */,
 				4956F7C51B7D954D00388914 /* ParseTwitterUtils.framework */,
+				4956F7C41B7D954D00388914 /* ParseFacebookUtilsV4.framework */,
+				4956F7C31B7D954D00388914 /* Parse.framework */,
+				4956F7C21B7D954D00388914 /* Bolts.framework */,
 			);
-			name = FrameworkParse;
+			name = FrameWorkParse;
 			sourceTree = "<group>";
 		};
 		49585E901B7D8D2900D58C55 /* Frameworks */ = {
@@ -393,7 +393,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -432,7 +432,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
