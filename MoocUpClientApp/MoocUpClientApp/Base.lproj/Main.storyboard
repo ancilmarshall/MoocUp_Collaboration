@@ -40,5 +40,54 @@
             </objects>
             <point key="canvasLocation" x="239" y="509"/>
         </scene>
+        <!--Page View Controller-->
+        <scene sceneID="pBZ-m7-RAp">
+            <objects>
+                <pageViewController storyboardIdentifier="LoginPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="lXG-e9-lQ0" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y2G-GY-8nY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="873" y="509"/>
+        </scene>
+        <!--Login Content View Controller-->
+        <scene sceneID="RAU-oO-Puk">
+            <objects>
+                <viewController storyboardIdentifier="LoginContentViewController" id="4FN-jc-F2X" customClass="LoginContentViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uLe-6h-Eeo"/>
+                        <viewControllerLayoutGuide type="bottom" id="rhf-1D-XHe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="d5P-WH-SXb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gcZ-7H-KYT">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TextTutor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EZa-bb-fvr">
+                                <rect key="frame" x="265" y="346" width="71" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gcZ-7H-KYT" firstAttribute="leading" secondItem="d5P-WH-SXb" secondAttribute="leading" id="BGB-55-eF3"/>
+                            <constraint firstItem="rhf-1D-XHe" firstAttribute="top" secondItem="EZa-bb-fvr" secondAttribute="bottom" constant="233" id="G4Z-qk-EGw"/>
+                            <constraint firstItem="gcZ-7H-KYT" firstAttribute="bottom" secondItem="rhf-1D-XHe" secondAttribute="top" id="JPA-0l-R2H"/>
+                            <constraint firstAttribute="trailing" secondItem="gcZ-7H-KYT" secondAttribute="trailing" id="NRL-al-tkH"/>
+                            <constraint firstItem="EZa-bb-fvr" firstAttribute="centerX" secondItem="gcZ-7H-KYT" secondAttribute="centerX" id="f0X-41-kxG"/>
+                            <constraint firstItem="gcZ-7H-KYT" firstAttribute="top" secondItem="d5P-WH-SXb" secondAttribute="top" id="qx6-oT-bZa"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="gcZ-7H-KYT" id="Ljk-4E-KGQ"/>
+                        <outlet property="testTutorial" destination="EZa-bb-fvr" id="gLh-17-SUs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LeO-NN-unC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="873" y="1183"/>
+        </scene>
     </scenes>
 </document>
