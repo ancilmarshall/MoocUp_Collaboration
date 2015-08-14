@@ -18,22 +18,17 @@ class CourseTableViewCell: UITableViewCell {
     @IBOutlet weak var categoryIdsLabel: UILabel!
     @IBOutlet weak var customImageView: UIImageView!
     @IBOutlet weak var gradientView: UIView!
+    @IBOutlet weak var topGradientView: UIView!
     
     
     override func awakeFromNib() {
          super.awakeFromNib()
         
+        titleLabel?.textColor = UIColor.whiteColor()
         instructorIdsLabel?.textColor = UIColor.whiteColor()
         universityIdsLabel?.textColor = UIColor.whiteColor()
         sessionIdsLabel?.textColor = UIColor.whiteColor()
         categoryIdsLabel?.textColor = UIColor.whiteColor()
-    }
-    
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        
     }
     
     

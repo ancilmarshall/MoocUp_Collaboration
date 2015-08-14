@@ -96,13 +96,13 @@ class CourseraApiManager
     var instructors = [Instructor]()
     
     //MARK:- MOOC API Manager public interface methods
-    func fetchCoursesFromApiWithBlock(block handler: ([Course])->Void ){
+    func fetchCoursesFromApiWithBlock(maxCourses:Int?, block handler: ([Course])->Void ){
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
         
         var backgroundqueue = NSOperationQueue()
         var operation = NSBlockOperation { () -> Void in
-            var courses = self.fetchCoursesFromApi()
+            var courses = self.fetchCoursesFromApi(maxCourses)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
             handler(courses)
         }
@@ -417,8 +417,8 @@ class CourseraApiManager
                     
                     var image = Image()
                     image.photoData = imageData(fromDictionary:courseJSONData, forKey: "photo")
-                    image.smallIconData = imageData(fromDictionary:courseJSONData, forKey: "largeIcon")
-                    image.largeIconData = imageData(fromDictionary:courseJSONData, forKey: "smallIcon")
+                    image.smallIconData = imageData(fromDictionary:courseJSONData, forKey: "smallIcon")
+                    image.largeIconData = imageData(fromDictionary:courseJSONData, forKey: "largeIcon")
                     
                     //Each image is a one to one relationship with no need to track image objects in a list of images
                     course.image = image
@@ -458,31 +458,31 @@ class CourseraApiManager
     //MARK:  ==================================
 
     // Root function call. Create a Course and all the relative objects connected to it
-    func fetchCoursesFromApi() -> [Course]
+    func fetchCoursesFromApi(maxCourses: Int?) -> [Course]
     {
         //create a Coursera Mooc instance
         var mooc = Mooc()
         mooc.name = "Coursera"
         mooc.website = "www.coursera.com"
         
-        //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [2163])
-        //var coursesJSONData = getJSONData("courses",fields:courseFields, ids: [69,2163,1322,2822,1411])
         var coursesJSONData = getJSONData("courses",fields:courseFields, ids: nil)
         
         if coursesJSONData == nil {
             println("Error fetching courses, exiting early")
         }
         
-        var count = 0
+        var courseCount = 0
         var totalCount = coursesJSONData!.count
         
         //loop through all fetchedCourses and construct Course model
         for courseData in coursesJSONData!
         {
-            if (count == 10){
-                break
+            if let maxCourses = maxCourses {
+                if (courseCount == maxCourses){
+                    break
+                }
             }
-            println("Parsing course \(++count) of \(totalCount)...")
+            println("Parsing course \(++courseCount) of \(totalCount)...")
             
             ///// For each Course, here are the steps /////
             var results = createCourse(courseData)

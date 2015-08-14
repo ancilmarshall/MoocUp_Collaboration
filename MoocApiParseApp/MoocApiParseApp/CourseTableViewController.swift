@@ -36,7 +36,7 @@ class CourseTableViewController: UITableViewController {
             .addObserver(self, selector: Selector("courseImageSetNotification:"),
                 name: kCourseImageSetNotificationName, object: nil)
         
-        //fetchFromMoocApi(nil)
+        //fetchFromMoocApi(20)
         fetchFromParse(nil)
     }
 
@@ -47,16 +47,15 @@ class CourseTableViewController: UITableViewController {
         var index = (self.courses as NSArray).indexOfObject(course)
         var indexPath = NSIndexPath(forRow: index, inSection: 0)
         imageSetIndicies[index] = true
-        println("Course at index \(index) Image Set Notification Received")
+        //println("Course at index \(index) Image Set Notification Received")
         
-        tableView.reloadData()
-        //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
         
     }
 
-    @IBAction func fetchFromMoocApi(sender:AnyObject?)
+    @IBAction func fetchFromMoocApi(maxCourses: Int)
     {
-        moocApiManager.fetchCoursesFromApiWithBlock { newCourses in
+        moocApiManager.fetchCoursesFromApiWithBlock(maxCourses) { newCourses in
             self.courses = newCourses
             dispatch_async(dispatch_get_main_queue()){
                 self.tableView.reloadData()
@@ -110,66 +109,96 @@ class CourseTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)-> CourseTableViewCell
     {
+        
         var cell = tableView.dequeueReusableCellWithIdentifier(kTableViewCellIdentifier)
             as! CourseTableViewCell
+        
+        
         var course = courses[indexPath.row]
     
         if imageSetIndicies[indexPath.row] == true {
-            println("Setting image for cell at index \(indexPath.row)")
+            
+            //println("Setting image for cell at index \(indexPath.row)")
             cell.customImageView?.image =
-                UIImage(data: course.image.photoData)
+                UIImage(data: course.image.smallIconData)
             cell.customImageView?.clipsToBounds = true
             cell.customImageView?.contentMode = UIViewContentMode.ScaleAspectFill
+            cell.customImageView.hidden=false
+            
 
-            var gradient: CAGradientLayer = CAGradientLayer()
-            gradient.frame = cell.gradientView.bounds
-            gradient.colors = [UIColor.clearColor().CGColor, UIColor.blackColor().CGColor]
-            
-            //remove all previous gradient layers
-            if let layers = cell.gradientView?.layer.sublayers {
-                for layer in layers {
-                    if layer is CAGradientLayer {
-                        layer.removeFromSuperlayer()
-                    }
-                }
-            }
-            
-            cell.gradientView?.backgroundColor = UIColor.clearColor()
-            cell.gradientView?.layer.insertSublayer(gradient, atIndex: 0)
-            
         }
         else {
-            println("Cell image not yet set")
+            //println("Cell image not yet set")
+            //add a temporary image view
+            cell.customImageView.backgroundColor = UIColor.blueColor()
         }
+        
+        //remove all previous gradient layers
+        if let layers = cell.gradientView?.layer.sublayers {
+            for layer in layers {
+                if layer is CAGradientLayer {
+                    layer.removeFromSuperlayer()
+                }
+            }
+        }
+        
+        //remove all previous topGradient layers
+        if let layers = cell.topGradientView?.layer.sublayers {
+            for layer in layers {
+                if layer is CAGradientLayer {
+                    layer.removeFromSuperlayer()
+                }
+            }
+        }
+        
+        
+        var gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = cell.gradientView.bounds
+        gradient.colors = [UIColor.clearColor().CGColor, UIColor.blackColor().CGColor]
+        
+        cell.gradientView?.backgroundColor = UIColor.clearColor()
+        cell.gradientView?.layer.insertSublayer(gradient, atIndex: 0)
+        
+        var topGradient: CAGradientLayer = CAGradientLayer()
+        topGradient.frame = cell.topGradientView.bounds
+        topGradient.colors = [UIColor.blackColor().CGColor, UIColor.clearColor().CGColor]
+        
+        cell.topGradientView?.backgroundColor = UIColor.clearColor()
+        cell.topGradientView?.layer.insertSublayer(topGradient, atIndex: 0)
+       
+        
+        
         
         cell.titleLabel?.text =  course.name
         
         if let firstSession = course.sessions.first {
             cell.sessionIdsLabel?.text = firstSession.name
+        } else {
+            cell.sessionIdsLabel?.text = ""
         }
 
         if let firstUniversity = course.universities.first {
             cell.universityIdsLabel?.text = firstUniversity.name
+        } else {
+            cell.universityIdsLabel?.text = ""
         }
         
         if let firstCategory = course.categories.first {
             cell.categoryIdsLabel?.text = firstCategory.name
+        } else {
+            cell.categoryIdsLabel?.text = ""
         }
 
         if let firstInstructor = course.instructors.first {
             cell.instructorIdsLabel?.text = firstInstructor.name
+        } else {
+            cell.instructorIdsLabel?.text = ""
         }
-        
-        
         
         cell.titleLabel.backgroundColor = UIColor.clearColor()
         cell.backgroundColor = UIColor.clearColor()
         
-        
-        
 
-        
-        
         return cell
     }
 }

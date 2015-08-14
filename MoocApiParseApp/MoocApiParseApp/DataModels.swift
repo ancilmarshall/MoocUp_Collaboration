@@ -138,6 +138,8 @@ class Course : Base
         assert(notification.object as! Image == self.image,
             "Expected notification object to be image attribute of my instance")
         
+        //println("Course Image Set Notification Posted")
+        
         NSNotificationCenter.defaultCenter()
             .postNotificationName(kCourseImageSetNotificationName, object:self)
 
@@ -198,6 +200,7 @@ class Image : Base
         didSet{
             NSNotificationCenter.defaultCenter()
                 .postNotificationName(kImageSetNotificationName, object:self)
+            //println("Image Set Notification Posted")
         }
     }
     
