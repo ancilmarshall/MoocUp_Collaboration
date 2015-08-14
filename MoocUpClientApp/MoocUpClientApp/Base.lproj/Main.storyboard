@@ -16,25 +16,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mkq-Xe-9Fg">
-                                <rect key="frame" x="284" y="172" width="32" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QmL-4K-Nfr" customClass="LoginCustomView" customModule="MoocUpClientApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mkq-Xe-9Fg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7U8-tb-Wk2"/>
-                            <constraint firstItem="mkq-Xe-9Fg" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="152" id="Wt1-sQ-bKK"/>
-                            <constraint firstItem="mkq-Xe-9Fg" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="152" id="fhk-6b-r8a"/>
+                            <constraint firstItem="QmL-4K-Nfr" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="HXp-B2-Sds"/>
+                            <constraint firstItem="QmL-4K-Nfr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Vj1-ke-Fhq"/>
+                            <constraint firstAttribute="trailing" secondItem="QmL-4K-Nfr" secondAttribute="trailing" id="XOf-ao-627"/>
+                            <constraint firstItem="QmL-4K-Nfr" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="Z32-jy-DPz"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="Wt1-sQ-bKK"/>
-                            </mask>
-                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="loginView" destination="QmL-4K-Nfr" id="L34-gj-POi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

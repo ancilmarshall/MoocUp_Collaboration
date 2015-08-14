@@ -8,7 +8,9 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, UIPageViewControllerDataSource {
+class LoginViewController: UIViewController, UIPageViewControllerDataSource{
+
+    @IBOutlet weak var loginView: UIView!
     
     //declare of PageViewController and array of images
     private var pageViewController:UIPageViewController?
@@ -19,6 +21,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource {
         
         self.createPageViewController()
         self.setupPageControl()
+        //self.displayLoginElement()
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,24 +29,48 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource {
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: - LoginCustomView
+    
+    func displayLoginElement() {
+        
+        self.view.addSubview (loginView)
+        
+        
+        //blur test
+        //        var blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+        //        var blurEffectView = UIVisualEffectView(effect: blurEffect)
+        //        let container = CGRectMake(0,600, self.view.frame.width, self.view.frame.size.height/4)
+        //        blurEffectView.frame = container
+        //        //blurEffectView.frame = blurLogin.bounds
+        //        self.view.addSubview(blurEffectView)
+    }
+    
+    
     // MARK: - UIPageViewController - init and custom pageViewController
     func createPageViewController() {
-        let pageViewController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginPageViewController") as UIPageViewController
-        pageViewController.dataSource = self
+        self.pageViewController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginPageViewController") as? UIPageViewController
+        self.pageViewController!.dataSource = self
+        
+        self.addChildViewController(self.pageViewController!)
+        self.view.addSubview(self.pageViewController!.view)
         
         var startVC = self.pageLoginContentAtIndex(0) as LoginContentViewController
         var vc = NSArray(object: startVC)
         
-        pageViewController.setViewControllers(vc, direction: .Forward, animated: true, completion: nil)
+        self.pageViewController!.setViewControllers(vc, direction: .Forward, animated: true, completion: nil)
         
-        //        pageViewController.view.frame = CGRectMake(0,0, self.view.frame.width, self.view.frame.size.height-60)
-        pageViewController.view.frame = CGRectMake(0,0, self.view.frame.width, self.view.frame.size.height)
+        // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
+        var pageViewRect = self.view.bounds
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            pageViewRect = CGRectInset(pageViewRect, self.view.frame.width, self.view.frame.size.height)
+        }
+        self.pageViewController!.view.frame = pageViewRect
+        self.pageViewController!.didMoveToParentViewController(self)
         
         
-        self.addChildViewController(pageViewController)
-        self.view.addSubview(pageViewController.view)
-        //self.view.sendSubviewToBack(pageViewController.view)
-        pageViewController.didMoveToParentViewController(self)
+        // Add the page view controller's gesture recognizers
+        self.view.gestureRecognizers = self.pageViewController!.gestureRecognizers
+        
         
     }
     
