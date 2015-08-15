@@ -9,8 +9,16 @@
 import UIKit
 
 class LoginViewController: UIViewController, UIPageViewControllerDataSource{
-
+    
+    //Widgets
     @IBOutlet weak var loginView: UIView!
+    @IBOutlet weak var loginLogo: UIImageView!
+    
+    @IBAction func loginButton(sender: UIButton) {
+        let textButton = sender.currentTitle
+        println("TextButton : \(textButton)")
+        
+    }
     
     //declare of PageViewController and array of images
     private var pageViewController:UIPageViewController?
@@ -21,7 +29,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         
         self.createPageViewController()
         self.setupPageControl()
-        //self.displayLoginElement()
+        self.displayLoginElement()
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,15 +57,16 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     // MARK: - UIPageViewController - init and custom pageViewController
     func createPageViewController() {
         self.pageViewController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginPageViewController") as? UIPageViewController
-        self.pageViewController!.dataSource = self
         
-        self.addChildViewController(self.pageViewController!)
-        self.view.addSubview(self.pageViewController!.view)
         
         var startVC = self.pageLoginContentAtIndex(0) as LoginContentViewController
         var vc = NSArray(object: startVC)
         
         self.pageViewController!.setViewControllers(vc, direction: .Forward, animated: true, completion: nil)
+        self.pageViewController!.dataSource = self
+        
+        self.addChildViewController(self.pageViewController!)
+        self.view.addSubview(self.pageViewController!.view)
         
         // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
         var pageViewRect = self.view.bounds

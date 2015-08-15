@@ -4,6 +4,14 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <scenes>
+        <!--Login Page Overlay View Controller-->
+        <scene sceneID="O7N-vu-W7G">
+            <objects>
+                <pageViewController storyboardIdentifier="LoginPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Eel-kk-y0J" customClass="LoginPageOverlayViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q0G-MP-0r7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="873" y="509"/>
+        </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -17,33 +25,48 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QmL-4K-Nfr" customClass="LoginCustomView" customModule="MoocUpClientApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="444" width="600" height="156"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csd-Qh-YIr">
+                                        <rect key="frame" x="8" y="8" width="256" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="Skip">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4QZ-dz-dNo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_350x265" translatesAutoresizingMaskIntoConstraints="NO" id="MVg-hI-16g">
+                                <rect key="frame" x="180" y="20" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="aTx-qU-kwG"/>
+                                    <constraint firstAttribute="height" constant="128" id="xhz-jV-W5v"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="QmL-4K-Nfr" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="HXp-B2-Sds"/>
+                            <constraint firstItem="QmL-4K-Nfr" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="444" id="HXp-B2-Sds"/>
                             <constraint firstItem="QmL-4K-Nfr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Vj1-ke-Fhq"/>
                             <constraint firstAttribute="trailing" secondItem="QmL-4K-Nfr" secondAttribute="trailing" id="XOf-ao-627"/>
                             <constraint firstItem="QmL-4K-Nfr" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="Z32-jy-DPz"/>
+                            <constraint firstItem="MVg-hI-16g" firstAttribute="centerX" secondItem="QmL-4K-Nfr" secondAttribute="centerX" id="gQY-Qt-3MW"/>
+                            <constraint firstItem="MVg-hI-16g" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="jCY-xO-6ed"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="loginLogo" destination="MVg-hI-16g" id="eGp-AS-sBf"/>
                         <outlet property="loginView" destination="QmL-4K-Nfr" id="L34-gj-POi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="239" y="509"/>
-        </scene>
-        <!--Login Page Overlay View Controller-->
-        <scene sceneID="pBZ-m7-RAp">
-            <objects>
-                <pageViewController storyboardIdentifier="LoginPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="lXG-e9-lQ0" customClass="LoginPageOverlayViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="y2G-GY-8nY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="873" y="509"/>
         </scene>
         <!--Login Content View Controller-->
         <scene sceneID="RAU-oO-Puk">
@@ -84,7 +107,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LeO-NN-unC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="873" y="1183"/>
+            <point key="canvasLocation" x="862" y="1177"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logo_350x265" width="116" height="88"/>
+    </resources>
 </document>
