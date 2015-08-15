@@ -11,7 +11,40 @@
                 <pageViewController storyboardIdentifier="LoginPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Eel-kk-y0J" customClass="LoginPageOverlayViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q0G-MP-0r7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="873" y="509"/>
+            <point key="canvasLocation" x="233" y="1177"/>
+        </scene>
+        <!--Moocup View Controller-->
+        <scene sceneID="Gb7-dB-l0K">
+            <objects>
+                <viewController storyboardIdentifier="toTheMooc" id="yuB-rj-utk" customClass="MoocupViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Dyq-RY-fS1"/>
+                        <viewControllerLayoutGuide type="bottom" id="aGs-aG-m7N"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="t0I-sf-Ksr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="moocUp" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8aN-A6-9io">
+                                <rect key="frame" x="267" y="70" width="66" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8aN-A6-9io" firstAttribute="leading" secondItem="t0I-sf-Ksr" secondAttribute="leading" constant="267" id="Ezo-1b-0L7"/>
+                            <constraint firstItem="8aN-A6-9io" firstAttribute="top" secondItem="Dyq-RY-fS1" secondAttribute="bottom" constant="50" id="NY6-1X-mgM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="welcome" destination="8aN-A6-9io" id="hHl-hk-qrI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LVo-Lm-Tj3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="950" y="509"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -168,7 +201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LeO-NN-unC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="862" y="1177"/>
+            <point key="canvasLocation" x="233" y="1849"/>
         </scene>
     </scenes>
     <resources>

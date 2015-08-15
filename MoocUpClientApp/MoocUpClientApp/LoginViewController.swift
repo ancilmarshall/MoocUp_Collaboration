@@ -7,18 +7,33 @@
 //
 
 import UIKit
+import Parse
 
 class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     
     //View
     @IBOutlet weak var loginView: UIView!
     
-    //Widegets
+    //Widgets
     @IBOutlet weak var loginLogo: UIImageView!
+    
     @IBAction func loginButton(sender: UIButton) {
-        let textButton = sender.currentTitle
+        //unwrap optional textButton
+        let textButton = sender.currentTitle!
         println("TextButton : \(textButton)")
         
+        switch textButton {
+            case "Skip": toTheMooc()
+            
+            //TODO modal form with sign out, already ahve accound, etc
+            case "Sign Up" : println("TextButton : \(textButton)")
+            
+            case "with Facebook" : facebooking()
+            //TODO with Twitter sdk
+            case "with Twitter" : println("TextButton : \(textButton)")
+            
+            default : break
+        }
     }
     
     //declare of PageViewController and array of images
@@ -38,27 +53,56 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         // Dispose of any resources that can be recreated.
     }
     
-    //MARK: - LoginCustomView
+//MARK: - LoginCustomView
     
     func displayLoginElement() {
         
-
-
-        self.view.addSubview (loginLogo)
-        self.view.addSubview (loginView)
+        // Add subViews
+        let arrayOfSubViews = [loginLogo, loginView] as [UIView]
+        for subView in arrayOfSubViews {
+            self.view.addSubview(subView)
+        }
         
+    }
+    
+// MARK: - Button React
+    // Skip
+    private func toTheMooc() {
+        //Declare the MoocupViewcontroller as rootViewController of app if skip login screen
+        let moocupView: MoocupViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MoocupViewController") as MoocupViewController
         
-        //blur test
-        //        var blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
-        //        var blurEffectView = UIVisualEffectView(effect: blurEffect)
-        //        let container = CGRectMake(0,600, self.view.frame.width, self.view.frame.size.height/4)
-        //        blurEffectView.frame = container
-        //        //blurEffectView.frame = blurLogin.bounds
-        //        self.view.addSubview(blurEffectView)
+        let appdelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        
+        appdelegate.window!.rootViewController = moocupView
+    }
+    
+    // FaceBook Login
+    private func facebooking() {
+        PFFacebookUtils.logInInBackgroundWithReadPermissions(["public_profile", "email"],
+            block: { (user:PFUser?,error:NSError?) -> Void in
+                if (error != nil) {
+                    // message
+                    var myAlert = UIAlertController (title:"Facebook Alert", message:error?.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                    let alertFacebook = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
+                    
+                    myAlert.addAction(alertFacebook)
+                    self.presentViewController(myAlert, animated: true, completion: nil)
+                    println("Not logged")
+                    
+                    return
+                    
+                } else if (FBSDKAccessToken.currentAccessToken() != nil) {
+                    println(user)
+                    println("User Token:\(FBSDKAccessToken.currentAccessToken().userID)")
+                    // to the mooc App
+                    self.toTheMooc()
+                    
+                }
+        })
     }
     
     
-    // MARK: - UIPageViewController - init and custom pageViewController
+// MARK: - UIPageViewController - init and custom pageViewController
     func createPageViewController() {
         self.pageViewController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginPageViewController") as? UIPageViewController
         

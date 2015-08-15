@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		079EF7BE1B7ED02700F15F62 /* LoginCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079EF7BD1B7ED02700F15F62 /* LoginCustomButton.swift */; };
+		079EF7C01B7ED8E500F15F62 /* MoocupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079EF7BF1B7ED8E500F15F62 /* MoocupViewController.swift */; };
 		07D2D1DE1B7E1B2E00C4E8FB /* LoginContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2D1DD1B7E1B2E00C4E8FB /* LoginContentViewController.swift */; };
 		07D2D1E01B7E1F1D00C4E8FB /* LoginPageOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2D1DF1B7E1F1D00C4E8FB /* LoginPageOverlayViewController.swift */; };
 		07D2D1E21B7E21EE00C4E8FB /* LoginCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2D1E11B7E21EE00C4E8FB /* LoginCustomView.swift */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		079EF7BD1B7ED02700F15F62 /* LoginCustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginCustomButton.swift; path = Login/LoginCustomButton.swift; sourceTree = "<group>"; };
+		079EF7BF1B7ED8E500F15F62 /* MoocupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoocupViewController.swift; path = Login/MoocupViewController.swift; sourceTree = "<group>"; };
 		07D2D1DD1B7E1B2E00C4E8FB /* LoginContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginContentViewController.swift; path = Login/LoginContentViewController.swift; sourceTree = "<group>"; };
 		07D2D1DF1B7E1F1D00C4E8FB /* LoginPageOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginPageOverlayViewController.swift; path = Login/LoginPageOverlayViewController.swift; sourceTree = "<group>"; };
 		07D2D1E11B7E21EE00C4E8FB /* LoginCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginCustomView.swift; path = Login/LoginCustomView.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				1D26984D1B624AA300C75B49 /* LoginViewController.swift */,
+				079EF7BF1B7ED8E500F15F62 /* MoocupViewController.swift */,
 				079EF7BD1B7ED02700F15F62 /* LoginCustomButton.swift */,
 				07D2D1E11B7E21EE00C4E8FB /* LoginCustomView.swift */,
 				07D2D1DF1B7E1F1D00C4E8FB /* LoginPageOverlayViewController.swift */,
@@ -326,6 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				079EF7C01B7ED8E500F15F62 /* MoocupViewController.swift in Sources */,
 				1D26984E1B624AA300C75B49 /* LoginViewController.swift in Sources */,
 				1D26984C1B624AA200C75B49 /* AppDelegate.swift in Sources */,
 				079EF7BE1B7ED02700F15F62 /* LoginCustomButton.swift in Sources */,
