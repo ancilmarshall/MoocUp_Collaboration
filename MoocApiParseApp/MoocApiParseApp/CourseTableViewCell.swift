@@ -31,5 +31,29 @@ class CourseTableViewCell: UITableViewCell {
         categoryIdsLabel?.textColor = UIColor.whiteColor()
     }
     
+    // need to reset cell data for the cases where the cell is reused
+    func resetUI(){
+        
+        customImageView.image = nil
+        
+        //remove all previous gradient layers
+        if let layers = gradientView?.layer.sublayers {
+            for layer in layers {
+                if layer is CAGradientLayer {
+                    layer.removeFromSuperlayer()
+                }
+            }
+        }
+        
+        //remove all previous topGradient layers
+        if let layers = topGradientView?.layer.sublayers {
+            for layer in layers {
+                if layer is CAGradientLayer {
+                    layer.removeFromSuperlayer()
+                }
+            }
+        }
+        
+    }
     
 }

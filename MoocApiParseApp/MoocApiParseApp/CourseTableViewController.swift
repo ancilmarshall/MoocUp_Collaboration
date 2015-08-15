@@ -36,7 +36,7 @@ class CourseTableViewController: UITableViewController {
             .addObserver(self, selector: Selector("courseImageSetNotification:"),
                 name: kCourseImageSetNotificationName, object: nil)
         
-        //fetchFromMoocApi(20)
+        //fetchFromMoocApi(10)
         fetchFromParse(nil)
     }
 
@@ -47,7 +47,7 @@ class CourseTableViewController: UITableViewController {
         var index = (self.courses as NSArray).indexOfObject(course)
         var indexPath = NSIndexPath(forRow: index, inSection: 0)
         imageSetIndicies[index] = true
-        //println("Course at index \(index) Image Set Notification Received")
+        println("Course at index \(index) Image Set Notification Received")
         
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
         
@@ -70,13 +70,13 @@ class CourseTableViewController: UITableViewController {
         query.includeKey("image")
         query.includeKey("moocs")
         query.includeKey("instructors")
-        query.includeKey("instructors.image")
+        //query.includeKey("instructors.image")
         query.includeKey("categories")
-        query.includeKey("categories.image")
+        //query.includeKey("categories.image")
         query.includeKey("sessions")
         query.includeKey("universities")
-        query.includeKey("universities.image")
-        query.limit = 10
+        //query.includeKey("universities.image")
+        query.limit = 100
         
         //query.orderByAscending("createdAt")
 //        var categoryQuery = PFQuery(className: "Category")
@@ -85,9 +85,10 @@ class CourseTableViewController: UITableViewController {
         
         query.findObjectsInBackgroundWithBlock {
             ( objects: [AnyObject]?, error: NSError?) -> Void in
-            
+            println("Parse Data Received")
             if error == nil {
                 if let foundCourses = objects as? [PFObject] {
+                    
                     self.courses = foundCourses.map{ Course(object: $0) }
                     self.tableView.reloadData()
                 }
@@ -95,6 +96,7 @@ class CourseTableViewController: UITableViewController {
             else {
                 println("Error fetching parse data")
             }
+            self.courses.map{  $0.setImage()  }
         }
     }
 
@@ -110,9 +112,11 @@ class CourseTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)-> CourseTableViewCell
     {
         
+        
         var cell = tableView.dequeueReusableCellWithIdentifier(kTableViewCellIdentifier)
             as! CourseTableViewCell
         
+        cell.resetUI()
         
         var course = courses[indexPath.row]
     
@@ -120,7 +124,7 @@ class CourseTableViewController: UITableViewController {
             
             //println("Setting image for cell at index \(indexPath.row)")
             cell.customImageView?.image =
-                UIImage(data: course.image.smallIconData)
+                UIImage(data: course.image.photoData)
             cell.customImageView?.clipsToBounds = true
             cell.customImageView?.contentMode = UIViewContentMode.ScaleAspectFill
             cell.customImageView.hidden=false
@@ -133,23 +137,7 @@ class CourseTableViewController: UITableViewController {
             cell.customImageView.backgroundColor = UIColor.blueColor()
         }
         
-        //remove all previous gradient layers
-        if let layers = cell.gradientView?.layer.sublayers {
-            for layer in layers {
-                if layer is CAGradientLayer {
-                    layer.removeFromSuperlayer()
-                }
-            }
-        }
-        
-        //remove all previous topGradient layers
-        if let layers = cell.topGradientView?.layer.sublayers {
-            for layer in layers {
-                if layer is CAGradientLayer {
-                    layer.removeFromSuperlayer()
-                }
-            }
-        }
+
         
         
         var gradient: CAGradientLayer = CAGradientLayer()
@@ -166,9 +154,6 @@ class CourseTableViewController: UITableViewController {
         cell.topGradientView?.backgroundColor = UIColor.clearColor()
         cell.topGradientView?.layer.insertSublayer(topGradient, atIndex: 0)
        
-        
-        
-        
         cell.titleLabel?.text =  course.name
         
         if let firstSession = course.sessions.first {

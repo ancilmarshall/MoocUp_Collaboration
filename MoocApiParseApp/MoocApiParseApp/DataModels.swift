@@ -72,6 +72,8 @@ class Course : Base
     var instructors = [Instructor]()
     var sessions = [Session]()
     
+    var imageObject:AnyObject?
+    
     override init() {
         super.init()
     }
@@ -98,8 +100,10 @@ class Course : Base
                 self.targetAudience = targetAudience
             }
             
-            if let image = object["image"] as? PFObject {
-                self.image = Image(object: image)
+            if let imageObject = object["image"] as? PFObject {
+                //self.image = Image(object: image)
+                self.image = Image()
+                self.imageObject = imageObject
                 NSNotificationCenter.defaultCenter()
                     .addObserver(self, selector: Selector("imageSetNotification:"),
                         name: kImageSetNotificationName, object: self.image)
@@ -131,6 +135,11 @@ class Course : Base
         }
     }
     
+    func setImage(){
+        image.setImage(imageObject)
+    }
+    
+    
     func imageSetNotification(notification: NSNotification){
         
         assert(notification.name == kImageSetNotificationName,
@@ -138,7 +147,7 @@ class Course : Base
         assert(notification.object as! Image == self.image,
             "Expected notification object to be image attribute of my instance")
         
-        //println("Course Image Set Notification Posted")
+        println("Image Set Notification Received by Course")
         
         NSNotificationCenter.defaultCenter()
             .postNotificationName(kCourseImageSetNotificationName, object:self)
@@ -200,29 +209,28 @@ class Image : Base
         didSet{
             NSNotificationCenter.defaultCenter()
                 .postNotificationName(kImageSetNotificationName, object:self)
-            //println("Image Set Notification Posted")
+            println("Image Set Notification Posted")
         }
     }
     
     var photoDataSet:Bool = false {
-        
         didSet{
-            if smallIconDataSet && largeIconDataSet {
+            //if smallIconDataSet && largeIconDataSet {
                 imageSet = true
-            }
+            //}
         }
     }
     var smallIconDataSet:Bool = false {
         didSet{
             if photoDataSet && largeIconDataSet {
-                imageSet = true
+                //imageSet = true
             }
         }
     }
     var largeIconDataSet:Bool = false {
         didSet {
             if photoDataSet && smallIconDataSet {
-                imageSet = true
+                //imageSet = true
             }
         }
     }
@@ -231,21 +239,60 @@ class Image : Base
         super.init()
     }
     
+    
+    func setImage(object: AnyObject?){
+        println("Setting Image")
+        if object!.createdAt != nil {
+            if let object = object as? PFObject {
+                if let photoImageFile = object["photo"] as? PFFile {
+                    if let data = photoImageFile.getData()
+                    {
+                        photoData = data
+                        photoDataSet = true
+                    }
+                    
+                } else {
+                    println("Error: no photo PFFile present")
+                }
+            }
+        }
+    }
+    
     override init(object: PFObject){
         
         super.init(object: object)
         
         if object.createdAt != nil {
-
             if let photoImageFile = object["photo"] as? PFFile {
-                photoImageFile.getDataInBackgroundWithBlock{
-                    (data:NSData?, error:NSError?) in
-                    if let data = data {
-                        self.photoData = data
-                        self.photoDataSet = true
-                    }
+                //println("Attempting to fetch PFFile ")
+//                photoImageFile.getDataInBackgroundWithBlock{
+//                    (data:NSData?, error:NSError?) in
+//                    
+//                    println("photo data received")
+//                    if let data = data {
+//                        self.photoData = data
+//                        //println("Setting photoDataSet to true")
+//                        self.photoDataSet = true
+//                    }
+//                    else {
+//                        println("Error getting photoData from Parse")
+//                    }
+//                
+//                    if error != nil {
+//                        println("Error getting photoData from Parse")
+//                    }
+//                }
+                
+                if let data = photoImageFile.getData()
+                {
+                    photoData = data
+                    photoDataSet = true
                 }
+                
+            } else {
+                println("Error: no photo PFFile present")
             }
+            
 
             if let smallIconImageFile = object["smallIcon"] as? PFFile {
                 smallIconImageFile.getDataInBackgroundWithBlock{
