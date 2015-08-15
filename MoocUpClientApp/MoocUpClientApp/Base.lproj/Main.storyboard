@@ -28,7 +28,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QmL-4K-Nfr" customClass="LoginCustomView" customModule="MoocUpClientApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="455" width="600" height="145"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csd-Qh-YIr">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csd-Qh-YIr" customClass="LoginCustomButton" customModule="MoocUpClientApp" customModuleProvider="target">
                                         <rect key="frame" x="16" y="16" width="280" height="53"/>
                                         <color key="backgroundColor" red="0.38117781929347827" green="0.38117781929347827" blue="0.38117781929347827" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -41,7 +41,7 @@
                                             <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4QZ-dz-dNo"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sqF-mZ-XVg">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sqF-mZ-XVg" customClass="LoginCustomButton" customModule="MoocUpClientApp" customModuleProvider="target">
                                         <rect key="frame" x="16" y="77" width="280" height="52"/>
                                         <color key="backgroundColor" red="0.3811778193" green="0.3811778193" blue="0.3811778193" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -54,7 +54,7 @@
                                             <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HX9-Ei-DcJ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X1N-wY-79r">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X1N-wY-79r" customClass="LoginCustomButton" customModule="MoocUpClientApp" customModuleProvider="target">
                                         <rect key="frame" x="304" y="77" width="280" height="52"/>
                                         <color key="backgroundColor" red="0.3811778193" green="0.3811778193" blue="0.3811778193" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -67,7 +67,7 @@
                                             <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WeG-Ju-Tjv"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zYI-i9-OI9">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zYI-i9-OI9" customClass="LoginCustomButton" customModule="MoocUpClientApp" customModuleProvider="target">
                                         <rect key="frame" x="304" y="16" width="280" height="53"/>
                                         <color key="backgroundColor" red="0.3811778193" green="0.3811778193" blue="0.3811778193" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>

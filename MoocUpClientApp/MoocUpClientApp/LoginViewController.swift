@@ -42,6 +42,8 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     
     func displayLoginElement() {
         
+
+
         self.view.addSubview (loginLogo)
         self.view.addSubview (loginView)
         
