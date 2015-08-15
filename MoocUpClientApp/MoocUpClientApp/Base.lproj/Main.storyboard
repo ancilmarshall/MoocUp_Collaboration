@@ -34,9 +34,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="8aN-A6-9io" secondAttribute="centerX" id="05Q-Rp-XS9"/>
                             <constraint firstItem="8aN-A6-9io" firstAttribute="leading" secondItem="t0I-sf-Ksr" secondAttribute="leading" constant="267" id="Ezo-1b-0L7"/>
                             <constraint firstItem="8aN-A6-9io" firstAttribute="top" secondItem="Dyq-RY-fS1" secondAttribute="bottom" constant="50" id="NY6-1X-mgM"/>
+                            <constraint firstAttribute="centerY" secondItem="8aN-A6-9io" secondAttribute="centerY" constant="219.5" id="OWs-g6-ygh"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Ezo-1b-0L7"/>
+                                <exclude reference="NY6-1X-mgM"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="welcome" destination="8aN-A6-9io" id="hHl-hk-qrI"/>
@@ -45,6 +53,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LVo-Lm-Tj3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="950" y="509"/>
+        </scene>
+        <!--Login Sign View Controller-->
+        <scene sceneID="YbH-R5-bn1">
+            <objects>
+                <viewController id="32B-Bp-kix" customClass="LoginSignViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aTL-td-Wzg"/>
+                        <viewControllerLayoutGuide type="bottom" id="5GD-R9-zn8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HZh-UI-RGf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wac-Og-rxF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="945" y="1187"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
