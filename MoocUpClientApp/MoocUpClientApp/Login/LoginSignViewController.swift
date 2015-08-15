@@ -9,11 +9,20 @@
 import UIKit
 
 class LoginSignViewController: UIViewController {
-
+    
+    //widget
+    @IBOutlet weak var textSign: UITextField!
+    
+    @IBOutlet weak var accountLabel: UILabel!
+    
+    @IBAction func signAction(sender: UIButton) {
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
