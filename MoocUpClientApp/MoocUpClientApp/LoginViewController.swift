@@ -10,10 +10,11 @@ import UIKit
 
 class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     
-    //Widgets
+    //View
     @IBOutlet weak var loginView: UIView!
-    @IBOutlet weak var loginLogo: UIImageView!
     
+    //Widegets
+    @IBOutlet weak var loginLogo: UIImageView!
     @IBAction func loginButton(sender: UIButton) {
         let textButton = sender.currentTitle
         println("TextButton : \(textButton)")
@@ -41,6 +42,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     
     func displayLoginElement() {
         
+        self.view.addSubview (loginLogo)
         self.view.addSubview (loginView)
         
         
