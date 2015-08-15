@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Parse SDK
         Parse.setApplicationId("k8bkFZnG5ChJRcO3gghlI1k8WT275OPaYTcALXHz", clientKey: "7X43xkVyE8e8q9z8LZXOyUslu659q2D0ktqRKwub")
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
+        PFTwitterUtils.initializeWithConsumerKey("NHEQkRLAtq98nHtFgPPh6HGlU",  consumerSecret:"cGY7PyZKtjI5fgrlHL75tsgSfvB8ElxEPBYUnGNPsgEnNeXFqx")
+
         
         //  Test Parse
         //                var testObject:PFObject = PFObject (className: "testObject")

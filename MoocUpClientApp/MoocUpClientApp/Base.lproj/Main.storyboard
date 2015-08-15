@@ -57,7 +57,7 @@
         <!--Login Sign View Controller-->
         <scene sceneID="YbH-R5-bn1">
             <objects>
-                <viewController id="32B-Bp-kix" customClass="LoginSignViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginSign" id="32B-Bp-kix" customClass="LoginSignViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aTL-td-Wzg"/>
                         <viewControllerLayoutGuide type="bottom" id="5GD-R9-zn8"/>

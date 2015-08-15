@@ -29,8 +29,8 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
             case "Sign Up" : println("TextButton : \(textButton)")
             
             case "with Facebook" : facebooking()
-            //TODO with Twitter sdk
-            case "with Twitter" : println("TextButton : \(textButton)")
+            
+            case "with Twitter" : tweeting()
             
             default : break
         }
@@ -63,6 +63,12 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
             self.view.addSubview(subView)
         }
         
+    }
+
+//MARK: - Login Activity
+    private func loginActivity () {
+        //TO DO
+        println("in progress")
     }
     
 // MARK: - Button React
@@ -99,6 +105,22 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
                     
                 }
         })
+    }
+    
+    // Twitter Login
+    private func tweeting () {
+        PFTwitterUtils.logInWithBlock {
+            (user: PFUser?, error: NSError?) -> Void in
+            if let user = user {
+                if user.isNew {
+                    println("User signed up and logged in with Twitter!")
+                } else {
+                    println("User logged in with Twitter!")
+                }
+            } else {
+                println("The user cancelled the Twitter login.")
+            }
+        }
     }
     
     
