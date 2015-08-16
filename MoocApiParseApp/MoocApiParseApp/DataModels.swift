@@ -163,40 +163,7 @@ class Course : Base
     
 }
 
-//MARK: - Mooc
-class Mooc : Base {
-    
-    var website = String()
-    var courses = [Course]()
-    
-    override init() {
-        super.init()
-    }
-    
-    override init(object: PFObject) {
-        
-        if object.createdAt != nil {
-            
-            if let website = object["website"] as? String {
-                self.website = website
-            }            
-        }
-        super.init(object: object)
-    }
-}
 
-//MARK:- Language
-class Language : Base {
-
-    override init() {
-        super.init()
-    }
-    
-    override init(object: PFObject) {
-        super.init(object: object)
-    }
-
-}
 
 //MARK: - Image
 class Image : Base
@@ -222,16 +189,16 @@ class Image : Base
     }
     var smallIconDataSet:Bool = false {
         didSet{
-            if photoDataSet && largeIconDataSet {
-                //imageSet = true
-            }
+            //if photoDataSet && largeIconDataSet {
+                imageSet = true
+            //}
         }
     }
     var largeIconDataSet:Bool = false {
         didSet {
-            if photoDataSet && smallIconDataSet {
-                //imageSet = true
-            }
+            //if photoDataSet && smallIconDataSet {
+                imageSet = true
+            //}
         }
     }
     
@@ -239,18 +206,22 @@ class Image : Base
         super.init()
     }
     
-    
     func setImage(object: AnyObject?){
-        println("Setting Image")
+        
         if object!.createdAt != nil {
             if let object = object as? PFObject {
                 if let photoImageFile = object["photo"] as? PFFile {
-                    if let data = photoImageFile.getData()
-                    {
-                        photoData = data
-                        photoDataSet = true
-                    }
                     
+                    if photoDataSet == false {
+                        
+                        photoImageFile.getDataInBackgroundWithBlock{ (data, error) -> Void in
+                            println("data returned")
+                            if let data = data {
+                                self.photoData = data
+                                self.photoDataSet = true
+                            }
+                        }                        
+                    }
                 } else {
                     println("Error: no photo PFFile present")
                 }
@@ -491,6 +462,41 @@ class Session : Base
         //TODO: update instructors
         //TODO: passing another object to create courses, or a setter
     }
+}
+
+//MARK: - Mooc
+class Mooc : Base {
+    
+    var website = String()
+    var courses = [Course]()
+    
+    override init() {
+        super.init()
+    }
+    
+    override init(object: PFObject) {
+        
+        if object.createdAt != nil {
+            
+            if let website = object["website"] as? String {
+                self.website = website
+            }
+        }
+        super.init(object: object)
+    }
+}
+
+//MARK:- Language
+class Language : Base {
+    
+    override init() {
+        super.init()
+    }
+    
+    override init(object: PFObject) {
+        super.init(object: object)
+    }
+    
 }
 
 class User : Base

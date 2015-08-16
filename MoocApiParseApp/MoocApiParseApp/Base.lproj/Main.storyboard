@@ -149,9 +149,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="MoocApiParseApp" id="VbY-iP-rvf">
-                        <barButtonItem key="rightBarButtonItem" systemItem="organize" id="Ogq-Fl-ejw">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Ogq-Fl-ejw">
                             <connections>
-                                <action selector="fetchFromParse:" destination="U2l-bb-Jz6" id="cEZ-KG-CpD"/>
+                                <action selector="showImages:" destination="U2l-bb-Jz6" id="MxR-y5-GDA"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

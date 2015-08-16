@@ -11,6 +11,7 @@ import Parse
 
 let kTableViewCellIdentifier = "cell"
 let kCourseClassName = "Course"
+let kInitialFetchCompleteNotificationName = "InitialFetchCompleteNotification"
 
 class CourseTableViewController: UITableViewController {
 
@@ -35,12 +36,17 @@ class CourseTableViewController: UITableViewController {
         NSNotificationCenter.defaultCenter()
             .addObserver(self, selector: Selector("courseImageSetNotification:"),
                 name: kCourseImageSetNotificationName, object: nil)
-        
-        //fetchFromMoocApi(10)
+        NSNotificationCenter.defaultCenter()
+            .addObserver(self, selector: "initialFetchCompleteNotification", name: kInitialFetchCompleteNotificationName, object: nil)
+        //fetchFromMoocApi(100)
         fetchFromParse(nil)
     }
 
-
+    
+    @IBAction func showImages(sender: UIBarButtonItem) {
+        initialFetchCompleteNotification()
+    }
+    
     func courseImageSetNotification(notification:NSNotification) {
         
         var course = notification.object as! Course
@@ -50,6 +56,27 @@ class CourseTableViewController: UITableViewController {
         println("Course at index \(index) Image Set Notification Received")
         
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+        
+        if courseCounter < courses.count {
+            initialFetchCompleteNotification()
+        }
+        else {
+            courseCounter = 0
+        }
+    }
+    
+    var courseCounter = 0
+    
+    func initialFetchCompleteNotification(){
+        //self.courses.map{  $0.setImage()  }
+        
+        var course = courses[courseCounter]
+        course.setImage()
+        
+        courseCounter++
+        
+        
+        
         
     }
 
@@ -76,7 +103,7 @@ class CourseTableViewController: UITableViewController {
         query.includeKey("sessions")
         query.includeKey("universities")
         //query.includeKey("universities.image")
-        query.limit = 100
+        query.limit = 20
         
         //query.orderByAscending("createdAt")
 //        var categoryQuery = PFQuery(className: "Category")
@@ -96,7 +123,6 @@ class CourseTableViewController: UITableViewController {
             else {
                 println("Error fetching parse data")
             }
-            self.courses.map{  $0.setImage()  }
         }
     }
 
@@ -119,7 +145,7 @@ class CourseTableViewController: UITableViewController {
         cell.resetUI()
         
         var course = courses[indexPath.row]
-    
+
         if imageSetIndicies[indexPath.row] == true {
             
             //println("Setting image for cell at index \(indexPath.row)")
@@ -136,9 +162,6 @@ class CourseTableViewController: UITableViewController {
             //add a temporary image view
             cell.customImageView.backgroundColor = UIColor.blueColor()
         }
-        
-
-        
         
         var gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = cell.gradientView.bounds
