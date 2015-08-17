@@ -477,12 +477,21 @@ class CourseraApiManager
         //loop through all fetchedCourses and construct Course model
         for courseData in coursesJSONData!
         {
-            if let maxCourses = maxCourses {
-                if (courseCount == maxCourses){
-                    break
-                }
-            }
+//            if let maxCourses = maxCourses {
+//                if (courseCount == maxCourses){
+//                    break
+//                }
+//            }
             println("Parsing course \(++courseCount) of \(totalCount)...")
+            
+            if courseCount < 300 {
+                continue
+            }
+            
+            if courseCount  == 400 {
+                break;
+            }
+            
             
             ///// For each Course, here are the steps /////
             var results = createCourse(courseData)

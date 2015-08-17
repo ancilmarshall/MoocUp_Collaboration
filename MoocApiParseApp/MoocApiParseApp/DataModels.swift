@@ -32,7 +32,7 @@ class Base : NSObject {
     
     init(object: PFObject) {
         
-        if object.createdAt != nil {
+        if object.isFetched() {
             
             if let id = object["id"] as? String {
                 self.id = id
@@ -58,7 +58,7 @@ class Base : NSObject {
 }
 
 //MARK: - Course
-class Course : Base
+class Course : Base, ImageSetDelegateProtocol
 {
     var prerequisite = String()
     var workload = String()
@@ -72,8 +72,6 @@ class Course : Base
     var instructors = [Instructor]()
     var sessions = [Session]()
     
-    var imageObject:AnyObject?
-    
     override init() {
         super.init()
     }
@@ -82,7 +80,7 @@ class Course : Base
         
         super.init(object: object)
 
-        if object.createdAt != nil {
+        if object.isFetched() {
             
             if let prerequisite = object["prerequisite"] as? String {
                 self.prerequisite = prerequisite
@@ -100,13 +98,8 @@ class Course : Base
                 self.targetAudience = targetAudience
             }
             
-            if let imageObject = object["image"] as? PFObject {
-                //self.image = Image(object: image)
-                self.image = Image()
-                self.imageObject = imageObject
-                NSNotificationCenter.defaultCenter()
-                    .addObserver(self, selector: Selector("imageSetNotification:"),
-                        name: kImageSetNotificationName, object: self.image)
+            if let image = object["image"] as? PFObject {
+                Image(object: image, delegate: self)
             }
             
             if let moocs = object["moocs"] as? [PFObject] {
@@ -135,163 +128,143 @@ class Course : Base
         }
     }
     
-    func setImage(){
-        image.setImage(imageObject)
-    }
-    
-    
-    func imageSetNotification(notification: NSNotification){
-        
-        assert(notification.name == kImageSetNotificationName,
-            "Expected an ImageSetNotification notification")
-        assert(notification.object as! Image == self.image,
-            "Expected notification object to be image attribute of my instance")
-        
-        println("Image Set Notification Received by Course")
-        
+    func imageDownloadComplete(image: Image){
+        self.image = image
         NSNotificationCenter.defaultCenter()
-            .postNotificationName(kCourseImageSetNotificationName, object:self)
-
+            .postNotificationName(kCourseImageSetNotificationName, object: self)
     }
-    
-    deinit {
-        NSNotificationCenter.defaultCenter()
-            .removeObserver(self, name: kCourseImageSetNotificationName, object: self.image)
-        
-    }
-    
     
 }
 
-
-
 //MARK: - Image
+
+protocol ImageSetDelegateProtocol {
+    func imageDownloadComplete(image: Image)
+}
+
+
 class Image : Base
 {
     var photoData = NSData()
     var smallIconData = NSData()
     var largeIconData = NSData()
     
-    var imageSet:Bool = false {
-        didSet{
-            NSNotificationCenter.defaultCenter()
-                .postNotificationName(kImageSetNotificationName, object:self)
-            println("Image Set Notification Posted")
-        }
-    }
-    
-    var photoDataSet:Bool = false {
-        didSet{
-            //if smallIconDataSet && largeIconDataSet {
-                imageSet = true
-            //}
-        }
-    }
-    var smallIconDataSet:Bool = false {
-        didSet{
-            //if photoDataSet && largeIconDataSet {
-                imageSet = true
-            //}
-        }
-    }
-    var largeIconDataSet:Bool = false {
-        didSet {
-            //if photoDataSet && smallIconDataSet {
-                imageSet = true
-            //}
-        }
-    }
+    var delegate:ImageSetDelegateProtocol?
     
     override init() {
         super.init()
     }
-    
-    func setImage(object: AnyObject?){
+
+    override init(object: PFObject){
+        super.init(object: object)
         
-        if object!.createdAt != nil {
-            if let object = object as? PFObject {
-                if let photoImageFile = object["photo"] as? PFFile {
-                    
-                    if photoDataSet == false {
-                        
-                        photoImageFile.getDataInBackgroundWithBlock{ (data, error) -> Void in
-                            println("data returned")
-                            if let data = data {
-                                self.photoData = data
-                                self.photoDataSet = true
-                            }
-                        }                        
-                    }
-                } else {
-                    println("Error: no photo PFFile present")
-                }
-            }
+    }
+    
+    //Fully initialize the Image if passed in a PFObject argument, and a delegate
+    convenience init(object:PFObject, delegate:ImageSetDelegateProtocol) {
+        
+        self.init(object:object)
+
+        if object.isFetched() {
+            
+            self.delegate = delegate
+            
+            NSNotificationCenter.defaultCenter()
+                .addObserver(self, selector: Selector("photoDownloaded:"), name: "PhotoSet", object: nil)
+            
+            getPhoto(object)
+        }
+        
+    }
+    
+    func photoDownloaded(notification: NSNotification){
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "PhotoSet", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "largeIconDownloaded:", name: "LargeIconSet", object: nil)
+        getLargeIcon(notification.object as! PFObject)
+    }
+    
+    func largeIconDownloaded(notification: NSNotification){
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "LargeIconSet", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "smallIconDownloaded:", name: "SmallIconSet", object: nil)
+        getSmallIcon(notification.object as! PFObject)
+        
+        
+    }
+    
+    func smallIconDownloaded(notification: NSNotification){
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "SmallIconSet", object: nil)
+        if let delegate = delegate {
+            delegate.imageDownloadComplete(self)
         }
     }
     
-    override init(object: PFObject){
+    func getPhoto(object: PFObject) {
         
-        super.init(object: object)
-        
-        if object.createdAt != nil {
-            if let photoImageFile = object["photo"] as? PFFile {
-                //println("Attempting to fetch PFFile ")
-//                photoImageFile.getDataInBackgroundWithBlock{
-//                    (data:NSData?, error:NSError?) in
-//                    
-//                    println("photo data received")
-//                    if let data = data {
-//                        self.photoData = data
-//                        //println("Setting photoDataSet to true")
-//                        self.photoDataSet = true
-//                    }
-//                    else {
-//                        println("Error getting photoData from Parse")
-//                    }
-//                
-//                    if error != nil {
-//                        println("Error getting photoData from Parse")
-//                    }
-//                }
-                
-                if let data = photoImageFile.getData()
-                {
-                    photoData = data
-                    photoDataSet = true
-                }
-                
-            } else {
-                println("Error: no photo PFFile present")
-            }
+        if let photoImageFile = object["photo"] as? PFFile {
             
-
-            if let smallIconImageFile = object["smallIcon"] as? PFFile {
-                smallIconImageFile.getDataInBackgroundWithBlock{
-                    (data:NSData?, error:NSError?) -> Void in
+            photoImageFile.getDataInBackgroundWithBlock {
+                
+                (data:NSData?, error:NSError?) in
+                
+                if error == nil {
                     
                     if let data = data {
-                        self.smallIconData = data
-                        self.smallIconDataSet = true
-                        
+                        self.photoData = data
+                    } else {
+                        println("")
                     }
+                } else {
+                    println("")
                 }
+                NSNotificationCenter.defaultCenter().postNotificationName("PhotoSet", object: object)
             }
+        } else {
+            NSNotificationCenter.defaultCenter().postNotificationName("PhotoSet", object: object)
+        }
+    }
+    
+    func getLargeIcon(object: PFObject){
         
-            if let largeIconImageFile = object["largeIcon"] as? PFFile {
-                largeIconImageFile.getDataInBackgroundWithBlock{
-                    (data:NSData?, error:NSError?) -> Void in
+        if let largeIconImageFile = object["largeIcon"] as? PFFile {
+            
+            largeIconImageFile.getDataInBackgroundWithBlock{
+                (data:NSData?, error:NSError?) in
+                
+                if error == nil{
                     
                     if let data = data {
                         self.largeIconData = data
-                        self.largeIconDataSet = true
-                        
+                        NSNotificationCenter.defaultCenter().postNotificationName("LargeIconSet", object: object)
                     }
                 }
             }
-            
         }
     }
+    
+    func getSmallIcon(object: PFObject){
+        
+        if let smallIconImageFile = object["smallIcon"] as? PFFile {
+            smallIconImageFile.getDataInBackgroundWithBlock{
+                (data:NSData?, error:NSError?) in
+                
+                if error == nil {
+                    
+                    if let data = data {
+                        self.smallIconData = data
+                        NSNotificationCenter.defaultCenter().postNotificationName("SmallIconSet", object: object)
+
+                    }
+                }
+            }
+        }
+    }
+
 }
+
+
+
 
 //MARK:- Category
 //TODO: Add a category image, by designing new graphics or using external resource
@@ -307,7 +280,7 @@ class Category : Base
     
     override init(object: PFObject) {
         
-        if object.createdAt != nil {
+        if object.isFetched() {
             
         }
         
@@ -335,7 +308,7 @@ class Instructor : Base
         
         super.init(object: object)
         
-        if object.createdAt != nil {
+        if object.isFetched() {
             
             if let website = object["website"] as? String {
                 self.website = website
@@ -343,8 +316,8 @@ class Instructor : Base
             
             if let imageObject = object["image"] as? PFObject {
                 
-                if imageObject.createdAt != nil {
-                    self.image = Image(object: imageObject)
+                if imageObject.isFetched() {
+                    //self.image = Image(object: imageObject)
                     NSNotificationCenter.defaultCenter().addObserver(
                         self, selector: Selector("imageSetNotification:"),
                         name: kInstructorImageSetNotificationName, object: self.image)
@@ -389,7 +362,7 @@ class University : Base
 
         super.init(object: object)
 
-        if object.createdAt != nil {
+        if object.isFetched() {
             
             if let website = object["website"] as? String {
                 self.website = website
@@ -397,8 +370,8 @@ class University : Base
             
             if let imageObject = object["image"] as? PFObject {
                 
-                if imageObject.createdAt != nil {
-                    self.image = Image(object: imageObject)
+                if imageObject.isFetched() {
+                    //self.image = Image(object: imageObject)
                     NSNotificationCenter.defaultCenter().addObserver(
                         self, selector: Selector("imageSetNotification:"),
                         name: kUniversityImageSetNotificationName, object: self.image)
@@ -442,7 +415,7 @@ class Session : Base
     
     override init(object: PFObject) {
         
-        if object.createdAt != nil {
+        if object.isFetched() {
             
             if let homeLink = object["homeLink"] as? String {
                 self.homeLink = homeLink
@@ -476,7 +449,7 @@ class Mooc : Base {
     
     override init(object: PFObject) {
         
-        if object.createdAt != nil {
+        if object.isFetched() {
             
             if let website = object["website"] as? String {
                 self.website = website
@@ -524,7 +497,16 @@ class Review: Base
 }
 
 
-
+extension PFObject {
+    
+    // Test if the PFObject has been completely fetched from the Parse server
+    // In some cases, the object is not fetched along with it's parent object
+    // if it's include key was not part of the parent's object query
+    func isFetched() -> Bool {
+        return createdAt != nil
+    }
+    
+}
 
 
 

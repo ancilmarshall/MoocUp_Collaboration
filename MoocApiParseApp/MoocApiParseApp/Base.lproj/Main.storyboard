@@ -148,13 +148,7 @@
                             <outlet property="delegate" destination="U2l-bb-Jz6" id="A9A-Tn-ClX"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="MoocApiParseApp" id="VbY-iP-rvf">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Ogq-Fl-ejw">
-                            <connections>
-                                <action selector="showImages:" destination="U2l-bb-Jz6" id="MxR-y5-GDA"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="MoocApiParseApp" id="VbY-iP-rvf"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mUo-gy-wVz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
