@@ -482,15 +482,15 @@ class CourseraApiManager
 //                    break
 //                }
 //            }
-            println("Parsing course \(++courseCount) of \(totalCount)...")
+//            println("Parsing course \(++courseCount) of \(totalCount)...")
+//            
+//            if courseCount < 800 {
+//                continue
+//            }
             
-            if courseCount < 300 {
-                continue
-            }
-            
-            if courseCount  == 400 {
-                break;
-            }
+//            if courseCount  == 800 {
+//                break;
+//            }
             
             
             ///// For each Course, here are the steps /////

@@ -171,7 +171,11 @@ class Image : Base
             
             NSNotificationCenter.defaultCenter()
                 .addObserver(self, selector: Selector("photoDownloaded:"), name: "PhotoSet", object: nil)
-            
+            NSNotificationCenter.defaultCenter()
+                .addObserver(self, selector: "largeIconDownloaded:", name: "LargeIconSet", object: nil)
+            NSNotificationCenter.defaultCenter()
+                .addObserver(self, selector: "smallIconDownloaded:", name: "SmallIconSet", object: nil)
+
             getPhoto(object)
         }
         
@@ -179,22 +183,22 @@ class Image : Base
     
     func photoDownloaded(notification: NSNotification){
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "PhotoSet", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "largeIconDownloaded:", name: "LargeIconSet", object: nil)
+        NSNotificationCenter.defaultCenter()
+            .removeObserver(self, name: "PhotoSet", object: nil)
         getLargeIcon(notification.object as! PFObject)
     }
     
     func largeIconDownloaded(notification: NSNotification){
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "LargeIconSet", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "smallIconDownloaded:", name: "SmallIconSet", object: nil)
+        NSNotificationCenter.defaultCenter()
+            .removeObserver(self, name: "LargeIconSet", object: nil)
         getSmallIcon(notification.object as! PFObject)
-        
         
     }
     
     func smallIconDownloaded(notification: NSNotification){
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "SmallIconSet", object: nil)
+        NSNotificationCenter.defaultCenter()
+            .removeObserver(self, name: "SmallIconSet", object: nil)
         if let delegate = delegate {
             delegate.imageDownloadComplete(self)
         }
@@ -218,10 +222,12 @@ class Image : Base
                 } else {
                     println("")
                 }
-                NSNotificationCenter.defaultCenter().postNotificationName("PhotoSet", object: object)
+                NSNotificationCenter.defaultCenter()
+                    .postNotificationName("PhotoSet", object: object)
             }
         } else {
-            NSNotificationCenter.defaultCenter().postNotificationName("PhotoSet", object: object)
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName("PhotoSet", object: object)
         }
     }
     
@@ -236,7 +242,8 @@ class Image : Base
                     
                     if let data = data {
                         self.largeIconData = data
-                        NSNotificationCenter.defaultCenter().postNotificationName("LargeIconSet", object: object)
+                        NSNotificationCenter.defaultCenter()
+                            .postNotificationName("LargeIconSet", object: object)
                     }
                 }
             }
@@ -253,7 +260,8 @@ class Image : Base
                     
                     if let data = data {
                         self.smallIconData = data
-                        NSNotificationCenter.defaultCenter().postNotificationName("SmallIconSet", object: object)
+                        NSNotificationCenter.defaultCenter()
+                            .postNotificationName("SmallIconSet", object: object)
 
                     }
                 }
