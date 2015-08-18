@@ -26,10 +26,9 @@ class CourseTableViewController: UITableViewController {
     var totalCourses = 0
     var numBatches = 0
     var getBatchCurrentIndex:Int = 0
-    var fetchLimit = 50
+    var fetchLimit = 10
     var fetchSkip = 0
     var totalFetched = 0
-    
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -42,11 +41,16 @@ class CourseTableViewController: UITableViewController {
         //addobservers
         NSNotificationCenter.defaultCenter()
             .addObserver(self, selector: Selector("courseImageSetNotification:"),
-                name: kCourseImageSetNotificationName, object: nil)
+                name: kCourseCompleteNotificationName, object: nil)
         
         
         //fetchFromMoocApi(100)
-        fetchFromParse(nil)
+        fetchFromParse(20)
+    }
+    
+    deinit{
+        NSNotificationCenter.defaultCenter()
+            .removeObserver(self, name: kCourseCompleteNotificationName, object: nil)
     }
 
     func getNextCourse(){
@@ -56,10 +60,11 @@ class CourseTableViewController: UITableViewController {
             Course(object:currentCourseObject) // asynchronous
         }
         else if getBatchCurrentIndex < numBatches {
+            
             getCoursesCurrentIndex = 0
             getBatchCurrentIndex++
-            fetchSkip = fetchLimit*getBatchCurrentIndex
             
+            fetchSkip = fetchLimit*getBatchCurrentIndex
             totalFetched = totalFetched+fetchLimit
             
             var rem = totalCourses-totalFetched
@@ -94,12 +99,11 @@ class CourseTableViewController: UITableViewController {
         query.includeKey("image")
         query.includeKey("moocs")
         query.includeKey("instructors")
-        //query.includeKey("instructors.image")
+        query.includeKey("instructors.image")
         query.includeKey("categories")
-        //query.includeKey("categories.image")
         query.includeKey("sessions")
         query.includeKey("universities")
-        //query.includeKey("universities.image")
+        query.includeKey("universities.image")
         query.orderByAscending("createdAt")
         query.limit = fetchLimit
         query.skip = fetchSkip
@@ -132,17 +136,24 @@ class CourseTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func fetchFromParse(sender:AnyObject?)
+    func fetchFromParse(maxCourses:Int?)
     {
         
         var query = PFQuery(className: kCourseClassName)
         
         query.countObjectsInBackgroundWithBlock {
             (countInt32, error) -> Void in
-            self.totalCourses = Int(countInt32)
+            
+            if let maxCount = maxCourses {
+                self.totalCourses = maxCount
+            } else {
+                self.totalCourses = Int(countInt32)
+            }
             
             if (self.totalCourses > 0 && self.fetchLimit > 0) {
         
+                self.fetchLimit = min(self.fetchLimit,self.totalCourses)
+                
                 self.numBatches = ( self.totalCourses % self.fetchLimit == 0 )
                     ? self.totalCourses/self.fetchLimit
                     : self.totalCourses/self.fetchLimit+1
