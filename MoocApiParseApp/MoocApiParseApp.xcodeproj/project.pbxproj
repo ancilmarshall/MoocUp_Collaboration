@@ -1,0 +1,519 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		092AAF371B6403CA003CCA78 /* UdacityApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092AAF361B6403CA003CCA78 /* UdacityApiManager.swift */; };
+		1D1AF2721B625B7700B562AF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D1AF2711B625B7700B562AF /* Images.xcassets */; };
+		1D1AF2751B625B7700B562AF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D1AF2731B625B7700B562AF /* LaunchScreen.xib */; };
+		1D1AF2811B625B7800B562AF /* MoocApiParseAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2801B625B7800B562AF /* MoocApiParseAppTests.swift */; };
+		1D1AF28C1B625BF800B562AF /* CourseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF28B1B625BF800B562AF /* CourseTableViewController.swift */; };
+		1D1AF28E1B625C1200B562AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF28D1B625C1200B562AF /* AppDelegate.swift */; };
+		1D1AF2911B625DB800B562AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D1AF28F1B625DB800B562AF /* Main.storyboard */; };
+		1D1AF2951B625EC300B562AF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2931B625EC300B562AF /* Bolts.framework */; };
+		1D1AF2961B625EC300B562AF /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2941B625EC300B562AF /* Parse.framework */; };
+		1D1AF2981B625F2400B562AF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2971B625F2400B562AF /* AudioToolbox.framework */; };
+		1D1AF29A1B625F2D00B562AF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2991B625F2D00B562AF /* CFNetwork.framework */; };
+		1D1AF29C1B625F4200B562AF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF29B1B625F4200B562AF /* CoreGraphics.framework */; };
+		1D1AF29E1B625F4800B562AF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF29D1B625F4800B562AF /* CoreLocation.framework */; };
+		1D1AF2A01B625F5200B562AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF29F1B625F5200B562AF /* QuartzCore.framework */; };
+		1D1AF2A21B625F5700B562AF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2A11B625F5700B562AF /* Security.framework */; };
+		1D1AF2A41B625F6100B562AF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2A31B625F6100B562AF /* StoreKit.framework */; };
+		1D1AF2A61B625F6F00B562AF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2A51B625F6F00B562AF /* SystemConfiguration.framework */; };
+		1D1AF2A81B625F7B00B562AF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2A71B625F7B00B562AF /* libz.dylib */; };
+		1D1AF2AA1B625F8400B562AF /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1AF2A91B625F8400B562AF /* libsqlite3.dylib */; };
+		1D1AF2AC1B6263E500B562AF /* CourseraApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2AB1B6263E500B562AF /* CourseraApiManager.swift */; };
+		1D1AF2AE1B6269C500B562AF /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2AD1B6269C500B562AF /* DataModels.swift */; };
+		1D1AF2B61B628F3600B562AF /* ParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B51B628F3600B562AF /* ParseManager.swift */; };
+		1D1AF2BA1B63777500B562AF /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF2B91B63777500B562AF /* CourseTableViewCell.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1D1AF27B1B625B7800B562AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D1AF25D1B625B7700B562AF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D1AF2641B625B7700B562AF;
+			remoteInfo = MoocApiParseApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		092AAF361B6403CA003CCA78 /* UdacityApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityApiManager.swift; sourceTree = "<group>"; };
+		1D1AF2651B625B7700B562AF /* MoocApiParseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoocApiParseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D1AF2691B625B7700B562AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1D1AF2711B625B7700B562AF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1D1AF2741B625B7700B562AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		1D1AF27A1B625B7800B562AF /* MoocApiParseAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoocApiParseAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D1AF27F1B625B7800B562AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1D1AF2801B625B7800B562AF /* MoocApiParseAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoocApiParseAppTests.swift; sourceTree = "<group>"; };
+		1D1AF28A1B625BF700B562AF /* MoocApiParseApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MoocApiParseApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		1D1AF28B1B625BF800B562AF /* CourseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTableViewController.swift; sourceTree = "<group>"; };
+		1D1AF28D1B625C1200B562AF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1D1AF2901B625DB800B562AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1D1AF2931B625EC300B562AF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		1D1AF2941B625EC300B562AF /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		1D1AF2971B625F2400B562AF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		1D1AF2991B625F2D00B562AF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		1D1AF29B1B625F4200B562AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1D1AF29D1B625F4800B562AF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		1D1AF29F1B625F5200B562AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		1D1AF2A11B625F5700B562AF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		1D1AF2A31B625F6100B562AF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		1D1AF2A51B625F6F00B562AF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		1D1AF2A71B625F7B00B562AF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		1D1AF2A91B625F8400B562AF /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		1D1AF2AB1B6263E500B562AF /* CourseraApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseraApiManager.swift; sourceTree = "<group>"; };
+		1D1AF2AD1B6269C500B562AF /* DataModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
+		1D1AF2B51B628F3600B562AF /* ParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseManager.swift; sourceTree = "<group>"; };
+		1D1AF2B91B63777500B562AF /* CourseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D1AF2621B625B7700B562AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D1AF2AA1B625F8400B562AF /* libsqlite3.dylib in Frameworks */,
+				1D1AF2A81B625F7B00B562AF /* libz.dylib in Frameworks */,
+				1D1AF2A61B625F6F00B562AF /* SystemConfiguration.framework in Frameworks */,
+				1D1AF2A41B625F6100B562AF /* StoreKit.framework in Frameworks */,
+				1D1AF2A21B625F5700B562AF /* Security.framework in Frameworks */,
+				1D1AF2A01B625F5200B562AF /* QuartzCore.framework in Frameworks */,
+				1D1AF29E1B625F4800B562AF /* CoreLocation.framework in Frameworks */,
+				1D1AF29C1B625F4200B562AF /* CoreGraphics.framework in Frameworks */,
+				1D1AF29A1B625F2D00B562AF /* CFNetwork.framework in Frameworks */,
+				1D1AF2981B625F2400B562AF /* AudioToolbox.framework in Frameworks */,
+				1D1AF2961B625EC300B562AF /* Parse.framework in Frameworks */,
+				1D1AF2951B625EC300B562AF /* Bolts.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D1AF2771B625B7800B562AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1D1AF25C1B625B7700B562AF = {
+			isa = PBXGroup;
+			children = (
+				1D1AF2671B625B7700B562AF /* MoocApiParseApp */,
+				1D1AF27D1B625B7800B562AF /* MoocApiParseAppTests */,
+				1D1AF2661B625B7700B562AF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1D1AF2661B625B7700B562AF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D1AF2651B625B7700B562AF /* MoocApiParseApp.app */,
+				1D1AF27A1B625B7800B562AF /* MoocApiParseAppTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1D1AF2671B625B7700B562AF /* MoocApiParseApp */ = {
+			isa = PBXGroup;
+			children = (
+				1D1AF28D1B625C1200B562AF /* AppDelegate.swift */,
+				1D1AF28B1B625BF800B562AF /* CourseTableViewController.swift */,
+				1D1AF2B91B63777500B562AF /* CourseTableViewCell.swift */,
+				1D1AF2AB1B6263E500B562AF /* CourseraApiManager.swift */,
+				1D1AF2AD1B6269C500B562AF /* DataModels.swift */,
+				092AAF361B6403CA003CCA78 /* UdacityApiManager.swift */,
+				1D1AF2B51B628F3600B562AF /* ParseManager.swift */,
+				1D1AF28F1B625DB800B562AF /* Main.storyboard */,
+				1D1AF2711B625B7700B562AF /* Images.xcassets */,
+				1D1AF2731B625B7700B562AF /* LaunchScreen.xib */,
+				1D1AF2681B625B7700B562AF /* Supporting Files */,
+				1D1AF2921B625EC300B562AF /* ParseFrameworks */,
+				1D1AF28A1B625BF700B562AF /* MoocApiParseApp-Bridging-Header.h */,
+			);
+			path = MoocApiParseApp;
+			sourceTree = "<group>";
+		};
+		1D1AF2681B625B7700B562AF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1D1AF2691B625B7700B562AF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1D1AF27D1B625B7800B562AF /* MoocApiParseAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				1D1AF2801B625B7800B562AF /* MoocApiParseAppTests.swift */,
+				1D1AF27E1B625B7800B562AF /* Supporting Files */,
+			);
+			path = MoocApiParseAppTests;
+			sourceTree = "<group>";
+		};
+		1D1AF27E1B625B7800B562AF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1D1AF27F1B625B7800B562AF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1D1AF2921B625EC300B562AF /* ParseFrameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1D1AF2A91B625F8400B562AF /* libsqlite3.dylib */,
+				1D1AF2A71B625F7B00B562AF /* libz.dylib */,
+				1D1AF2A51B625F6F00B562AF /* SystemConfiguration.framework */,
+				1D1AF2A31B625F6100B562AF /* StoreKit.framework */,
+				1D1AF2A11B625F5700B562AF /* Security.framework */,
+				1D1AF29F1B625F5200B562AF /* QuartzCore.framework */,
+				1D1AF29D1B625F4800B562AF /* CoreLocation.framework */,
+				1D1AF29B1B625F4200B562AF /* CoreGraphics.framework */,
+				1D1AF2991B625F2D00B562AF /* CFNetwork.framework */,
+				1D1AF2971B625F2400B562AF /* AudioToolbox.framework */,
+				1D1AF2931B625EC300B562AF /* Bolts.framework */,
+				1D1AF2941B625EC300B562AF /* Parse.framework */,
+			);
+			path = ParseFrameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D1AF2641B625B7700B562AF /* MoocApiParseApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D1AF2841B625B7800B562AF /* Build configuration list for PBXNativeTarget "MoocApiParseApp" */;
+			buildPhases = (
+				1D1AF2611B625B7700B562AF /* Sources */,
+				1D1AF2621B625B7700B562AF /* Frameworks */,
+				1D1AF2631B625B7700B562AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MoocApiParseApp;
+			productName = MoocApiParseApp;
+			productReference = 1D1AF2651B625B7700B562AF /* MoocApiParseApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1D1AF2791B625B7800B562AF /* MoocApiParseAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D1AF2871B625B7800B562AF /* Build configuration list for PBXNativeTarget "MoocApiParseAppTests" */;
+			buildPhases = (
+				1D1AF2761B625B7800B562AF /* Sources */,
+				1D1AF2771B625B7800B562AF /* Frameworks */,
+				1D1AF2781B625B7800B562AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1D1AF27C1B625B7800B562AF /* PBXTargetDependency */,
+			);
+			name = MoocApiParseAppTests;
+			productName = MoocApiParseAppTests;
+			productReference = 1D1AF27A1B625B7800B562AF /* MoocApiParseAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1D1AF25D1B625B7700B562AF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = "Ancil Marshall";
+				TargetAttributes = {
+					1D1AF2641B625B7700B562AF = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					1D1AF2791B625B7800B562AF = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = 1D1AF2641B625B7700B562AF;
+					};
+				};
+			};
+			buildConfigurationList = 1D1AF2601B625B7700B562AF /* Build configuration list for PBXProject "MoocApiParseApp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1D1AF25C1B625B7700B562AF;
+			productRefGroup = 1D1AF2661B625B7700B562AF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D1AF2641B625B7700B562AF /* MoocApiParseApp */,
+				1D1AF2791B625B7800B562AF /* MoocApiParseAppTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D1AF2631B625B7700B562AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D1AF2911B625DB800B562AF /* Main.storyboard in Resources */,
+				1D1AF2751B625B7700B562AF /* LaunchScreen.xib in Resources */,
+				1D1AF2721B625B7700B562AF /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D1AF2781B625B7800B562AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D1AF2611B625B7700B562AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D1AF2BA1B63777500B562AF /* CourseTableViewCell.swift in Sources */,
+				1D1AF2AE1B6269C500B562AF /* DataModels.swift in Sources */,
+				1D1AF28E1B625C1200B562AF /* AppDelegate.swift in Sources */,
+				1D1AF28C1B625BF800B562AF /* CourseTableViewController.swift in Sources */,
+				1D1AF2AC1B6263E500B562AF /* CourseraApiManager.swift in Sources */,
+				1D1AF2B61B628F3600B562AF /* ParseManager.swift in Sources */,
+				092AAF371B6403CA003CCA78 /* UdacityApiManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D1AF2761B625B7800B562AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D1AF2811B625B7800B562AF /* MoocApiParseAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1D1AF27C1B625B7800B562AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D1AF2641B625B7700B562AF /* MoocApiParseApp */;
+			targetProxy = 1D1AF27B1B625B7800B562AF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1D1AF2731B625B7700B562AF /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D1AF2741B625B7700B562AF /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		1D1AF28F1B625DB800B562AF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D1AF2901B625DB800B562AF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D1AF2821B625B7800B562AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1D1AF2831B625B7800B562AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1D1AF2851B625B7800B562AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MoocApiParseApp/ParseFrameworks",
+				);
+				INFOPLIST_FILE = MoocApiParseApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MoocApiParseApp/MoocApiParseApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1D1AF2861B625B7800B562AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MoocApiParseApp/ParseFrameworks",
+				);
+				INFOPLIST_FILE = MoocApiParseApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MoocApiParseApp/MoocApiParseApp-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		1D1AF2881B625B7800B562AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MoocApiParseAppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoocApiParseApp.app/MoocApiParseApp";
+			};
+			name = Debug;
+		};
+		1D1AF2891B625B7800B562AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MoocApiParseAppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoocApiParseApp.app/MoocApiParseApp";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D1AF2601B625B7700B562AF /* Build configuration list for PBXProject "MoocApiParseApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D1AF2821B625B7800B562AF /* Debug */,
+				1D1AF2831B625B7800B562AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D1AF2841B625B7800B562AF /* Build configuration list for PBXNativeTarget "MoocApiParseApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D1AF2851B625B7800B562AF /* Debug */,
+				1D1AF2861B625B7800B562AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D1AF2871B625B7800B562AF /* Build configuration list for PBXNativeTarget "MoocApiParseAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D1AF2881B625B7800B562AF /* Debug */,
+				1D1AF2891B625B7800B562AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1D1AF25D1B625B7700B562AF /* Project object */;
+}
