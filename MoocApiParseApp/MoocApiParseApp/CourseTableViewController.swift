@@ -104,6 +104,7 @@ class CourseTableViewController: UITableViewController {
         query.includeKey("sessions")
         query.includeKey("universities")
         query.includeKey("universities.image")
+        query.includeKey("languages")
         query.orderByAscending("createdAt")
         query.limit = fetchLimit
         query.skip = fetchSkip

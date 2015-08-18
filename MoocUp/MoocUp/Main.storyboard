@@ -2,37 +2,60 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="REP-bn-ILT">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Courses-->
         <scene sceneID="rPU-PZ-EBQ">
             <objects>
                 <tableViewController id="3Tb-9R-MaV" customClass="CoursesListViewController" customModule="MoocUp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="35W-tF-nsW">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="35W-tF-nsW">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" textLabel="cGk-tc-j84" detailTextLabel="xPL-LY-XvI" style="IBUITableViewCellStyleSubtitle" id="lKv-pU-QdU">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CourseListTableViewCell" rowHeight="180" id="lKv-pU-QdU" customClass="CourseListTableViewCell" customModule="MoocUp" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lKv-pU-QdU" id="SGL-tN-Deq">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cGk-tc-j84">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xPL-LY-XvI">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="P0b-qf-JPm">
+                                            <rect key="frame" x="0.0" y="2" width="600" height="176"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </imageView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LND-nB-rbH">
+                                            <rect key="frame" x="0.0" y="118" width="600" height="60"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="60" id="PhU-aT-8uv"/>
+                                            </constraints>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wYs-G9-Z0o">
+                                            <rect key="frame" x="8" y="152" width="584" height="20"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="LND-nB-rbH" firstAttribute="leading" secondItem="SGL-tN-Deq" secondAttribute="leading" id="43z-LO-ZRf"/>
+                                        <constraint firstAttribute="trailing" secondItem="P0b-qf-JPm" secondAttribute="trailing" id="6cD-OS-1Cl"/>
+                                        <constraint firstItem="LND-nB-rbH" firstAttribute="bottom" secondItem="P0b-qf-JPm" secondAttribute="bottom" id="9KQ-1Q-XFz"/>
+                                        <constraint firstItem="P0b-qf-JPm" firstAttribute="leading" secondItem="SGL-tN-Deq" secondAttribute="leading" id="E30-es-LcF"/>
+                                        <constraint firstAttribute="bottom" secondItem="P0b-qf-JPm" secondAttribute="bottom" constant="2" id="Evn-q4-lca"/>
+                                        <constraint firstItem="P0b-qf-JPm" firstAttribute="top" secondItem="SGL-tN-Deq" secondAttribute="top" constant="2" id="OVg-vM-B7a"/>
+                                        <constraint firstItem="wYs-G9-Z0o" firstAttribute="leading" secondItem="SGL-tN-Deq" secondAttribute="leading" constant="8" id="XDt-da-Rtp"/>
+                                        <constraint firstAttribute="trailing" secondItem="wYs-G9-Z0o" secondAttribute="trailing" constant="8" id="bX4-ev-rUh"/>
+                                        <constraint firstAttribute="trailing" secondItem="LND-nB-rbH" secondAttribute="trailing" id="gB9-FL-Hoh"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="wYs-G9-Z0o" secondAttribute="bottom" id="oOE-7o-2vO"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="customImageView" destination="P0b-qf-JPm" id="sWy-Aa-6S3"/>
+                                    <outlet property="gradientView" destination="LND-nB-rbH" id="toY-lP-VxZ"/>
+                                    <outlet property="titleLabel" destination="wYs-G9-Z0o" id="oYS-Pc-EWq"/>
                                     <segue destination="QEK-eQ-nV5" kind="showDetail" identifier="Course" id="rgy-ma-89G"/>
                                 </connections>
                             </tableViewCell>

@@ -13,11 +13,7 @@
 import Foundation
 import Parse
 
-let kImageSetNotificationName = "ImageSetNotificationName"
-let kCourseImageSetNotificationName = "CourseImageSetNotificationName"
-let kInstructorImageSetNotificationName = "InstructorImageSetNotificationName"
-let kUniversityImageSetNotificationName = "UniversityImageSetNotificationName"
-let kCategoryImageSetNotificationName = "CategoryImageSetNotificationName"
+let kCourseCompleteNotificationName = "CourseImageSetNotificationName"
 
 //MARK: - Base
 class Base : NSObject {
@@ -32,7 +28,7 @@ class Base : NSObject {
     
     init(object: PFObject) {
         
-        if object.createdAt != nil {
+        if object.isIncluded() {
             
             if let id = object["id"] as? String {
                 self.id = id
@@ -58,13 +54,13 @@ class Base : NSObject {
 }
 
 //MARK: - Course
-class Course : Base
+class Course : Base, ImageSetDelegateProtocol, InstructorSetDelegateProtocol,
+    UniversitySetDelegateProtocol
 {
     var prerequisite = String()
     var workload = String()
     var videoLink = String()
-    //var targetAudience = String()
-    //var recommendedBackground = String()
+    var targetAudience = String()
     var image = Image()
     var moocs = [Mooc]()
     var languages = [Language]()
@@ -80,8 +76,8 @@ class Course : Base
     override init(object: PFObject) {
         
         super.init(object: object)
-
-        if object.createdAt != nil {
+        
+        if object.isIncluded() {
             
             if let prerequisite = object["prerequisite"] as? String {
                 self.prerequisite = prerequisite
@@ -95,23 +91,26 @@ class Course : Base
                 self.videoLink = videoLink
             }
             
+            if let targetAudience = object["targetAudience"] as? String {
+                self.targetAudience = targetAudience
+            }
+            
             if let image = object["image"] as? PFObject {
-                self.image = Image(object: image)
-                //TODO: remove the notification
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("imageSetNotification:"), name: kImageSetNotificationName, object: self.image)
+                Image(object: image, delegate: self)
             }
             
             if let moocs = object["moocs"] as? [PFObject] {
                 self.moocs = moocs.map{ Mooc(object: $0)}
             }
             
-            //TODO: Does the image for the instructor come with, or do I need to do an include?
-            if let instructors = object["instructors"] as? [PFObject] {
-                self.instructors = instructors.map{ Instructor(object: $0) }
+            if let instructorObjects = object["instructors"] as? [PFObject] {
+                self.instructorObjects = instructorObjects
+                totalInstructors = instructorObjects.count
             }
             
-            if let universities = object["universities"] as? [PFObject] {
-                self.universities = universities.map{ University(object: $0) }
+            if let universityObjects = object["universities"] as? [PFObject] {
+                self.universityObjects = universityObjects
+                totalUniversities = universityObjects.count
             }
             
             if let sessions = object["sessions"] as? [PFObject] {
@@ -128,141 +127,216 @@ class Course : Base
         }
     }
     
-    func imageSetNotification(notification: NSNotification){
-        
-        assert(notification.name == kImageSetNotificationName,"Expected an ImageSetNotification notification")
-        assert(notification.object as! Image == self.image,"Expected notification object to be image attribute of my instance")
-        
-        NSNotificationCenter.defaultCenter().postNotificationName(kCourseImageSetNotificationName, object:self)
-
+    //Notice the chain of initializations, which is needed to download images
+    // 1 Image ( i.e. Course.image)
+    // 2 Instructor
+    // 3 University
+    func imageDownloadComplete(image: Image){
+        self.image = image
+        getNextInstructor()
     }
     
+    // Handle Instructors Initialization
+    var totalInstructors = 0
+    var currentInstructor = 0
+    var instructorObjects:[PFObject]?
     
-}
-
-//MARK: - Mooc
-class Mooc : Base {
-    
-    var website = String()
-    var courses = [Course]()
-    
-    override init() {
-        super.init()
-    }
-    
-    override init(object: PFObject) {
+    func getNextInstructor(){
         
-        if object.createdAt != nil {
-            
-            if let website = object["website"] as? String {
-                self.website = website
-            }            
+        if currentInstructor < totalInstructors{
+            var instructorObject = instructorObjects![currentInstructor]
+            Instructor(object: instructorObject, delegate: self)
+        } else {
+            getNextUniversity()
         }
-        super.init(object: object)
-    }
-}
-
-//MARK:- Language
-class Language : Base {
-    
-    //var language = String()
-    
-    override init() {
-        super.init()
     }
     
-    override init(object: PFObject) {
+    func instructorDownloadComplete(instructor: Instructor){
+        instructors.append(instructor)
+        currentInstructor++
+        getNextInstructor()
+    }
+    
+    
+    // Handle University Initialization
+    var totalUniversities = 0
+    var currentUniversity = 0
+    var universityObjects:[PFObject]?
+    
+    func getNextUniversity(){
         
-        if object.createdAt != nil {
+        if currentUniversity < totalUniversities{
+            var universityObject = universityObjects![currentUniversity]
+            University(object: universityObject, delegate: self)
+        } else {
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName(kCourseCompleteNotificationName, object: self)
             
         }
-        super.init(object: object)
     }
     
+    func universityDownloadComplete(university: University){
+        universities.append(university)
+        currentUniversity++
+        getNextUniversity()
+    }
     
 }
 
 //MARK: - Image
+
+protocol ImageSetDelegateProtocol {
+    func imageDownloadComplete(image: Image)
+}
+
 class Image : Base
 {
     var photoData = NSData()
     var smallIconData = NSData()
     var largeIconData = NSData()
     
-    var imageSet:Bool = false {
-        didSet{
-            NSNotificationCenter.defaultCenter()
-                .postNotificationName(kImageSetNotificationName, object:self)
-        }
-    }
-    
-    var photoDataSet:Bool = false {
-        
-        didSet{
-            if smallIconDataSet && largeIconDataSet {
-                imageSet = true
-            }
-        }
-    }
-    var smallIconDataSet:Bool = false {
-        didSet{
-            if photoDataSet && largeIconDataSet {
-                imageSet = true
-            }
-        }
-    }
-    var largeIconDataSet:Bool = false {
-        didSet {
-            if photoDataSet && smallIconDataSet {
-                imageSet = true
-            }
-        }
-    }
+    var delegate:ImageSetDelegateProtocol?
     
     override init() {
         super.init()
     }
     
     override init(object: PFObject){
-        
         super.init(object: object)
         
-        if object.createdAt != nil {
-
-            if let photoImageFile = object["photo"] as? PFFile {
-                photoImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) in
-                    if let data = data {
-                        self.photoData = data
-                        self.photoDataSet = true
-                    }
-                }
-            }
-
-            if let smallIconImageFile = object["smallIcon"] as? PFFile {
-                smallIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
+    }
+    
+    //Fully initialize the Image if passed in a PFObject argument, and a delegate
+    convenience init(object:PFObject, delegate:ImageSetDelegateProtocol) {
+        
+        self.init(object:object)
+        
+        if object.isIncluded() {
+            
+            self.delegate = delegate
+            
+            NSNotificationCenter.defaultCenter()
+                .addObserver(self, selector: "photoDownloaded:",
+                    name: "PhotoSet", object: nil)
+            NSNotificationCenter.defaultCenter()
+                .addObserver(self, selector: "largeIconDownloaded:",
+                    name: "LargeIconSet", object: nil)
+            NSNotificationCenter.defaultCenter()
+                .addObserver(self, selector: "smallIconDownloaded:",
+                    name: "SmallIconSet", object: nil)
+            
+            getPhoto(object)
+        }
+        
+    }
+    
+    func photoDownloaded(notification: NSNotification){
+        
+        NSNotificationCenter.defaultCenter()
+            .removeObserver(self, name: "PhotoSet", object: nil)
+        getLargeIcon(notification.object as! PFObject)
+    }
+    
+    func largeIconDownloaded(notification: NSNotification){
+        
+        NSNotificationCenter.defaultCenter()
+            .removeObserver(self, name: "LargeIconSet", object: nil)
+        getSmallIcon(notification.object as! PFObject)
+        
+    }
+    
+    func smallIconDownloaded(notification: NSNotification){
+        NSNotificationCenter.defaultCenter()
+            .removeObserver(self, name: "SmallIconSet", object: nil)
+        if let delegate = delegate {
+            delegate.imageDownloadComplete(self)
+        }
+    }
+    
+    func getPhoto(object: PFObject) {
+        
+        if let photoImageFile = object["photo"] as? PFFile {
+            
+            photoImageFile.getDataInBackgroundWithBlock {
+                
+                (data:NSData?, error:NSError?) in
+                
+                if error == nil {
                     
                     if let data = data {
-                        self.smallIconData = data
-                        self.smallIconDataSet = true
-                        
+                        self.photoData = data
+                    } else {
+                        println("Photo data is nil")
                     }
+                } else {
+                    println("Error downloading photo PFFile")
                 }
+                NSNotificationCenter.defaultCenter()
+                    .postNotificationName("PhotoSet", object: object)
             }
+        } else {
+            println("Warning: photoImageFile is nil")
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName("PhotoSet", object: object)
+        }
+    }
+    
+    func getLargeIcon(object: PFObject){
         
-            if let largeIconImageFile = object["largeIcon"] as? PFFile {
-                largeIconImageFile.getDataInBackgroundWithBlock{ (data:NSData?, error:NSError?) -> Void in
+        if let largeIconImageFile = object["largeIcon"] as? PFFile {
+            
+            largeIconImageFile.getDataInBackgroundWithBlock{
+                (data:NSData?, error:NSError?) in
+                
+                if error == nil{
                     
                     if let data = data {
                         self.largeIconData = data
-                        self.largeIconDataSet = true
-                        
+                    } else {
+                        println("Large Icon data is nil")
                     }
+                } else {
+                    println("Error downloading large icon PFFile")
                 }
+                NSNotificationCenter.defaultCenter()
+                    .postNotificationName("LargeIconSet", object: object)
             }
+        } else {
+            println("Warning: largeIconImageFile is nil")
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName("LargeIconSet", object: object)
+        }
+    }
+    
+    func getSmallIcon(object: PFObject){
+        
+        if let smallIconImageFile = object["smallIcon"] as? PFFile {
+            smallIconImageFile.getDataInBackgroundWithBlock{
+                (data:NSData?, error:NSError?) in
+                
+                if error == nil {
+                    
+                    if let data = data {
+                        self.smallIconData = data
+                    } else {
+                        println("Small Icon data is nil")
+                    }
+                } else {
+                    println("Error downloading small icon PFFile")
+                }
+                NSNotificationCenter.defaultCenter()
+                    .postNotificationName("SmallIconSet", object: object)
+            }
+        } else {
+            println("Warning: small icon image file is nil")
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName("SmallIconSet", object: object)
             
         }
     }
 }
+
+
 
 //MARK:- Category
 //TODO: Add a category image, by designing new graphics or using external resource
@@ -278,35 +352,42 @@ class Category : Base
     
     override init(object: PFObject) {
         
-        if object.createdAt != nil {
+        if object.isIncluded() {
             
         }
         
         super.init(object: object)
         
-        //TODO: update Image
-        //TODO: passing another object to create courses, or a setter
-        
     }
 }
 
 //MARK:- Instructor
+protocol InstructorSetDelegateProtocol {
+    func instructorDownloadComplete(instructor: Instructor)
+}
 
-class Instructor : Base
+class Instructor : Base, ImageSetDelegateProtocol
 {
     var image = Image()
     var courses = [Course]()
     var website = String()
+    var delegate: InstructorSetDelegateProtocol?
     
     override init() {
         super.init()
     }
     
-    override init(object: PFObject) {
-        
+    override init(object: PFObject){
         super.init(object: object)
         
-        if object.createdAt != nil {
+    }
+    
+    convenience init(object: PFObject, delegate: InstructorSetDelegateProtocol) {
+        
+        self.init(object: object)
+        
+        if object.isIncluded() {
+            self.delegate = delegate
             
             if let website = object["website"] as? String {
                 self.website = website
@@ -314,67 +395,84 @@ class Instructor : Base
             
             if let imageObject = object["image"] as? PFObject {
                 
-                if imageObject.createdAt != nil {
-                    self.image = Image(object: imageObject)
-                    NSNotificationCenter.defaultCenter().addObserver(
-                        self, selector: Selector("imageSetNotification:"),
-                        name: kInstructorImageSetNotificationName, object: self.image)
-
+                if imageObject.isIncluded() {
+                    Image(object: imageObject, delegate: self)
+                    
+                } else {
+                    executeProtocol()
                 }
             }
         }
-        //TODO: passing another object to create courses, or a setter
     }
     
-    func imageSetNotification(notification: NSNotification){
-        
-        assert(notification.name == kInstructorImageSetNotificationName,
-            "Expected an InstructorImageSetNotification notification")
-        assert(notification.object as! Image == self.image,
-            "Expected notification object to be image attribute of my instance")
-        
-        NSNotificationCenter.defaultCenter()
-            .postNotificationName(kInstructorImageSetNotificationName, object:self)
-        
+    func imageDownloadComplete(image: Image) {
+        self.image = image
+        executeProtocol()
     }
     
-    //test for Instructor equality based on the name
-    override func isEqual(object: AnyObject?) -> Bool {
-        if let obj = object as? Base {
-            return name == obj.name
+    func executeProtocol(){
+        if let delegate = delegate {
+            delegate.instructorDownloadComplete(self)
         } else {
-            assert(false, "Exected instance of Base class during equality comparison")
+            assert(false,"Instructor delegate not yet set")
         }
     }
 }
 
 //MARK: - University
-class University : Base
+protocol UniversitySetDelegateProtocol {
+    func universityDownloadComplete(university: University)
+}
+
+class University : Base, ImageSetDelegateProtocol
 {
     var website = String()
     var image = Image()
     var courses = [Course]()
+    var delegate: UniversitySetDelegateProtocol?
     
     override init() {
         super.init()
     }
     
-    override init(object: PFObject) {
+    override init(object:PFObject) {
+        super.init(object: object)
+    }
+    
+    convenience init(object: PFObject, delegate: UniversitySetDelegateProtocol) {
         
-        if object.createdAt != nil {
+        self.init(object: object)
+        
+        if object.isIncluded() {
+            self.delegate = delegate
             
             if let website = object["website"] as? String {
                 self.website = website
             }
+            
+            if let imageObject = object["image"] as? PFObject {
+                
+                if imageObject.isIncluded() {
+                    Image(object: imageObject, delegate: self)
+                } else {
+                    executeProtocol()
+                }
+            }
         }
-        
-        super.init(object: object)
-        
-        //TODO: update Image
-        //TODO: passing another object to create courses, or a setter
-        
     }
     
+    func imageDownloadComplete(image: Image) {
+        self.image = image
+        executeProtocol()
+    }
+    
+    func executeProtocol(){
+        if let delegate = delegate {
+            delegate.universityDownloadComplete(self)
+        } else {
+            assert(false,"University delegate not yet set")
+        }
+    }
 }
 
 //MARK: - Session
@@ -392,7 +490,7 @@ class Session : Base
     
     override init(object: PFObject) {
         
-        if object.createdAt != nil {
+        if object.isIncluded() {
             
             if let homeLink = object["homeLink"] as? String {
                 self.homeLink = homeLink
@@ -409,11 +507,42 @@ class Session : Base
         }
         super.init(object: object)
         
-        //TODO: update instructors
-        //TODO: passing another object to create courses, or a setter
-        
     }
+}
 
+//MARK: - Mooc
+class Mooc : Base {
+    
+    var website = String()
+    var courses = [Course]()
+    
+    override init() {
+        super.init()
+    }
+    
+    override init(object: PFObject) {
+        
+        if object.isIncluded() {
+            
+            if let website = object["website"] as? String {
+                self.website = website
+            }
+        }
+        super.init(object: object)
+    }
+}
+
+//MARK:- Language
+class Language : Base {
+    
+    override init() {
+        super.init()
+    }
+    
+    override init(object: PFObject) {
+        super.init(object: object)
+    }
+    
 }
 
 class User : Base
@@ -440,8 +569,16 @@ class Review: Base
     var rating = String()
 }
 
-
-
+extension PFObject {
+    
+    // Test if the PFObject has been completely fetched from the Parse server
+    // In some cases, the object is not fetched along with it's parent object
+    // if it's include key was not part of the parent's object query
+    func isIncluded() -> Bool {
+        return createdAt != nil
+    }
+    
+}
 
 
 

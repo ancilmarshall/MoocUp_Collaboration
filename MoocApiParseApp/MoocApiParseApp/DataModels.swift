@@ -13,11 +13,7 @@
 import Foundation
 import Parse
 
-let kImageSetNotificationName = "ImageSetNotificationName"
 let kCourseCompleteNotificationName = "CourseImageSetNotificationName"
-let kInstructorImageSetNotificationName = "InstructorImageSetNotificationName"
-let kUniversityImageSetNotificationName = "UniversityImageSetNotificationName"
-let kCategoryImageSetNotificationName = "CategoryImageSetNotificationName"
 
 //MARK: - Base
 class Base : NSObject {
