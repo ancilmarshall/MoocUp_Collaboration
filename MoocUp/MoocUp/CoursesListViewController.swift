@@ -8,12 +8,13 @@ class CoursesListViewController: UITableViewController {
     
     var detailViewController: CourseDetailViewController?
     var courses = [Course]()
+    
     var foundCourseObjects = [PFObject]()
-    var getCoursesCurrentIndex:Int = 0
+    var getCoursesCurrentIndex = 0
     var totalCourses = 0
     var numBatches = 0
-    var getBatchCurrentIndex:Int = 0
-    var fetchLimit = 5
+    var getBatchCurrentIndex = 0
+    var fetchLimit = 20
     var fetchSkip = 0
     var totalFetched = 0
     
@@ -39,11 +40,11 @@ class CoursesListViewController: UITableViewController {
 
         //addobservers
         NSNotificationCenter.defaultCenter()
-            .addObserver(self, selector: Selector("courseImageSetNotification:"),
+            .addObserver(self, selector: "courseCompleteNotification:",
                 name: kCourseCompleteNotificationName, object: nil)
 
         //call the connection to parse with the number of courses desired. (nil for all courses)
-        fetchFromParse(20)
+        fetchFromParse(200)
     }
     
     deinit{
@@ -52,59 +53,105 @@ class CoursesListViewController: UITableViewController {
     }
     
     // MARK: - Parse Support Methods
+    
+    func resetParseFetchCounters() {
+        getCoursesCurrentIndex = 0
+        getBatchCurrentIndex = 0
+        totalFetched = 0
+        fetchSkip = 0
+    }
+    
     func getNextCourse(){
+
+        var currentCourseObject = self.foundCourseObjects[getCoursesCurrentIndex++]
+        Course(object:currentCourseObject) // asynchronous
+
+    }
+    
+    func courseCompleteNotification(notification:NSNotification) {
         
-        if getCoursesCurrentIndex < self.foundCourseObjects.count {
-            var currentCourseObject = self.foundCourseObjects[getCoursesCurrentIndex]
-            Course(object:currentCourseObject) // asynchronous
+        //Get course
+        var course = notification.object as! Course
+        var index = Int()
+        if contains(courses,course) {
+            index = (courses as NSArray).indexOfObject(course)
+            var range = Range<Int>(start: index, end: index+1)
+            courses.replaceRange(range, with: [course])
+            var indexPath = NSIndexPath(forRow: courses.count-1, inSection: 0)
+            //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+            tableView.reloadData()
         }
-        else if getBatchCurrentIndex < numBatches {
+        else {
+            courses.append(course)
+            index = courses.count-1
+            var indexPath = NSIndexPath(forRow: index, inSection: 0)
+            tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+        
+        println("Course Notification Received: \(index+1)")
+ 
+        if getCoursesCurrentIndex < self.foundCourseObjects.count {
+            getNextCourse()
             
+        } else {
+            courseBatchComplete()
+        }
+    }
+    
+    func courseBatchComplete() {
+        
+        if !includeImages {
+        // repeat the current branch (by not incrementing the counter)
+            includeImages = true
             getCoursesCurrentIndex = 0
+            getNextBatch()
+        
+        } else {
+            
             getBatchCurrentIndex++
-            
-            fetchSkip = fetchLimit*getBatchCurrentIndex
-            totalFetched = totalFetched+fetchLimit
-            
-            var rem = totalCourses-totalFetched
-            fetchLimit = min(rem,fetchLimit)
-            
-            if fetchLimit > 0 {
+            includeImages = false
+         
+            if getBatchCurrentIndex < numBatches {
+                
+                getCoursesCurrentIndex = 0
+                
+                fetchSkip = fetchLimit*getBatchCurrentIndex
+                totalFetched = totalFetched+fetchLimit
+                
+                var rem = totalCourses-totalFetched
+                fetchLimit = min(rem,fetchLimit)
+                
                 getNextBatch()
+                
+            } else {
+                println("done")
+                resetParseFetchCounters()
             }
         }
     }
     
-    func courseImageSetNotification(notification:NSNotification) {
-        
-        //Get course
-        var course = notification.object as! Course
-        courses.append(course)
-        
-        var indexPath = NSIndexPath(forRow: courses.count-1, inSection: 0)
-        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-        
-        println("Course Notification Received: \(courses.count)")
-        
-        getCoursesCurrentIndex++
-        getNextCourse()
-        
-    }
+    var includeImages = false
     
-    func getNextBatch(){
-        println("Getting Batch \(getBatchCurrentIndex+1)")
-        
+    func courseQueryNoImages() -> PFQuery {
         var query = PFQuery(className: kCourseClassName)
-        query.includeKey("image")
         query.includeKey("moocs")
         query.includeKey("instructors")
-        query.includeKey("instructors.image")
         query.includeKey("categories")
         query.includeKey("sessions")
         query.includeKey("universities")
-        query.includeKey("universities.image")
         query.includeKey("languages")
         query.orderByAscending("createdAt")
+        return query
+    }
+    
+    func getNextBatch(){
+        
+        println("Getting Batch \(getBatchCurrentIndex+1)")
+        
+        var query = courseQueryNoImages()
+        if includeImages {
+            query.includeCourseImage()
+        }
         query.limit = fetchLimit
         query.skip = fetchSkip
         
@@ -122,7 +169,9 @@ class CoursesListViewController: UITableViewController {
                 println("Error fetching parse data")
             }
         }
+
     }
+    
     
     func fetchFromParse(maxCourses:Int?)
     {
@@ -167,10 +216,12 @@ class CoursesListViewController: UITableViewController {
         
         let course = courses[indexPath.row]
         
-        cell.customImageView?.image =
-            UIImage(data: course.image.largeIconData)
-        cell.customImageView?.clipsToBounds = true
-        cell.customImageView?.contentMode = UIViewContentMode.ScaleAspectFill
+        if let imageData = course.image.largeIconData {
+            cell.customImageView?.image =
+                UIImage(data: imageData)
+            cell.customImageView?.clipsToBounds = true
+            cell.customImageView?.contentMode = UIViewContentMode.ScaleAspectFill
+        } 
         
         var gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = cell.gradientView.bounds
@@ -201,4 +252,10 @@ class CoursesListViewController: UITableViewController {
         }
     }
     
+}
+
+extension PFQuery {
+    func includeCourseImage() {
+        self.includeKey("image")
+    }
 }

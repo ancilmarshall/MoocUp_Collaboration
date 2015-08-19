@@ -21,6 +21,7 @@ class Base : NSObject {
     var id = String()
     var name = String()
     var summary = String()
+    var parseID:String?
     
     override init() {
         super.init()
@@ -40,6 +41,10 @@ class Base : NSObject {
             
             if let summary = object["summary"] as? String {
                 self.summary = summary
+            }
+            
+            if let parseID = object["objectID"] as? String {
+                self.parseID = parseID
             }
         }
     }
@@ -191,9 +196,9 @@ protocol ImageSetDelegateProtocol {
 
 class Image : Base
 {
-    var photoData = NSData()
-    var smallIconData = NSData()
-    var largeIconData = NSData()
+    var photoData:NSData?
+    var smallIconData:NSData?
+    var largeIconData:NSData?
     
     var delegate:ImageSetDelegateProtocol?
     
@@ -210,10 +215,10 @@ class Image : Base
     convenience init(object:PFObject, delegate:ImageSetDelegateProtocol) {
         
         self.init(object:object)
+        self.delegate = delegate
         
         if object.isIncluded() {
             
-            self.delegate = delegate
             
             NSNotificationCenter.defaultCenter()
                 .addObserver(self, selector: "photoDownloaded:",
@@ -225,9 +230,13 @@ class Image : Base
                 .addObserver(self, selector: "smallIconDownloaded:",
                     name: "SmallIconSet", object: nil)
             
-            getPhoto(object)
+            //getPhoto(object)
+            getLargeIcon(object)
+        } else {
+            if let delegate = self.delegate {
+                delegate.imageDownloadComplete(self)
+            }
         }
-        
     }
     
     func photoDownloaded(notification: NSNotification){
@@ -241,8 +250,10 @@ class Image : Base
         
         NSNotificationCenter.defaultCenter()
             .removeObserver(self, name: "LargeIconSet", object: nil)
-        getSmallIcon(notification.object as! PFObject)
-        
+        //getSmallIcon(notification.object as! PFObject)
+        if let delegate = delegate {
+            delegate.imageDownloadComplete(self)
+        }
     }
     
     func smallIconDownloaded(notification: NSNotification){
