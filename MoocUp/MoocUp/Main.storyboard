@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="REP-bn-ILT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="chF-V9-36b">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -155,7 +155,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="2R4-5s-npY">
             <objects>
-                <tabBarController id="REP-bn-ILT" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MoocUpInitialScene" id="REP-bn-ILT" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="ZCh-QX-XJi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -220,9 +220,175 @@
             </objects>
             <point key="canvasLocation" x="695" y="1188"/>
         </scene>
+        <!--Login View Controller-->
+        <scene sceneID="Dzw-QQ-yH3">
+            <objects>
+                <viewController id="chF-V9-36b" customClass="LoginViewController" customModule="MoocUp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L9h-RM-Uug"/>
+                        <viewControllerLayoutGuide type="bottom" id="udy-y8-XKB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wxo-qb-TP4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VaQ-cz-RHN" customClass="LoginCustomView" customModule="MoocUp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="455" width="600" height="145"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9XO-hL-84x" customClass="LoginCustomButton" customModule="MoocUp" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="16" width="280" height="53"/>
+                                        <color key="backgroundColor" red="0.3811778193" green="0.3811778193" blue="0.3811778193" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Skip">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginButton:" destination="chF-V9-36b" eventType="touchUpInside" id="cCx-eA-U2R"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpY-P1-s2M" customClass="LoginCustomButton" customModule="MoocUp" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="77" width="280" height="52"/>
+                                        <color key="backgroundColor" red="0.3811778193" green="0.3811778193" blue="0.3811778193" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="with Facebook">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginButton:" destination="chF-V9-36b" eventType="touchUpInside" id="gAc-od-xYR"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1lh-8B-ydO" customClass="LoginCustomButton" customModule="MoocUp" customModuleProvider="target">
+                                        <rect key="frame" x="304" y="77" width="280" height="52"/>
+                                        <color key="backgroundColor" red="0.3811778193" green="0.3811778193" blue="0.3811778193" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="with Twitter">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginButton:" destination="chF-V9-36b" eventType="touchUpInside" id="Qxq-eq-s2r"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iS8-nJ-2Sp" customClass="LoginCustomButton" customModule="MoocUp" customModuleProvider="target">
+                                        <rect key="frame" x="304" y="16" width="280" height="53"/>
+                                        <color key="backgroundColor" red="0.3811778193" green="0.3811778193" blue="0.3811778193" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Sign Up">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginButton:" destination="chF-V9-36b" eventType="touchUpInside" id="Ark-xg-KSV"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="iS8-nJ-2Sp" firstAttribute="height" secondItem="9XO-hL-84x" secondAttribute="height" id="0Y3-eg-cnj"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="iS8-nJ-2Sp" secondAttribute="trailing" constant="8" id="6Jm-PW-Go4"/>
+                                    <constraint firstItem="1lh-8B-ydO" firstAttribute="leading" secondItem="xpY-P1-s2M" secondAttribute="trailing" constant="8" id="7qP-ji-GjU"/>
+                                    <constraint firstItem="iS8-nJ-2Sp" firstAttribute="height" secondItem="xpY-P1-s2M" secondAttribute="height" id="9Rc-RJ-Cr9"/>
+                                    <constraint firstItem="1lh-8B-ydO" firstAttribute="top" secondItem="iS8-nJ-2Sp" secondAttribute="bottom" constant="8" id="B46-aW-sEV"/>
+                                    <constraint firstItem="9XO-hL-84x" firstAttribute="leading" secondItem="VaQ-cz-RHN" secondAttribute="leadingMargin" constant="8" id="RH6-UT-nY2"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="xpY-P1-s2M" secondAttribute="bottom" constant="8" id="SSI-ye-L2I"/>
+                                    <constraint firstItem="iS8-nJ-2Sp" firstAttribute="width" secondItem="9XO-hL-84x" secondAttribute="width" id="TtR-QH-Rim"/>
+                                    <constraint firstItem="iS8-nJ-2Sp" firstAttribute="top" secondItem="VaQ-cz-RHN" secondAttribute="topMargin" constant="8" id="Uc8-Ys-5Pe"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="1lh-8B-ydO" secondAttribute="trailing" constant="8" id="Zoi-br-8pk"/>
+                                    <constraint firstItem="9XO-hL-84x" firstAttribute="top" secondItem="VaQ-cz-RHN" secondAttribute="topMargin" constant="8" id="a5m-P6-YEC"/>
+                                    <constraint firstItem="xpY-P1-s2M" firstAttribute="top" secondItem="9XO-hL-84x" secondAttribute="bottom" constant="8" id="fWe-Un-tje"/>
+                                    <constraint firstItem="iS8-nJ-2Sp" firstAttribute="height" secondItem="1lh-8B-ydO" secondAttribute="height" id="g5f-Lk-cm2"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="1lh-8B-ydO" secondAttribute="bottom" constant="8" id="tQv-b3-VCo"/>
+                                    <constraint firstItem="iS8-nJ-2Sp" firstAttribute="width" secondItem="xpY-P1-s2M" secondAttribute="width" id="wZR-9g-4so"/>
+                                    <constraint firstItem="xpY-P1-s2M" firstAttribute="leading" secondItem="VaQ-cz-RHN" secondAttribute="leadingMargin" constant="8" id="xS1-oa-XjO"/>
+                                    <constraint firstItem="iS8-nJ-2Sp" firstAttribute="leading" secondItem="9XO-hL-84x" secondAttribute="trailing" constant="8" id="xX2-q8-U9K"/>
+                                    <constraint firstItem="iS8-nJ-2Sp" firstAttribute="width" secondItem="1lh-8B-ydO" secondAttribute="width" id="yRs-eL-whG"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_350x265" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-vs-nyz">
+                                <rect key="frame" x="200" y="20" width="200" height="94"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="94" id="Y3y-Wv-bHt"/>
+                                    <constraint firstAttribute="width" constant="200" id="bxA-Ok-A2u"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="VaQ-cz-RHN" firstAttribute="top" secondItem="wxo-qb-TP4" secondAttribute="top" constant="455" id="0Jz-ku-n9y"/>
+                            <constraint firstAttribute="trailing" secondItem="VaQ-cz-RHN" secondAttribute="trailing" id="O0y-o3-W5L"/>
+                            <constraint firstItem="RuG-vs-nyz" firstAttribute="top" secondItem="L9h-RM-Uug" secondAttribute="bottom" id="iuS-gG-ztw"/>
+                            <constraint firstItem="RuG-vs-nyz" firstAttribute="centerX" secondItem="VaQ-cz-RHN" secondAttribute="centerX" id="v7y-pj-kNp"/>
+                            <constraint firstItem="VaQ-cz-RHN" firstAttribute="leading" secondItem="wxo-qb-TP4" secondAttribute="leading" id="vEn-p4-LPx"/>
+                            <constraint firstItem="VaQ-cz-RHN" firstAttribute="bottom" secondItem="udy-y8-XKB" secondAttribute="top" id="yRc-6F-Zvg"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="loginLogo" destination="RuG-vs-nyz" id="Pau-8w-S6m"/>
+                        <outlet property="loginView" destination="VaQ-cz-RHN" id="bnN-ug-mDq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kKI-3N-udz" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1695" y="777"/>
+        </scene>
+        <!--Login Page Overlay View Controller-->
+        <scene sceneID="f0G-wb-kzJ">
+            <objects>
+                <pageViewController storyboardIdentifier="LoginPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="vnb-Wz-Xwe" customClass="LoginPageOverlayViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TsM-Wi-YE9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1695" y="1469"/>
+        </scene>
+        <!--Login Content View Controller-->
+        <scene sceneID="1y8-Ao-ZBY">
+            <objects>
+                <viewController storyboardIdentifier="LoginContentViewController" id="1Bp-Wb-1nU" customClass="LoginContentViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GQR-Kk-0lV"/>
+                        <viewControllerLayoutGuide type="bottom" id="PZh-Ub-ewA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Emd-DC-1EM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OMG-kA-0OE">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TextTutor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HZw-iI-5D6">
+                                <rect key="frame" x="265" y="387" width="71" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="PZh-Ub-ewA" firstAttribute="top" secondItem="HZw-iI-5D6" secondAttribute="bottom" constant="192" id="4gB-9d-Qlc"/>
+                            <constraint firstItem="OMG-kA-0OE" firstAttribute="leading" secondItem="Emd-DC-1EM" secondAttribute="leading" id="D4V-Ch-27W"/>
+                            <constraint firstAttribute="trailing" secondItem="OMG-kA-0OE" secondAttribute="trailing" id="dKY-2O-s8Z"/>
+                            <constraint firstItem="OMG-kA-0OE" firstAttribute="bottom" secondItem="PZh-Ub-ewA" secondAttribute="top" id="eE2-0g-3a5"/>
+                            <constraint firstItem="OMG-kA-0OE" firstAttribute="top" secondItem="Emd-DC-1EM" secondAttribute="top" id="jr4-al-EsC"/>
+                            <constraint firstItem="HZw-iI-5D6" firstAttribute="centerX" secondItem="OMG-kA-0OE" secondAttribute="centerX" id="ks4-Zc-cN9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="OMG-kA-0OE" id="Yr0-jY-7aV"/>
+                        <outlet property="testTutorial" destination="HZw-iI-5D6" id="dzL-dV-Hpw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9fG-qT-Lk6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1695" y="2197"/>
+        </scene>
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
+        <image name="logo_350x265" width="116" height="88"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="rgy-ma-89G"/>

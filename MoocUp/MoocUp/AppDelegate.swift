@@ -21,20 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         // [Optional] Track statistics around application opens.
         // PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
-        
-        
-        let tabBarController = self.window!.rootViewController as! UITabBarController
-        
-        // Set split view controller properties for Courses
-        let coursesSplitViewController = tabBarController.viewControllers?.first as! UISplitViewController
-        let coursesNavigationController = coursesSplitViewController.viewControllers.last as! UINavigationController
-        coursesNavigationController.topViewController.navigationItem.leftBarButtonItem = coursesSplitViewController.displayModeButtonItem()
-        coursesSplitViewController.delegate = self
-        coursesSplitViewController.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
-
-        // Set tab bar controller's name and image for Courses
-        coursesSplitViewController.tabBarItem.title = "Courses"
-        coursesSplitViewController.tabBarItem.image = UIImage(named: "first")
 
         return true
     }

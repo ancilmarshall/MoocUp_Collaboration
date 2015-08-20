@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		1D0FCD1C1B839AED006A14CE /* CourseListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0FCD1B1B839AED006A14CE /* CourseListTableViewCell.swift */; };
 		1D7F85221B7B839600CEBA59 /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7F85211B7B839600CEBA59 /* DataModels.swift */; };
+		1DCCE92A1B8601A900C130CD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE9291B8601A900C130CD /* LoginViewController.swift */; };
+		1DCCE92C1B8601E200C130CD /* LoginCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE92B1B8601E200C130CD /* LoginCustomButton.swift */; };
+		1DCCE92E1B8601F700C130CD /* LoginPageOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE92D1B8601F700C130CD /* LoginPageOverlayViewController.swift */; };
+		1DCCE9301B86020100C130CD /* LoginContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE92F1B86020100C130CD /* LoginContentViewController.swift */; };
+		1DCCE9331B8608F400C130CD /* LoginCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE9321B8608F400C130CD /* LoginCustomView.swift */; };
 		1DE1E0801B7B756800309277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E07F1B7B756800309277 /* Images.xcassets */; };
 		1DE1E0831B7B756800309277 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E0811B7B756800309277 /* LaunchScreen.xib */; };
 		1DE1E08F1B7B756900309277 /* MoocUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1E08E1B7B756900309277 /* MoocUpTests.swift */; };
@@ -44,6 +49,11 @@
 /* Begin PBXFileReference section */
 		1D0FCD1B1B839AED006A14CE /* CourseListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseListTableViewCell.swift; sourceTree = "<group>"; };
 		1D7F85211B7B839600CEBA59 /* DataModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
+		1DCCE9291B8601A900C130CD /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		1DCCE92B1B8601E200C130CD /* LoginCustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCustomButton.swift; sourceTree = "<group>"; };
+		1DCCE92D1B8601F700C130CD /* LoginPageOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPageOverlayViewController.swift; sourceTree = "<group>"; };
+		1DCCE92F1B86020100C130CD /* LoginContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginContentViewController.swift; sourceTree = "<group>"; };
+		1DCCE9321B8608F400C130CD /* LoginCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCustomView.swift; sourceTree = "<group>"; };
 		1DE1E0731B7B756800309277 /* MoocUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoocUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DE1E0771B7B756800309277 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DE1E07F1B7B756800309277 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -100,6 +110,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1DCCE9311B86034C00C130CD /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				1DCCE9291B8601A900C130CD /* LoginViewController.swift */,
+				1DCCE92B1B8601E200C130CD /* LoginCustomButton.swift */,
+				1DCCE92D1B8601F700C130CD /* LoginPageOverlayViewController.swift */,
+				1DCCE92F1B86020100C130CD /* LoginContentViewController.swift */,
+				1DCCE9321B8608F400C130CD /* LoginCustomView.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		1DE1E06A1B7B756800309277 = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +143,7 @@
 		1DE1E0751B7B756800309277 /* MoocUp */ = {
 			isa = PBXGroup;
 			children = (
+				1DCCE9311B86034C00C130CD /* Login */,
 				C7F166811B7B7C6400B90C75 /* AppDelegate.swift */,
 				1D7F85211B7B839600CEBA59 /* DataModels.swift */,
 				C7F1667F1B7B7C4A00B90C75 /* Main.storyboard */,
@@ -297,7 +320,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DCCE92A1B8601A900C130CD /* LoginViewController.swift in Sources */,
+				1DCCE92E1B8601F700C130CD /* LoginPageOverlayViewController.swift in Sources */,
+				1DCCE9301B86020100C130CD /* LoginContentViewController.swift in Sources */,
 				1D0FCD1C1B839AED006A14CE /* CourseListTableViewCell.swift in Sources */,
+				1DCCE9331B8608F400C130CD /* LoginCustomView.swift in Sources */,
+				1DCCE92C1B8601E200C130CD /* LoginCustomButton.swift in Sources */,
 				C7F166821B7B7C6400B90C75 /* AppDelegate.swift in Sources */,
 				C7F1668A1B7B7D0400B90C75 /* TextViewTableViewCell.swift in Sources */,
 				1D7F85221B7B839600CEBA59 /* DataModels.swift in Sources */,
