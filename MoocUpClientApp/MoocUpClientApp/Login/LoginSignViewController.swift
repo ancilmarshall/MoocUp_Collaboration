@@ -41,14 +41,6 @@ class LoginSignViewController: UIViewController {
          self.dismissViewControllerAnimated(true, completion: {})
     }
     
-    private func blurry() {
-        var backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Light)) as UIVisualEffectView
-        
-        //backgroundEffectView.frame = imageView.bounds
-        
-        //imageView.addSubview(backgroundEffectView)
-        
-    }
-    
+
 
 }

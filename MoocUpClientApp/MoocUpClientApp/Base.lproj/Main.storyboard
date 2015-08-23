@@ -200,7 +200,6 @@
                                 </state>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.25309952445652173" green="0.13685450477623679" blue="0.20709330613082227" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="EDL-dg-xx7" secondAttribute="trailing" constant="184" id="0Q9-jZ-HJw"/>
                             <constraint firstItem="V3F-b9-MgR" firstAttribute="leading" secondItem="GEK-te-SgH" secondAttribute="trailing" constant="18" id="1Xz-h6-hra"/>
@@ -404,7 +403,6 @@
                             <constraint firstItem="MVg-hI-16g" firstAttribute="centerX" secondItem="QmL-4K-Nfr" secondAttribute="centerX" id="lAm-63-5Ne"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="dfI-fS-TZC"/>
                     <connections>
                         <outlet property="loginLogo" destination="MVg-hI-16g" id="eGp-AS-sBf"/>
                         <outlet property="loginView" destination="QmL-4K-Nfr" id="L34-gj-POi"/>

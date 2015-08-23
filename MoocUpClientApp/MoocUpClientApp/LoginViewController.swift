@@ -26,8 +26,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
             case "Skip": toTheMooc()
             
             //TODO modal form with sign out, already ahve accound, etc
-            case "Sign Up" : println("TextButton : \(textButton)")
-            
+            case "Sign Up" : blurry()   
             case "with Facebook" : facebooking()
             
             case "with Twitter" : tweeting()
@@ -46,6 +45,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         self.createPageViewController()
         self.setupPageControl()
         self.displayLoginElement()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -123,6 +123,22 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         }
     }
     
+    
+    
+// MARK: - Blurry effect
+    private func blurry() {
+        var backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Light)) as UIVisualEffectView
+        
+        
+        backgroundEffectView.frame = self.view.bounds
+        
+        self.view.addSubview(backgroundEffectView)
+        
+        println("TextButton : SignIN")
+
+        
+    }
+
     
 // MARK: - UIPageViewController - init and custom pageViewController
     func createPageViewController() {
