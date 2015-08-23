@@ -26,7 +26,8 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
             case "Skip": toTheMooc()
             
             //TODO modal form with sign out, already ahve accound, etc
-            case "Sign Up" : blurry()   
+            case "Sign Up" : println("TextButton : SignIN")
+            
             case "with Facebook" : facebooking()
             
             case "with Twitter" : tweeting()
@@ -75,7 +76,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     // Skip
     private func toTheMooc() {
         //Declare the MoocupViewcontroller as rootViewController of app if skip login screen
-        let moocupView: MoocupViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MoocupViewController") as MoocupViewController
+        let moocupView: MoocupViewController = self.storyboard?.instantiateViewControllerWithIdentifier("toTheMooc") as MoocupViewController
         
         let appdelegate = UIApplication.sharedApplication().delegate as AppDelegate
         
