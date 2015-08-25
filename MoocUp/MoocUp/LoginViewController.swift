@@ -28,8 +28,8 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
             //TODO modal form with sign out, already ahve accound, etc
             case "Sign Up" : println("TextButton : \(textButton)")
             
-            case "with Facebook" : println("TextButoon : \(textButton)")
-            //case "with Facebook" : facebooking()
+            //case "with Facebook" : println("TextButoon : \(textButton)")
+            case "with Facebook" : facebooking()
             //TODO with Twitter sdk
             case "with Twitter" : println("TextButton : \(textButton)")
             
@@ -87,33 +87,32 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         coursesSplitViewController.tabBarItem.image = UIImage(named: "first")
         
         appdelegate.window!.rootViewController = tabBarController
-//    }
+    }
 
-        
-        
-//    // FaceBook Login
-//    private func facebooking() {
-//        PFFacebookUtils.logInInBackgroundWithReadPermissions(["public_profile", "email"],
-//            block: { (user:PFUser?,error:NSError?) -> Void in
-//                if (error != nil) {
-//                    // message
-//                    var myAlert = UIAlertController (title:"Facebook Alert", message:error?.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
-//                    let alertFacebook = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
-//                    
-//                    myAlert.addAction(alertFacebook)
-//                    self.presentViewController(myAlert, animated: true, completion: nil)
-//                    println("Not logged")
-//                    
-//                    return
-//                    
-//                } else if (FBSDKAccessToken.currentAccessToken() != nil) {
-//                    println(user)
-//                    println("User Token:\(FBSDKAccessToken.currentAccessToken().userID)")
-//                    // to the mooc App
-//                    self.toTheMooc()
-//                    
-//                }
-//        })
+
+    // FaceBook Login
+    private func facebooking() {
+        PFFacebookUtils.logInInBackgroundWithReadPermissions(["public_profile", "email"],
+            block: { (user:PFUser?,error:NSError?) -> Void in
+                if (error != nil) {
+                    // message
+                    var myAlert = UIAlertController (title:"Facebook Alert", message:error?.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                    let alertFacebook = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
+                    
+                    myAlert.addAction(alertFacebook)
+                    self.presentViewController(myAlert, animated: true, completion: nil)
+                    println("Not logged")
+                    
+                    return
+                    
+                } else if (FBSDKAccessToken.currentAccessToken() != nil) {
+                    println(user)
+                    println("User Token:\(FBSDKAccessToken.currentAccessToken().userID)")
+                    // to the mooc App
+                    self.toTheMooc()
+                    
+                }
+        })
     }
     
     

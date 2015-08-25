@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1D0FCD1C1B839AED006A14CE /* CourseListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0FCD1B1B839AED006A14CE /* CourseListTableViewCell.swift */; };
+		1D5B88721B8CD4E6001C4963 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */; };
+		1D5B88741B8CD4F4001C4963 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */; };
+		1D5B88761B8CD4FF001C4963 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */; };
+		1D5B88781B8CD56B001C4963 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88771B8CD56B001C4963 /* ParseFacebookUtilsV4.framework */; };
 		1D7F85221B7B839600CEBA59 /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7F85211B7B839600CEBA59 /* DataModels.swift */; };
 		1DCCE92A1B8601A900C130CD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE9291B8601A900C130CD /* LoginViewController.swift */; };
 		1DCCE92C1B8601E200C130CD /* LoginCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE92B1B8601E200C130CD /* LoginCustomButton.swift */; };
@@ -48,6 +52,11 @@
 
 /* Begin PBXFileReference section */
 		1D0FCD1B1B839AED006A14CE /* CourseListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseListTableViewCell.swift; sourceTree = "<group>"; };
+		1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		1D5B88771B8CD56B001C4963 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
+		1D5B88791B8CD6F4001C4963 /* MoocUp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MoocUp-Bridging-Header.h"; sourceTree = "<group>"; };
 		1D7F85211B7B839600CEBA59 /* DataModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
 		1DCCE9291B8601A900C130CD /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1DCCE92B1B8601E200C130CD /* LoginCustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCustomButton.swift; sourceTree = "<group>"; };
@@ -87,12 +96,16 @@
 			files = (
 				1DE1E0AF1B7B77A100309277 /* libsqlite3.dylib in Frameworks */,
 				1DE1E0AD1B7B779200309277 /* libz.dylib in Frameworks */,
+				1D5B88761B8CD4FF001C4963 /* FBSDKShareKit.framework in Frameworks */,
 				1DE1E0AB1B7B778800309277 /* SystemConfiguration.framework in Frameworks */,
 				1DE1E0A91B7B777E00309277 /* StoreKit.framework in Frameworks */,
+				1D5B88741B8CD4F4001C4963 /* FBSDKLoginKit.framework in Frameworks */,
 				1DE1E0A71B7B777600309277 /* Security.framework in Frameworks */,
 				1DE1E0A51B7B776D00309277 /* QuartzCore.framework in Frameworks */,
 				1DE1E0A31B7B776300309277 /* CoreLocation.framework in Frameworks */,
 				1DE1E0A11B7B775900309277 /* CoreGraphics.framework in Frameworks */,
+				1D5B88781B8CD56B001C4963 /* ParseFacebookUtilsV4.framework in Frameworks */,
+				1D5B88721B8CD4E6001C4963 /* FBSDKCoreKit.framework in Frameworks */,
 				C732216A1B7B9362004306DF /* Bolts.framework in Frameworks */,
 				1DE1E09F1B7B774500309277 /* CFNetwork.framework in Frameworks */,
 				C732216B1B7B9362004306DF /* Parse.framework in Frameworks */,
@@ -153,6 +166,7 @@
 				1DE1E0811B7B756800309277 /* LaunchScreen.xib */,
 				1DE1E0761B7B756800309277 /* Supporting Files */,
 				1DE1E0B01B7B77B200309277 /* Frameworks */,
+				1D5B88791B8CD6F4001C4963 /* MoocUp-Bridging-Header.h */,
 			);
 			path = MoocUp;
 			sourceTree = "<group>";
@@ -185,6 +199,10 @@
 		1DE1E0B01B7B77B200309277 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1D5B88771B8CD56B001C4963 /* ParseFacebookUtilsV4.framework */,
+				1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */,
+				1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */,
+				1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */,
 				C73221681B7B9362004306DF /* Bolts.framework */,
 				C73221691B7B9362004306DF /* Parse.framework */,
 				1DE1E0AE1B7B77A100309277 /* libsqlite3.dylib */,
@@ -460,6 +478,7 @@
 				INFOPLIST_FILE = MoocUp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MoocUp/MoocUp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -477,6 +496,7 @@
 				INFOPLIST_FILE = MoocUp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MoocUp/MoocUp-Bridging-Header.h";
 			};
 			name = Release;
 		};
