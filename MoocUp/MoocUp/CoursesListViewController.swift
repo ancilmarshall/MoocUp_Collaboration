@@ -44,7 +44,21 @@ class CoursesListViewController: UITableViewController {
                 name: kCourseCompleteNotificationName, object: nil)
 
         //call the connection to parse with the number of courses desired. (nil for all courses)
-        fetchFromParse(200)
+        //fetchFromParse(200)
+        
+        //conduct simple test to connect to Parse and perform an HTTP Rest api request
+        let parseClient = SDAFParseAPIClient.sharedClient()
+        let requestParams = ["include":"categories"]
+        let request = parseClient.GETRequestForClass("Course", parameters: requestParams)
+        
+        let task = parseClient.HTTPRequestTaskWithRequest(request, success:
+            { (returnedTask, response) -> Void in
+                
+            println("Here so far")
+                
+        }, failure: nil)
+        task.resume()
+        
     }
     
     deinit{

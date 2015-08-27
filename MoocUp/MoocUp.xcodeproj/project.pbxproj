@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1D0FCD1C1B839AED006A14CE /* CourseListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0FCD1B1B839AED006A14CE /* CourseListTableViewCell.swift */; };
+		1D3D20231B8DDD9D00781735 /* SDCoreDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20221B8DDD9D00781735 /* SDCoreDataController.m */; };
+		1D3D20271B8DDE6100781735 /* MoocUp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20251B8DDE6100781735 /* MoocUp.xcdatamodeld */; };
+		1D3D202A1B8E531E00781735 /* SDAFParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20291B8E531E00781735 /* SDAFParseAPIClient.m */; };
+		1D3D202D1B8F10A700781735 /* SDSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D202C1B8F10A700781735 /* SDSyncEngine.m */; };
 		1D5B88721B8CD4E6001C4963 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */; };
 		1D5B88741B8CD4F4001C4963 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */; };
 		1D5B88761B8CD4FF001C4963 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */; };
@@ -52,6 +56,13 @@
 
 /* Begin PBXFileReference section */
 		1D0FCD1B1B839AED006A14CE /* CourseListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseListTableViewCell.swift; sourceTree = "<group>"; };
+		1D3D20211B8DDD9D00781735 /* SDCoreDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCoreDataController.h; sourceTree = "<group>"; };
+		1D3D20221B8DDD9D00781735 /* SDCoreDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCoreDataController.m; sourceTree = "<group>"; };
+		1D3D20261B8DDE6100781735 /* MoocUp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoocUp.xcdatamodel; sourceTree = "<group>"; };
+		1D3D20281B8E531E00781735 /* SDAFParseAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAFParseAPIClient.h; sourceTree = "<group>"; };
+		1D3D20291B8E531E00781735 /* SDAFParseAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAFParseAPIClient.m; sourceTree = "<group>"; };
+		1D3D202B1B8F10A700781735 /* SDSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDSyncEngine.h; sourceTree = "<group>"; };
+		1D3D202C1B8F10A700781735 /* SDSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDSyncEngine.m; sourceTree = "<group>"; };
 		1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -123,6 +134,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D3D20241B8DDDA600781735 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				1D3D202B1B8F10A700781735 /* SDSyncEngine.h */,
+				1D3D202C1B8F10A700781735 /* SDSyncEngine.m */,
+				1D3D20281B8E531E00781735 /* SDAFParseAPIClient.h */,
+				1D3D20291B8E531E00781735 /* SDAFParseAPIClient.m */,
+				1D3D20211B8DDD9D00781735 /* SDCoreDataController.h */,
+				1D3D20221B8DDD9D00781735 /* SDCoreDataController.m */,
+				1D3D20251B8DDE6100781735 /* MoocUp.xcdatamodeld */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
 		1DCCE9311B86034C00C130CD /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +181,7 @@
 		1DE1E0751B7B756800309277 /* MoocUp */ = {
 			isa = PBXGroup;
 			children = (
+				1D3D20241B8DDDA600781735 /* CoreData */,
 				1DCCE9311B86034C00C130CD /* Login */,
 				C7F166811B7B7C6400B90C75 /* AppDelegate.swift */,
 				1D7F85211B7B839600CEBA59 /* DataModels.swift */,
@@ -339,16 +365,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DCCE92A1B8601A900C130CD /* LoginViewController.swift in Sources */,
+				1D3D202A1B8E531E00781735 /* SDAFParseAPIClient.m in Sources */,
+				1D3D20271B8DDE6100781735 /* MoocUp.xcdatamodeld in Sources */,
 				1DCCE92E1B8601F700C130CD /* LoginPageOverlayViewController.swift in Sources */,
 				1DCCE9301B86020100C130CD /* LoginContentViewController.swift in Sources */,
 				1D0FCD1C1B839AED006A14CE /* CourseListTableViewCell.swift in Sources */,
 				1DCCE9331B8608F400C130CD /* LoginCustomView.swift in Sources */,
+				1D3D202D1B8F10A700781735 /* SDSyncEngine.m in Sources */,
 				1DCCE92C1B8601E200C130CD /* LoginCustomButton.swift in Sources */,
 				C7F166821B7B7C6400B90C75 /* AppDelegate.swift in Sources */,
 				C7F1668A1B7B7D0400B90C75 /* TextViewTableViewCell.swift in Sources */,
 				1D7F85221B7B839600CEBA59 /* DataModels.swift in Sources */,
 				C7F166861B7B7CE100B90C75 /* CourseDetailViewController.swift in Sources */,
 				C7F166851B7B7CE100B90C75 /* CoursesListViewController.swift in Sources */,
+				1D3D20231B8DDD9D00781735 /* SDCoreDataController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,6 +595,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1D3D20251B8DDE6100781735 /* MoocUp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1D3D20261B8DDE6100781735 /* MoocUp.xcdatamodel */,
+			);
+			currentVersion = 1D3D20261B8DDE6100781735 /* MoocUp.xcdatamodel */;
+			path = MoocUp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1DE1E06B1B7B756800309277 /* Project object */;
 }

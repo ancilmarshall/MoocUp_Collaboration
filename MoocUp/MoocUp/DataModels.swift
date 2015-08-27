@@ -21,7 +21,9 @@ class Base : NSObject {
     var id = String()
     var name = String()
     var summary = String()
-    var parseID:String?
+    var objectId = String()
+    var createdAt = NSDate()
+    var updatedAt = NSDate()
     
     override init() {
         super.init()
@@ -43,8 +45,16 @@ class Base : NSObject {
                 self.summary = summary
             }
             
-            if let parseID = object["objectID"] as? String {
-                self.parseID = parseID
+            if let objectId = object["objectId"] as? String {
+                self.objectId = objectId
+            }
+            
+            if let createdAt = object["createdAt"] as? NSDate {
+                self.createdAt = createdAt
+            }
+            
+            if let updatedAt = object["updatedAt"] as? NSDate {
+                self.updatedAt = updatedAt
             }
         }
     }
