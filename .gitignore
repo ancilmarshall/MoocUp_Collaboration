@@ -32,3 +32,6 @@ DerivedData
 
 Carthage/Build
 .DS_Store
+
+# Secret to be kept out of version control
+MoocUp/MoocUp/ParseAPIClient.plist
