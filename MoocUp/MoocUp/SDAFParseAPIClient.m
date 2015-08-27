@@ -17,10 +17,15 @@
 static NSString* const ParseAPIClientScheme = @"https";
 static NSString* const ParseAPIClientHostname = @"api.parse.com";
 static NSString* const ParseAPIClientPath = @"/1/";
-//TODO: Place this in plist file
-static NSString * const kSDFParseAPIApplicationId = @"V7qeQoqBdCe0URaXYO7zWXFZbUg87KlpqUyIB6gV";
-static NSString * const kSDFParseAPIKey = @"yBJYwGvjxppoSJmFCIXVIVG8hIbvOgX69nNwAEEP";
 
+//TODO: Place this in plist file
+static NSString * const kAPIClientPlistFileName = @"ParseAPIClient";
+static NSString * const kAPIClientPlistAppIDKey = @"ParseAPIApplicationID";
+static NSString * const kAPIClientPlistRESTKey  = @"ParseAPIRestKey";
+
+@interface SDAFParseAPIClient()
+@property (nonatomic,strong) NSDictionary* clientPlistDict;
+@end
 
 @implementation SDAFParseAPIClient
 
@@ -28,10 +33,20 @@ static NSString * const kSDFParseAPIKey = @"yBJYwGvjxppoSJmFCIXVIVG8hIbvOgX69nNw
     static SDAFParseAPIClient *sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedClient = [[SDAFParseAPIClient alloc] init];
+        sharedClient = [[SDAFParseAPIClient alloc] initInstance];
     }); 
     
     return sharedClient;
+}
+
+- (instancetype)initInstance;
+{
+    self = [super init];
+    if (self){
+        NSURL* clientPlistURL = [[NSBundle mainBundle] URLForResource:kAPIClientPlistFileName withExtension:@"plist"];
+        self.clientPlistDict = [NSDictionary dictionaryWithContentsOfURL:clientPlistURL];
+    }
+    return self;
 }
 
 - (NSMutableURLRequest *)GETRequestForClass:(NSString *)className parameters:(NSDictionary *)parameters {
@@ -43,8 +58,8 @@ static NSString * const kSDFParseAPIKey = @"yBJYwGvjxppoSJmFCIXVIVG8hIbvOgX69nNw
     PARSE_API_LOG(@"URL: %@",url);
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"GET";
-    [request addValue:kSDFParseAPIKey forHTTPHeaderField:@"X-Parse-REST-API-Key"];
-    [request addValue:kSDFParseAPIApplicationId forHTTPHeaderField:@"X-Parse-Application-Id"];
+    [request addValue:self.clientPlistDict[kAPIClientPlistRESTKey] forHTTPHeaderField:@"X-Parse-REST-API-Key"];
+    [request addValue:self.clientPlistDict[kAPIClientPlistAppIDKey] forHTTPHeaderField:@"X-Parse-Application-Id"];
     
     return request;
 }
@@ -85,9 +100,7 @@ static NSString * const kSDFParseAPIKey = @"yBJYwGvjxppoSJmFCIXVIVG8hIbvOgX69nNw
         ^(NSData *data, NSURLResponse *response, NSError *error) {
                                                 
             JSONPaserBlockType jsonParser = ^(NSDictionary* jsonResp){
-                NSDictionary* result = jsonResp[@"results"];
-                //TODO: Add some more error checking here, and implement the failureBlock logic
-                successBlock(task,result);
+                successBlock(task,jsonResp);
             };
             [weakSelf parseData:data response:response error:error handler:jsonParser];
         }];
@@ -150,10 +163,11 @@ static NSString * const kSDFParseAPIKey = @"yBJYwGvjxppoSJmFCIXVIVG8hIbvOgX69nNw
 -(NSURL*)URLForServerEndpoint:(NSString*)endpoint parameters:(NSDictionary*)parameters
 {
     //create queryItems
-    NSMutableArray* queryItems = [NSMutableArray new];
+    NSMutableArray* queryItems = nil;
 
     //add name/value pairs to the url from the parmeters dictionary
     if (parameters!=nil){
+        queryItems = [NSMutableArray new];
         for (NSString* key in [parameters allKeys]){
             [queryItems addObject:
              [NSURLQueryItem queryItemWithName:key value:parameters[key]]];

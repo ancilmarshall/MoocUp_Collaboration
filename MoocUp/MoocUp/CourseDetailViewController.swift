@@ -48,9 +48,9 @@ class CourseDetailViewController: UITableViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier("RightDetailCell", forIndexPath: indexPath) as! UITableViewCell
             cell.textLabel?.text = "Language"
             if let course = course {
-                if let language = course.languages.first {
-                cell.detailTextLabel?.text = NSLocale.currentLocale().displayNameForKey(NSLocaleIdentifier, value: language.name)
-                }
+//                if let language = course.languages.first {
+//                cell.detailTextLabel?.text = NSLocale.currentLocale().displayNameForKey(NSLocaleIdentifier, value: language.name)
+//                }
             }
             return cell
         case (1, 0):

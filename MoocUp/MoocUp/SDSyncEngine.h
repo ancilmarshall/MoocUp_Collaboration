@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const kSDSyncEngineSyncCompletedNotificationName;
+
 typedef enum {
     SDObjectSynced = 0,
 } SDObjectSyncStatus;
@@ -19,5 +21,10 @@ typedef enum {
 
 - (void)registerNSManagedObjectClassToSync:(Class)aClass;
 - (void)startSync;
+
+
+//TODO:remove. Temporarily made public for testing
+- (void)downloadDataForRegisteredObjects:(BOOL)useUpdatedAtDate;
+
 
 @end

@@ -9,6 +9,8 @@ class CoursesListViewController: UITableViewController {
     var detailViewController: CourseDetailViewController?
     var courses = [Course]()
     
+    var managedObjectContext: NSManagedObjectContext?
+    
     var foundCourseObjects = [PFObject]()
     var getCoursesCurrentIndex = 0
     var totalCourses = 0
@@ -38,32 +40,49 @@ class CoursesListViewController: UITableViewController {
         //set the table row height
         tableView.rowHeight = 180//tableView.rowHeight
 
-        //addobservers
-        NSNotificationCenter.defaultCenter()
-            .addObserver(self, selector: "courseCompleteNotification:",
-                name: kCourseCompleteNotificationName, object: nil)
+        
+        managedObjectContext = SDCoreDataController.sharedInstance().newManagedObjectContext()
 
-        //call the connection to parse with the number of courses desired. (nil for all courses)
-        //fetchFromParse(200)
+        SDSyncEngine.sharedEngine().registerNSManagedObjectClassToSync(Course)
+        SDSyncEngine.sharedEngine().startSync()
+        //loadRecordsFromCoreData()
+       
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
-        //conduct simple test to connect to Parse and perform an HTTP Rest api request
-        let parseClient = SDAFParseAPIClient.sharedClient()
-        let requestParams = ["include":"categories"]
-        let request = parseClient.GETRequestForClass("Course", parameters: requestParams)
-        
-        let task = parseClient.HTTPRequestTaskWithRequest(request, success:
-            { (returnedTask, response) -> Void in
-                
-            println("Here so far")
-                
-        }, failure: nil)
-        task.resume()
+        NSNotificationCenter.defaultCenter()
+            .addObserverForName("SDSyncEngineSyncCompleted", object: nil, queue: nil) {
+                (NSNotification note)-> Void in
+                    self.loadRecordsFromCoreData()
+                    self.tableView.reloadData()
+        }
         
     }
     
+    
+    func loadRecordsFromCoreData()
+    {
+        if let moc = managedObjectContext{
+            moc.performBlockAndWait{
+                moc.reset()
+                let request = NSFetchRequest(entityName: "Course")
+                let sortDescriptors = NSSortDescriptor(key: "createdAt", ascending: true)
+                request.sortDescriptors = [sortDescriptors]
+                var error = NSErrorPointer()
+                
+                //Do some error checking before explicit as!
+                self.courses = moc.executeFetchRequest(request, error: error) as! [Course]
+                //Do some error checking after the fetch request
+            }
+        }
+    }
+
+    
     deinit{
-        NSNotificationCenter.defaultCenter()
-            .removeObserver(self, name: kCourseCompleteNotificationName, object: nil)
+//        NSNotificationCenter.defaultCenter()
+//            .removeObserver(self, name: kCourseCompleteNotificationName, object: nil)
     }
     
     // MARK: - Parse Support Methods
@@ -78,7 +97,7 @@ class CoursesListViewController: UITableViewController {
     func getNextCourse(){
 
         var currentCourseObject = self.foundCourseObjects[getCoursesCurrentIndex++]
-        Course(object:currentCourseObject) // asynchronous
+        //Course(object:currentCourseObject) // asynchronous
 
     }
     
@@ -230,12 +249,12 @@ class CoursesListViewController: UITableViewController {
         
         let course = courses[indexPath.row]
         
-        if let imageData = course.image.largeIconData {
-            cell.customImageView?.image =
-                UIImage(data: imageData)
-            cell.customImageView?.clipsToBounds = true
-            cell.customImageView?.contentMode = UIViewContentMode.ScaleAspectFill
-        } 
+//        if let imageData = course.image.photoData {
+//            cell.customImageView?.image =
+//                UIImage(data: imageData)
+//            cell.customImageView?.clipsToBounds = true
+//            cell.customImageView?.contentMode = UIViewContentMode.ScaleAspectFill
+//        } 
         
         var gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = cell.gradientView.bounds

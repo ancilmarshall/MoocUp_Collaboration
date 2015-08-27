@@ -12,11 +12,13 @@
 		1D3D20271B8DDE6100781735 /* MoocUp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20251B8DDE6100781735 /* MoocUp.xcdatamodeld */; };
 		1D3D202A1B8E531E00781735 /* SDAFParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20291B8E531E00781735 /* SDAFParseAPIClient.m */; };
 		1D3D202D1B8F10A700781735 /* SDSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D202C1B8F10A700781735 /* SDSyncEngine.m */; };
+		1D3D202F1B8F3F2100781735 /* ParseAPIClient.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D3D202E1B8F3F2100781735 /* ParseAPIClient.plist */; };
+		1D3D20401B8F985300781735 /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D203F1B8F985300781735 /* Course.m */; };
+		1D3D20431B8F985400781735 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20421B8F985400781735 /* Image.m */; };
 		1D5B88721B8CD4E6001C4963 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */; };
 		1D5B88741B8CD4F4001C4963 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */; };
 		1D5B88761B8CD4FF001C4963 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */; };
 		1D5B88781B8CD56B001C4963 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88771B8CD56B001C4963 /* ParseFacebookUtilsV4.framework */; };
-		1D7F85221B7B839600CEBA59 /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7F85211B7B839600CEBA59 /* DataModels.swift */; };
 		1DCCE92A1B8601A900C130CD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE9291B8601A900C130CD /* LoginViewController.swift */; };
 		1DCCE92C1B8601E200C130CD /* LoginCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE92B1B8601E200C130CD /* LoginCustomButton.swift */; };
 		1DCCE92E1B8601F700C130CD /* LoginPageOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE92D1B8601F700C130CD /* LoginPageOverlayViewController.swift */; };
@@ -63,12 +65,16 @@
 		1D3D20291B8E531E00781735 /* SDAFParseAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAFParseAPIClient.m; sourceTree = "<group>"; };
 		1D3D202B1B8F10A700781735 /* SDSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDSyncEngine.h; sourceTree = "<group>"; };
 		1D3D202C1B8F10A700781735 /* SDSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDSyncEngine.m; sourceTree = "<group>"; };
+		1D3D202E1B8F3F2100781735 /* ParseAPIClient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParseAPIClient.plist; sourceTree = "<group>"; };
+		1D3D203E1B8F985300781735 /* Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Course.h; sourceTree = "<group>"; };
+		1D3D203F1B8F985300781735 /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
+		1D3D20411B8F985400781735 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		1D3D20421B8F985400781735 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
 		1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		1D5B88771B8CD56B001C4963 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		1D5B88791B8CD6F4001C4963 /* MoocUp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MoocUp-Bridging-Header.h"; sourceTree = "<group>"; };
-		1D7F85211B7B839600CEBA59 /* DataModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
 		1DCCE9291B8601A900C130CD /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1DCCE92B1B8601E200C130CD /* LoginCustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCustomButton.swift; sourceTree = "<group>"; };
 		1DCCE92D1B8601F700C130CD /* LoginPageOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPageOverlayViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +143,10 @@
 		1D3D20241B8DDDA600781735 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				1D3D20411B8F985400781735 /* Image.h */,
+				1D3D20421B8F985400781735 /* Image.m */,
+				1D3D203E1B8F985300781735 /* Course.h */,
+				1D3D203F1B8F985300781735 /* Course.m */,
 				1D3D202B1B8F10A700781735 /* SDSyncEngine.h */,
 				1D3D202C1B8F10A700781735 /* SDSyncEngine.m */,
 				1D3D20281B8E531E00781735 /* SDAFParseAPIClient.h */,
@@ -144,6 +154,7 @@
 				1D3D20211B8DDD9D00781735 /* SDCoreDataController.h */,
 				1D3D20221B8DDD9D00781735 /* SDCoreDataController.m */,
 				1D3D20251B8DDE6100781735 /* MoocUp.xcdatamodeld */,
+				1D3D202E1B8F3F2100781735 /* ParseAPIClient.plist */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -184,7 +195,6 @@
 				1D3D20241B8DDDA600781735 /* CoreData */,
 				1DCCE9311B86034C00C130CD /* Login */,
 				C7F166811B7B7C6400B90C75 /* AppDelegate.swift */,
-				1D7F85211B7B839600CEBA59 /* DataModels.swift */,
 				C7F1667F1B7B7C4A00B90C75 /* Main.storyboard */,
 				C7F166871B7B7CEB00B90C75 /* Courses */,
 				C7F166881B7B7CF300B90C75 /* Course detail */,
@@ -346,6 +356,7 @@
 			files = (
 				C7F166801B7B7C4A00B90C75 /* Main.storyboard in Resources */,
 				1DE1E0831B7B756800309277 /* LaunchScreen.xib in Resources */,
+				1D3D202F1B8F3F2100781735 /* ParseAPIClient.plist in Resources */,
 				1DE1E0801B7B756800309277 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -368,6 +379,8 @@
 				1D3D202A1B8E531E00781735 /* SDAFParseAPIClient.m in Sources */,
 				1D3D20271B8DDE6100781735 /* MoocUp.xcdatamodeld in Sources */,
 				1DCCE92E1B8601F700C130CD /* LoginPageOverlayViewController.swift in Sources */,
+				1D3D20401B8F985300781735 /* Course.m in Sources */,
+				1D3D20431B8F985400781735 /* Image.m in Sources */,
 				1DCCE9301B86020100C130CD /* LoginContentViewController.swift in Sources */,
 				1D0FCD1C1B839AED006A14CE /* CourseListTableViewCell.swift in Sources */,
 				1DCCE9331B8608F400C130CD /* LoginCustomView.swift in Sources */,
@@ -375,7 +388,6 @@
 				1DCCE92C1B8601E200C130CD /* LoginCustomButton.swift in Sources */,
 				C7F166821B7B7C6400B90C75 /* AppDelegate.swift in Sources */,
 				C7F1668A1B7B7D0400B90C75 /* TextViewTableViewCell.swift in Sources */,
-				1D7F85221B7B839600CEBA59 /* DataModels.swift in Sources */,
 				C7F166861B7B7CE100B90C75 /* CourseDetailViewController.swift in Sources */,
 				C7F166851B7B7CE100B90C75 /* CoursesListViewController.swift in Sources */,
 				1D3D20231B8DDD9D00781735 /* SDCoreDataController.m in Sources */,

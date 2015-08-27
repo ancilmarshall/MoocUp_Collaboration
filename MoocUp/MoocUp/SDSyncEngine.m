@@ -9,6 +9,12 @@
 #import "SDCoreDataController.h"
 #import "SDAFParseAPIClient.h"
 
+
+#if 1 && defined(DEBUG)
+#define SYNC_ENGINE_LOG(format, ...) NSLog(@"Sync Engine: " format, ## __VA_ARGS__)
+#else
+#define SYNC_ENGINE_LOG(format, ...)
+#endif
 NSString * const kSDSyncEngineInitialCompleteKey = @"SDSyncEngineInitialSyncCompleted";
 NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSyncCompleted";
 
@@ -41,7 +47,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
         self.registeredClassesToSync = [NSMutableArray array];
     }
     
-    if ([aClass isSubclassOfClass:[NSManagedObject class]]) {        
+    if ([aClass isSubclassOfClass:[NSManagedObject class]]) {
         if (![self.registeredClassesToSync containsObject:NSStringFromClass(aClass)]) {
             [self.registeredClassesToSync addObject:NSStringFromClass(aClass)];
         } else {
@@ -73,6 +79,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
         }
         
         [[SDCoreDataController sharedInstance] saveMasterContext];
+        SYNC_ENGINE_LOG(@"Posting Sync Completion Notification");
         [[NSNotificationCenter defaultCenter] 
          postNotificationName:kSDSyncEngineSyncCompletedNotificationName 
          object:nil];
@@ -121,19 +128,27 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
                                         GETRequestForAllRecordsOfClass:className
                                         updatedAfterDate:mostRecentUpdatedDate];
         
+        //TODO: Make this a background download task
         NSURLSessionDataTask* task = [[SDAFParseAPIClient sharedClient] HTTPRequestTaskWithRequest:request
             success:^(NSURLSessionDataTask * task, id responseObject) {
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                    SYNC_ENGINE_LOG(@"Writing to JSON file");
                     [self writeJSONResponse:responseObject toDiskForClassWithName:className];
+                } else {
+                    NSLog(@"Expected JSON response to be an NSDictionary");
                 }
 
             } failure:nil];
         
-        //TODO: Add to an operation queue instead of starting task here immediately
-        [task resume];
-        
+        NSOperationQueue* queue = [[NSOperationQueue alloc] init];
+        NSBlockOperation* operation = [NSBlockOperation blockOperationWithBlock:^{
+            [task resume];
+        }];
+        //operation.completionBlock = ^{
+            //[self processJSONDataRecordsIntoCoreData];
+        //};
+        [queue addOperation:operation];
     }
-    //TODO: Add the processJSONDataRecordsIntoCoreData call at some point here
 }
 
 - (void)processJSONDataRecordsIntoCoreData {
@@ -177,7 +192,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
         [self executeSyncCompletedOperations];
     }
     
-    [self downloadDataForRegisteredObjects:NO];
+    //[self downloadDataForRegisteredObjects:NO];
 }
 
 - (void)newManagedObjectWithClassName:(NSString *)className forRecord:(NSDictionary *)record {
@@ -214,10 +229,22 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
                 NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
                 [managedObject setValue:dataResponse forKey:key];
             } else {
-                NSLog(@"Unknown Data Type Received");
+                //NSLog(@"Unknown Data Type Received");
                 [managedObject setValue:nil forKey:key];
             }
         }
+    } else if ([key isEqualToString:@"categories"]) {
+        return;
+    } else if ([key isEqualToString:@"instructors"]) {
+        return;
+    } else if ([key isEqualToString:@"universities"]) {
+        return;
+    } else if ([key isEqualToString:@"languages"]) {
+        return;
+    } else if ([key isEqualToString:@"moocs"]) {
+        return;
+    } else if ([key isEqualToString:@"sessions"]) {
+        return;
     } else {
         [managedObject setValue:value forKey:key];
     }
@@ -300,6 +327,8 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     NSError *error = nil;
     if (![fileManager fileExistsAtPath:[url path]]) {
         [fileManager createDirectoryAtPath:[url path] withIntermediateDirectories:YES attributes:nil error:&error];
+    } else {
+        //NSLog(@"File already exists at path: %@",[url path]);
     }
     
     return url;
@@ -328,6 +357,8 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
             NSLog(@"Failed all attempts to save reponse to disk: %@", response);
         }
     }
+    //TODO: Verify that doing this here is ok. Added here by Ancil
+    [self processJSONDataRecordsIntoCoreData];
 }
 
 - (void)deleteJSONDataRecordsForClassWithName:(NSString *)className {
