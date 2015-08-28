@@ -13,8 +13,10 @@
 		1D3D202A1B8E531E00781735 /* SDAFParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20291B8E531E00781735 /* SDAFParseAPIClient.m */; };
 		1D3D202D1B8F10A700781735 /* SDSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D202C1B8F10A700781735 /* SDSyncEngine.m */; };
 		1D3D202F1B8F3F2100781735 /* ParseAPIClient.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D3D202E1B8F3F2100781735 /* ParseAPIClient.plist */; };
-		1D3D20401B8F985300781735 /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D203F1B8F985300781735 /* Course.m */; };
-		1D3D20431B8F985400781735 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20421B8F985400781735 /* Image.m */; };
+		1D3D207D1B90C4CB00781735 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D207C1B90C4CB00781735 /* Image.swift */; };
+		1D3D207F1B90C4CC00781735 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D207E1B90C4CC00781735 /* Category.swift */; };
+		1D3D20811B90C4CC00781735 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20801B90C4CC00781735 /* Language.swift */; };
+		1D3D20831B90C4CC00781735 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20821B90C4CC00781735 /* Course.swift */; };
 		1D5B88721B8CD4E6001C4963 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */; };
 		1D5B88741B8CD4F4001C4963 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */; };
 		1D5B88761B8CD4FF001C4963 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */; };
@@ -66,10 +68,10 @@
 		1D3D202B1B8F10A700781735 /* SDSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDSyncEngine.h; sourceTree = "<group>"; };
 		1D3D202C1B8F10A700781735 /* SDSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDSyncEngine.m; sourceTree = "<group>"; };
 		1D3D202E1B8F3F2100781735 /* ParseAPIClient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParseAPIClient.plist; sourceTree = "<group>"; };
-		1D3D203E1B8F985300781735 /* Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Course.h; sourceTree = "<group>"; };
-		1D3D203F1B8F985300781735 /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
-		1D3D20411B8F985400781735 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
-		1D3D20421B8F985400781735 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
+		1D3D207C1B90C4CB00781735 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		1D3D207E1B90C4CC00781735 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		1D3D20801B90C4CC00781735 /* Language.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		1D3D20821B90C4CC00781735 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -143,10 +145,10 @@
 		1D3D20241B8DDDA600781735 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				1D3D20411B8F985400781735 /* Image.h */,
-				1D3D20421B8F985400781735 /* Image.m */,
-				1D3D203E1B8F985300781735 /* Course.h */,
-				1D3D203F1B8F985300781735 /* Course.m */,
+				1D3D20821B90C4CC00781735 /* Course.swift */,
+				1D3D20801B90C4CC00781735 /* Language.swift */,
+				1D3D207E1B90C4CC00781735 /* Category.swift */,
+				1D3D207C1B90C4CB00781735 /* Image.swift */,
 				1D3D202B1B8F10A700781735 /* SDSyncEngine.h */,
 				1D3D202C1B8F10A700781735 /* SDSyncEngine.m */,
 				1D3D20281B8E531E00781735 /* SDAFParseAPIClient.h */,
@@ -375,14 +377,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D3D20831B90C4CC00781735 /* Course.swift in Sources */,
 				1DCCE92A1B8601A900C130CD /* LoginViewController.swift in Sources */,
 				1D3D202A1B8E531E00781735 /* SDAFParseAPIClient.m in Sources */,
 				1D3D20271B8DDE6100781735 /* MoocUp.xcdatamodeld in Sources */,
 				1DCCE92E1B8601F700C130CD /* LoginPageOverlayViewController.swift in Sources */,
-				1D3D20401B8F985300781735 /* Course.m in Sources */,
-				1D3D20431B8F985400781735 /* Image.m in Sources */,
+				1D3D207D1B90C4CB00781735 /* Image.swift in Sources */,
 				1DCCE9301B86020100C130CD /* LoginContentViewController.swift in Sources */,
 				1D0FCD1C1B839AED006A14CE /* CourseListTableViewCell.swift in Sources */,
+				1D3D207F1B90C4CC00781735 /* Category.swift in Sources */,
+				1D3D20811B90C4CC00781735 /* Language.swift in Sources */,
 				1DCCE9331B8608F400C130CD /* LoginCustomView.swift in Sources */,
 				1D3D202D1B8F10A700781735 /* SDSyncEngine.m in Sources */,
 				1DCCE92C1B8601E200C130CD /* LoginCustomButton.swift in Sources */,

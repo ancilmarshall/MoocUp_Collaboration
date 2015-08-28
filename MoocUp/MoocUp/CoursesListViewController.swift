@@ -43,7 +43,7 @@ class CoursesListViewController: UITableViewController {
         
         managedObjectContext = SDCoreDataController.sharedInstance().newManagedObjectContext()
 
-        SDSyncEngine.sharedEngine().registerNSManagedObjectClassToSync(Course)
+        SDSyncEngine.sharedEngine().registerNSManagedObjectClassToSync("Course")
         SDSyncEngine.sharedEngine().startSync()
         //loadRecordsFromCoreData()
        

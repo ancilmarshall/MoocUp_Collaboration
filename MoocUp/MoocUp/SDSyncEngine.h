@@ -19,12 +19,7 @@ typedef enum {
 
 + (SDSyncEngine *)sharedEngine;
 
-- (void)registerNSManagedObjectClassToSync:(Class)aClass;
+- (void)registerNSManagedObjectClassToSync:(NSString*)className;
 - (void)startSync;
-
-
-//TODO:remove. Temporarily made public for testing
-- (void)downloadDataForRegisteredObjects:(BOOL)useUpdatedAtDate;
-
 
 @end

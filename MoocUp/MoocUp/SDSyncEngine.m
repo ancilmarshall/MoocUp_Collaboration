@@ -42,19 +42,15 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     return sharedEngine;
 }
 
-- (void)registerNSManagedObjectClassToSync:(Class)aClass {
+- (void)registerNSManagedObjectClassToSync:(NSString*)className {
     if (!self.registeredClassesToSync) {
         self.registeredClassesToSync = [NSMutableArray array];
     }
     
-    if ([aClass isSubclassOfClass:[NSManagedObject class]]) {
-        if (![self.registeredClassesToSync containsObject:NSStringFromClass(aClass)]) {
-            [self.registeredClassesToSync addObject:NSStringFromClass(aClass)];
-        } else {
-            NSLog(@"Unable to register %@ as it is already registered", NSStringFromClass(aClass));
-        }
+    if (![self.registeredClassesToSync containsObject:className]) {
+        [self.registeredClassesToSync addObject:className];
     } else {
-        NSLog(@"Unable to register %@ as it is not a subclass of NSManagedObject", NSStringFromClass(aClass));
+        NSLog(@"Unable to register %@ as it is already registered",className);
     }
 }
 
@@ -195,12 +191,13 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     //[self downloadDataForRegisteredObjects:NO];
 }
 
-- (void)newManagedObjectWithClassName:(NSString *)className forRecord:(NSDictionary *)record {
+- (NSManagedObject*)newManagedObjectWithClassName:(NSString *)className forRecord:(NSDictionary *)record {
     NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:[[SDCoreDataController sharedInstance] backgroundManagedObjectContext]];
     [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [self setValue:obj forKey:key forManagedObject:newManagedObject];
     }];
     [record setValue:[NSNumber numberWithInt:SDObjectSynced] forKey:@"syncStatus"];
+    return newManagedObject;
 }
 
 - (void)updateManagedObject:(NSManagedObject *)managedObject withRecord:(NSDictionary *)record {
@@ -209,10 +206,37 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     }];
 }
 
+
+
 - (void)setValue:(id)value forKey:(NSString *)key forManagedObject:(NSManagedObject *)managedObject {
     if ([key isEqualToString:@"createdAt"] || [key isEqualToString:@"updatedAt"]) {
         NSDate *date = [self dateUsingStringFromAPI:value];
         [managedObject setValue:date forKey:key];
+    } else if ([key isEqualToString:@"categories"]) {
+            return;
+    } else if ([key isEqualToString:@"__type"]){
+        return;
+    } else if ([key isEqualToString:@"className"]){
+        return;
+    } else if ([value isKindOfClass:[NSArray class]]){
+        NSArray* valueArray = (NSArray*)value;
+        if ([[[valueArray firstObject] objectForKey:@"__type"] isEqualToString:@"Object"]){
+            NSMutableSet* relationshipObjects = [NSMutableSet new];
+            for (NSDictionary* record in valueArray) {
+                NSString* className = [record valueForKey:@"className"];
+                NSManagedObject* storedObject = [self managedObjectForClass:className withObjectId:[record valueForKey:@"objectId"]];
+                if (storedObject != nil) {
+                    [relationshipObjects addObject:storedObject];
+                } else {
+                    NSManagedObject* newObject = [self newManagedObjectWithClassName:className forRecord:record];
+                    [relationshipObjects addObject:newObject];
+                }
+            }
+            [managedObject setValue:relationshipObjects forKey:key];
+        }
+    } else if ([key isEqualToString:@"image"]) {
+    
+    
     } else if ([value isKindOfClass:[NSDictionary class]]) {
         if ([value objectForKey:@"__type"]) {
             NSString *dataType = [value objectForKey:@"__type"];
@@ -233,8 +257,6 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
                 [managedObject setValue:nil forKey:key];
             }
         }
-    } else if ([key isEqualToString:@"categories"]) {
-        return;
     } else if ([key isEqualToString:@"instructors"]) {
         return;
     } else if ([key isEqualToString:@"universities"]) {
@@ -263,6 +285,21 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     
     return results;    
 }
+
+- (NSManagedObject *)managedObjectForClass:(NSString *)className withObjectId:(NSString*)objectId {
+    __block NSManagedObject *result = nil;
+    NSManagedObjectContext *managedObjectContext = [[SDCoreDataController sharedInstance] backgroundManagedObjectContext];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:className];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId = %@", objectId];
+    [fetchRequest setPredicate:predicate];
+    [managedObjectContext performBlockAndWait:^{
+        NSError *error = nil;
+        result = [[managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
+    }];
+    
+    return result;
+}
+
 
 - (NSArray *)managedObjectsForClass:(NSString *)className sortedByKey:(NSString *)key usingArrayOfIds:(NSArray *)idArray inArrayOfIds:(BOOL)inIds {
     __block NSArray *results = nil;
@@ -357,7 +394,6 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
             NSLog(@"Failed all attempts to save reponse to disk: %@", response);
         }
     }
-    //TODO: Verify that doing this here is ok. Added here by Ancil
     [self processJSONDataRecordsIntoCoreData];
 }
 

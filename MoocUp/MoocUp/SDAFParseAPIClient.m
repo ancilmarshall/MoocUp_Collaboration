@@ -66,7 +66,8 @@ static NSString * const kAPIClientPlistRESTKey  = @"ParseAPIRestKey";
 
 - (NSMutableURLRequest *)GETRequestForAllRecordsOfClass:(NSString *)className updatedAfterDate:(NSDate *)updatedDate {
     NSMutableURLRequest *request = nil;
-    NSDictionary *paramters = nil;
+    NSDictionary *parameters = nil;
+    NSMutableDictionary* mutableParameters = [NSMutableDictionary new];
     if (updatedDate) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.'999Z'"];
@@ -76,13 +77,15 @@ static NSString * const kAPIClientPlistRESTKey  = @"ParseAPIRestKey";
                                 stringWithFormat:@"{\"updatedAt\":{\"$gte\":{\"__type\":\"Date\",\"iso\":\"%@\"}}}", 
                                 [dateFormatter stringFromDate:updatedDate]];
         
-        paramters = [NSDictionary dictionaryWithObject:jsonString forKey:@"where"];
+        [mutableParameters setObject:jsonString forKey:@"where"];
     }
     
-    request = [self GETRequestForClass:className parameters:paramters];
+    //[mutableParameters setObject:@"image,languages" forKey:@"include"];
+    parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
+    
+    request = [self GETRequestForClass:className parameters:parameters];
     return request;
 }
-
 
 #pragma mark - NSURLSession task
 
