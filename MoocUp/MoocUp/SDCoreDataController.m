@@ -127,6 +127,28 @@
     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"MoocUp.sqlite"];
     
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[storeURL path]]) {
+        NSArray* sourceSqliteURLs =@[
+            [[NSBundle mainBundle] URLForResource:@"MoocUp" withExtension:@"sqlite"],
+            [[NSBundle mainBundle] URLForResource:@"MoocUp" withExtension:@"sqlite-wal"],
+            [[NSBundle mainBundle] URLForResource:@"MoocUp" withExtension:@"sqlite-shm"]];
+
+        
+        NSArray* destSqliteURLs = @[
+            [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"MoocUp.sqlite"],
+            [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"MoocUp.sqlite-wal"],
+            [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"MoocUp.sqlite-shm"]];
+        
+        NSError* error = nil;
+        for (NSUInteger index=0; index < sourceSqliteURLs.count; index++) {
+            [[NSFileManager defaultManager] copyItemAtURL:sourceSqliteURLs[index] toURL:destSqliteURLs[index] error:&error];
+        }
+        
+        if (error != nil){
+            NSLog(@"Error copying preloaded CoreData model to application document directory");
+        }
+    }
+    
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {

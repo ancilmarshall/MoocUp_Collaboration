@@ -29,7 +29,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         SDSyncEngine.sharedEngine().registerNSManagedObjectClassToSync("Course")
         SDSyncEngine.sharedEngine().startSync()
         
+        println("\(applicationDocumentsDirectory().path)")
+
         return true
+    }
+    
+    func applicationDocumentsDirectory()->NSURL{
+        return NSFileManager.defaultManager().URLsForDirectory(
+            NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask).last as! NSURL
     }
 
     func applicationWillResignActive(application: UIApplication) {
