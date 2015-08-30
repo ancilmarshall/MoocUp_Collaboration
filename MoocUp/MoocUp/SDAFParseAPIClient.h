@@ -7,8 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^JSONPaserBlockType)(NSDictionary*);
-typedef void(^HTTPRequestBlockType)(NSURLSessionDataTask*,id);
+typedef void(^JSONPaserBlockType)(NSDictionary*,NSError*);
+typedef void(^HTTPRequestBlockType)(NSURLSessionDataTask*,id,NSError*);
 
 @interface SDAFParseAPIClient : NSObject 
 

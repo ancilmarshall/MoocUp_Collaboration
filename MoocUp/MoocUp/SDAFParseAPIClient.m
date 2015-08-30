@@ -7,7 +7,7 @@
 
 #import "SDAFParseAPIClient.h"
 
-#if 1 && defined(DEBUG)
+#if 0 && defined(DEBUG)
 #define PARSE_API_LOG(format, ...) NSLog(@"Parse API Client: " format, ## __VA_ARGS__)
 #else
 #define PARSE_API_LOG(format, ...)
@@ -110,11 +110,20 @@ static NSString * const kAPIClientPlistRESTKey  = @"ParseAPIRestKey";
     NSURLSessionDataTask* task = [session dataTaskWithRequest:request
                                             completionHandler:
         ^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                
-            JSONPaserBlockType jsonParser = ^(NSDictionary* jsonResp){
-                successBlock(task,jsonResp);
-            };
-            [weakSelf parseData:data response:response error:error handler:jsonParser];
+            if (error==nil) {
+                JSONPaserBlockType jsonParser = ^(NSDictionary* jsonResp, NSError* error){
+                    if (error == nil){
+                        successBlock(task,jsonResp,error);
+                    } else {
+                        failureBlock(task,jsonResp,error);
+                    }
+                    
+                };
+                [weakSelf parseData:data response:response error:error handler:jsonParser];
+            } else {
+                failureBlock(task,nil,error);
+            }
+            
         }];
     return task;
 }
@@ -124,8 +133,7 @@ static NSString * const kAPIClientPlistRESTKey  = @"ParseAPIRestKey";
 -(void)parseData:(NSData*)data response:(NSURLResponse*)response error:(NSError*)error handler:(JSONPaserBlockType)jsonParser;
 {
     
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    if (!error)
+    if (error == nil)
     {
         NSAssert([response isKindOfClass:[NSHTTPURLResponse class]],
                  @"Expected response to be of type NSHTTPURLResponse");
@@ -133,41 +141,19 @@ static NSString * const kAPIClientPlistRESTKey  = @"ParseAPIRestKey";
         
         if (httpResp.statusCode == 200){
             
-            [self parseJSONData:data usingBlock:jsonParser];
+            NSError* jsonError = nil;
+            NSDictionary* jsonResp = [NSJSONSerialization JSONObjectWithData:data
+                                                                     options:NSJSONReadingAllowFragments
+                                                                       error:&jsonError];
+            jsonParser(jsonResp,jsonError);
             
         } else {
-            [self taskFailedWithErrorMessage:[NSString stringWithFormat:
-                                              @"Error in HTTP Repsonse\nStatus code: %tu",httpResp.statusCode]];
+            NSError* error = [[NSError alloc] initWithDomain:@"HTTP Response Error" code:0 userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"HTTP Response Error with Status code :%tu",httpResp.statusCode ]}];
+            jsonParser(nil,error);
         }
     } else {
-        [self taskFailedWithErrorMessage:[NSString stringWithFormat:
-                                          @"Error in NSURLSessionTask\nError: %@",[error localizedDescription]]];
+        jsonParser(nil,error);
     }
-}
-
-
--(void)parseJSONData:(NSData*)data usingBlock:(JSONPaserBlockType)jsonParserBlock {
-    
-    // Parse returned JSON data
-    NSError* jsonError = nil;
-    NSDictionary* jsonResp =
-    [NSJSONSerialization JSONObjectWithData:data
-                                    options:NSJSONReadingAllowFragments
-                                      error:&jsonError];
-    
-    if (!jsonError){
-        
-        jsonParserBlock(jsonResp);
-        
-    } else {
-        [self taskFailedWithErrorMessage:[NSString stringWithFormat:
-                                          @"Error serializing JSON data\nError: %@",[jsonError localizedDescription]]];
-    }
-}
-
--(void)taskFailedWithErrorMessage:(NSString*)errorMsg;
-{
-    NSLog(@"%@",errorMsg);
 }
 
 #pragma mark - URL based on Query Items and Server Endpoints

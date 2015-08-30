@@ -10,7 +10,7 @@
 #import "SDAFParseAPIClient.h"
 
 
-#if 1 && defined(DEBUG)
+#if 0 && defined(DEBUG)
 #define SYNC_ENGINE_LOG(format, ...) NSLog(@"Sync Engine: " format, ## __VA_ARGS__)
 #else
 #define SYNC_ENGINE_LOG(format, ...)
@@ -57,6 +57,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
 
 - (void)startSync {
     if (!self.syncInProgress) {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         [self willChangeValueForKey:@"syncInProgress"];
         _syncInProgress = YES;
         [self didChangeValueForKey:@"syncInProgress"];
@@ -68,6 +69,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
 
 - (void)executeSyncCompletedOperations {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         [self setInitialSyncCompleted];
         NSError *error = nil;
         [[SDCoreDataController sharedInstance] saveBackgroundContext];
@@ -128,16 +130,25 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
         
         //TODO: Make this a background download task
         NSURLSessionDataTask* task = [[SDAFParseAPIClient sharedClient] HTTPRequestTaskWithRequest:request
-            success:^(NSURLSessionDataTask * task, id responseObject) {
-                if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                    SYNC_ENGINE_LOG(@"Writing to JSON file");
-                    [self writeJSONResponse:responseObject toDiskForClassWithName:className];
+            success:^(NSURLSessionDataTask * task, id responseObject, NSError* error) {
+                if (error == nil){
+                    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                        SYNC_ENGINE_LOG(@"Writing to JSON file");
+                        [self writeJSONResponse:responseObject toDiskForClassWithName:className];
+                    } else {
+                        NSLog(@"Expected JSON response to be an NSDictionary");
+                    }
+                } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]) {
+                    NSLog(@"Error: %@",error.localizedDescription);
+                    [self executeSyncCompletedOperations];
+                    //TODO: Inform user that the connection is not available and will try again later
                 } else {
-                    NSLog(@"Expected JSON response to be an NSDictionary");
+                    NSLog(@"Error: %@",error.localizedDescription);
                 }
-
-            } failure:nil];
-        
+            } failure:^(NSURLSessionDataTask* task, id responseObject, NSError* error){
+                NSLog(@"Error: %@",error.localizedDescription);
+                [self executeSyncCompletedOperations];
+            }];
         //TODO: May not really need this operation queue
         NSOperationQueue* queue = [[NSOperationQueue alloc] init];
         NSBlockOperation* operation = [NSBlockOperation blockOperationWithBlock:^{
