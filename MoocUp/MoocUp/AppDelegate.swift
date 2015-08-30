@@ -25,6 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         //Facebook
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
 
+        //Parse/CoreData synchronization
+        SDSyncEngine.sharedEngine().registerNSManagedObjectClassToSync("Course")
+        SDSyncEngine.sharedEngine().startSync()
+        
         return true
     }
 

@@ -81,7 +81,7 @@ static NSString * const kAPIClientPlistRESTKey  = @"ParseAPIRestKey";
     }
     
     //[mutableParameters setObject:@"image,languages" forKey:@"include"];
-    [mutableParameters setObject:@"500" forKey:@"limit"];
+    [mutableParameters setObject:@"5" forKey:@"limit"];
     [mutableParameters setObject:@"image,languages,categories,moocs,sessions,universities,universities.image,instructors,instructors.image"
                           forKey:@"include"];
     parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];

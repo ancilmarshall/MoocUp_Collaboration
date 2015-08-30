@@ -10,6 +10,7 @@ class CoursesListViewController: UITableViewController {
     var courses = [Course]()
     
     var managedObjectContext: NSManagedObjectContext?
+    var syncEngine: SDSyncEngine?
     
     var foundCourseObjects = [PFObject]()
     var getCoursesCurrentIndex = 0
@@ -40,25 +41,20 @@ class CoursesListViewController: UITableViewController {
         //set the table row height
         tableView.rowHeight = 180//tableView.rowHeight
 
-        
+        syncEngine = SDSyncEngine.sharedEngine()
         managedObjectContext = SDCoreDataController.sharedInstance().newManagedObjectContext()
-
-        SDSyncEngine.sharedEngine().registerNSManagedObjectClassToSync("Course")
-        SDSyncEngine.sharedEngine().startSync()
-        //loadRecordsFromCoreData()
-       
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
         
-        NSNotificationCenter.defaultCenter()
-            .addObserverForName("SDSyncEngineSyncCompleted", object: nil, queue: nil) {
-                (NSNotification note)-> Void in
+        if !syncEngine!.syncInProgress {
+            loadRecordsFromCoreData()
+            self.tableView.reloadData()
+        } else {
+            NSNotificationCenter.defaultCenter()
+                .addObserverForName("SDSyncEngineSyncCompleted", object: nil, queue: nil) {
+                    (NSNotification note)-> Void in
                     self.loadRecordsFromCoreData()
                     self.tableView.reloadData()
+            }
         }
-        
     }
     
     func loadRecordsFromCoreData()
