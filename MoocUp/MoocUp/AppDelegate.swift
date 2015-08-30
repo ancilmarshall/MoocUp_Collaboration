@@ -26,11 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
 
         //Parse/CoreData synchronization
+        SDCoreDataController.sharedInstance() // setup the CoreData store if does not already exist
         SDSyncEngine.sharedEngine().registerNSManagedObjectClassToSync("Course")
         SDSyncEngine.sharedEngine().startSync()
         
-        println("\(applicationDocumentsDirectory().path)")
-
         return true
     }
     

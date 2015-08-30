@@ -33,6 +33,14 @@
     return sharedInstance;
 }
 
+- (instancetype)init{
+    self = [super init];
+    if (self){
+        _persistentStoreCoordinator = [self persistentStoreCoordinator];
+    }
+    return self;
+}
+
 #pragma mark - Core Data stack
 
 // Used to propegate saves to the persistent store (disk) without blocking the UI
