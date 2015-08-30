@@ -81,10 +81,19 @@ static NSString * const kAPIClientPlistRESTKey  = @"ParseAPIRestKey";
     }
     
     //[mutableParameters setObject:@"image,languages" forKey:@"include"];
+    [mutableParameters setObject:@"500" forKey:@"limit"];
+    [mutableParameters setObject:@"image,languages,categories,moocs,sessions,universities,universities.image,instructors,instructors.image"
+                          forKey:@"include"];
     parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
     
     request = [self GETRequestForClass:className parameters:parameters];
     return request;
+}
+
+- (NSMutableURLRequest*)GETRequestForCountOfAllRecordsOfClass:(NSString*)className;
+{
+    NSDictionary* parameters = @{@"count":@1,@"limit":@0};
+    return [self GETRequestForClass:className parameters:parameters];
 }
 
 #pragma mark - NSURLSession task

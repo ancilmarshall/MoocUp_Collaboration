@@ -13,10 +13,6 @@
 		1D3D202A1B8E531E00781735 /* SDAFParseAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20291B8E531E00781735 /* SDAFParseAPIClient.m */; };
 		1D3D202D1B8F10A700781735 /* SDSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D202C1B8F10A700781735 /* SDSyncEngine.m */; };
 		1D3D202F1B8F3F2100781735 /* ParseAPIClient.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D3D202E1B8F3F2100781735 /* ParseAPIClient.plist */; };
-		1D3D207D1B90C4CB00781735 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D207C1B90C4CB00781735 /* Image.swift */; };
-		1D3D207F1B90C4CC00781735 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D207E1B90C4CC00781735 /* Category.swift */; };
-		1D3D20811B90C4CC00781735 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20801B90C4CC00781735 /* Language.swift */; };
-		1D3D20831B90C4CC00781735 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3D20821B90C4CC00781735 /* Course.swift */; };
 		1D5B88721B8CD4E6001C4963 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */; };
 		1D5B88741B8CD4F4001C4963 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */; };
 		1D5B88761B8CD4FF001C4963 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */; };
@@ -26,6 +22,14 @@
 		1DCCE92E1B8601F700C130CD /* LoginPageOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE92D1B8601F700C130CD /* LoginPageOverlayViewController.swift */; };
 		1DCCE9301B86020100C130CD /* LoginContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE92F1B86020100C130CD /* LoginContentViewController.swift */; };
 		1DCCE9331B8608F400C130CD /* LoginCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCE9321B8608F400C130CD /* LoginCustomView.swift */; };
+		1DD746421B92063100708895 /* University.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD746411B92063100708895 /* University.swift */; };
+		1DD746441B92063100708895 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD746431B92063100708895 /* Course.swift */; };
+		1DD746461B92063100708895 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD746451B92063100708895 /* Image.swift */; };
+		1DD746481B92063100708895 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD746471B92063100708895 /* Language.swift */; };
+		1DD7464A1B92063200708895 /* Mooc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD746491B92063200708895 /* Mooc.swift */; };
+		1DD7464C1B92063200708895 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD7464B1B92063200708895 /* Category.swift */; };
+		1DD7464E1B92063200708895 /* Instructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD7464D1B92063200708895 /* Instructor.swift */; };
+		1DD746501B92063200708895 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD7464F1B92063200708895 /* Session.swift */; };
 		1DE1E0801B7B756800309277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E07F1B7B756800309277 /* Images.xcassets */; };
 		1DE1E0831B7B756800309277 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E0811B7B756800309277 /* LaunchScreen.xib */; };
 		1DE1E08F1B7B756900309277 /* MoocUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1E08E1B7B756900309277 /* MoocUpTests.swift */; };
@@ -68,10 +72,6 @@
 		1D3D202B1B8F10A700781735 /* SDSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDSyncEngine.h; sourceTree = "<group>"; };
 		1D3D202C1B8F10A700781735 /* SDSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDSyncEngine.m; sourceTree = "<group>"; };
 		1D3D202E1B8F3F2100781735 /* ParseAPIClient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParseAPIClient.plist; sourceTree = "<group>"; };
-		1D3D207C1B90C4CB00781735 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
-		1D3D207E1B90C4CC00781735 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
-		1D3D20801B90C4CC00781735 /* Language.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
-		1D3D20821B90C4CC00781735 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		1D5B88711B8CD4E6001C4963 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		1D5B88731B8CD4F4001C4963 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		1D5B88751B8CD4FF001C4963 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -82,6 +82,14 @@
 		1DCCE92D1B8601F700C130CD /* LoginPageOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPageOverlayViewController.swift; sourceTree = "<group>"; };
 		1DCCE92F1B86020100C130CD /* LoginContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginContentViewController.swift; sourceTree = "<group>"; };
 		1DCCE9321B8608F400C130CD /* LoginCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCustomView.swift; sourceTree = "<group>"; };
+		1DD746411B92063100708895 /* University.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = University.swift; sourceTree = "<group>"; };
+		1DD746431B92063100708895 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		1DD746451B92063100708895 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		1DD746471B92063100708895 /* Language.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		1DD746491B92063200708895 /* Mooc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mooc.swift; sourceTree = "<group>"; };
+		1DD7464B1B92063200708895 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		1DD7464D1B92063200708895 /* Instructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instructor.swift; sourceTree = "<group>"; };
+		1DD7464F1B92063200708895 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		1DE1E0731B7B756800309277 /* MoocUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoocUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DE1E0771B7B756800309277 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DE1E07F1B7B756800309277 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -145,18 +153,8 @@
 		1D3D20241B8DDDA600781735 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				1D3D20821B90C4CC00781735 /* Course.swift */,
-				1D3D20801B90C4CC00781735 /* Language.swift */,
-				1D3D207E1B90C4CC00781735 /* Category.swift */,
-				1D3D207C1B90C4CB00781735 /* Image.swift */,
-				1D3D202B1B8F10A700781735 /* SDSyncEngine.h */,
-				1D3D202C1B8F10A700781735 /* SDSyncEngine.m */,
-				1D3D20281B8E531E00781735 /* SDAFParseAPIClient.h */,
-				1D3D20291B8E531E00781735 /* SDAFParseAPIClient.m */,
-				1D3D20211B8DDD9D00781735 /* SDCoreDataController.h */,
-				1D3D20221B8DDD9D00781735 /* SDCoreDataController.m */,
-				1D3D20251B8DDE6100781735 /* MoocUp.xcdatamodeld */,
-				1D3D202E1B8F3F2100781735 /* ParseAPIClient.plist */,
+				1DD746511B92064900708895 /* Models */,
+				1DD746521B9206B500708895 /* ParseCoreDataSync */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -171,6 +169,36 @@
 				1DCCE9321B8608F400C130CD /* LoginCustomView.swift */,
 			);
 			name = Login;
+			sourceTree = "<group>";
+		};
+		1DD746511B92064900708895 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1DD7464F1B92063200708895 /* Session.swift */,
+				1DD7464D1B92063200708895 /* Instructor.swift */,
+				1DD7464B1B92063200708895 /* Category.swift */,
+				1DD746491B92063200708895 /* Mooc.swift */,
+				1DD746471B92063100708895 /* Language.swift */,
+				1DD746451B92063100708895 /* Image.swift */,
+				1DD746431B92063100708895 /* Course.swift */,
+				1DD746411B92063100708895 /* University.swift */,
+				1D3D20251B8DDE6100781735 /* MoocUp.xcdatamodeld */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		1DD746521B9206B500708895 /* ParseCoreDataSync */ = {
+			isa = PBXGroup;
+			children = (
+				1D3D202B1B8F10A700781735 /* SDSyncEngine.h */,
+				1D3D202C1B8F10A700781735 /* SDSyncEngine.m */,
+				1D3D20281B8E531E00781735 /* SDAFParseAPIClient.h */,
+				1D3D20291B8E531E00781735 /* SDAFParseAPIClient.m */,
+				1D3D20211B8DDD9D00781735 /* SDCoreDataController.h */,
+				1D3D20221B8DDD9D00781735 /* SDCoreDataController.m */,
+				1D3D202E1B8F3F2100781735 /* ParseAPIClient.plist */,
+			);
+			name = ParseCoreDataSync;
 			sourceTree = "<group>";
 		};
 		1DE1E06A1B7B756800309277 = {
@@ -377,24 +405,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D3D20831B90C4CC00781735 /* Course.swift in Sources */,
 				1DCCE92A1B8601A900C130CD /* LoginViewController.swift in Sources */,
 				1D3D202A1B8E531E00781735 /* SDAFParseAPIClient.m in Sources */,
 				1D3D20271B8DDE6100781735 /* MoocUp.xcdatamodeld in Sources */,
+				1DD746481B92063100708895 /* Language.swift in Sources */,
 				1DCCE92E1B8601F700C130CD /* LoginPageOverlayViewController.swift in Sources */,
-				1D3D207D1B90C4CB00781735 /* Image.swift in Sources */,
 				1DCCE9301B86020100C130CD /* LoginContentViewController.swift in Sources */,
 				1D0FCD1C1B839AED006A14CE /* CourseListTableViewCell.swift in Sources */,
-				1D3D207F1B90C4CC00781735 /* Category.swift in Sources */,
-				1D3D20811B90C4CC00781735 /* Language.swift in Sources */,
 				1DCCE9331B8608F400C130CD /* LoginCustomView.swift in Sources */,
 				1D3D202D1B8F10A700781735 /* SDSyncEngine.m in Sources */,
+				1DD746441B92063100708895 /* Course.swift in Sources */,
 				1DCCE92C1B8601E200C130CD /* LoginCustomButton.swift in Sources */,
+				1DD7464C1B92063200708895 /* Category.swift in Sources */,
 				C7F166821B7B7C6400B90C75 /* AppDelegate.swift in Sources */,
+				1DD7464E1B92063200708895 /* Instructor.swift in Sources */,
+				1DD746461B92063100708895 /* Image.swift in Sources */,
 				C7F1668A1B7B7D0400B90C75 /* TextViewTableViewCell.swift in Sources */,
 				C7F166861B7B7CE100B90C75 /* CourseDetailViewController.swift in Sources */,
 				C7F166851B7B7CE100B90C75 /* CoursesListViewController.swift in Sources */,
+				1DD746501B92063200708895 /* Session.swift in Sources */,
+				1DD7464A1B92063200708895 /* Mooc.swift in Sources */,
 				1D3D20231B8DDD9D00781735 /* SDCoreDataController.m in Sources */,
+				1DD746421B92063100708895 /* University.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

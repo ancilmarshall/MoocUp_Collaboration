@@ -15,6 +15,7 @@
 #else
 #define SYNC_ENGINE_LOG(format, ...)
 #endif
+
 NSString * const kSDSyncEngineInitialCompleteKey = @"SDSyncEngineInitialSyncCompleted";
 NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSyncCompleted";
 
@@ -105,6 +106,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
         NSArray *results = [[[SDCoreDataController sharedInstance] backgroundManagedObjectContext] executeFetchRequest:request error:&error];
         if ([results lastObject])   {
             date = [[results lastObject] valueForKey:@"updatedAt"];
+            SYNC_ENGINE_LOG(@"Most Recent Course Data in CoreData: %@",date);
         }
     }];
     
@@ -136,13 +138,11 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
 
             } failure:nil];
         
+        //TODO: May not really need this operation queue
         NSOperationQueue* queue = [[NSOperationQueue alloc] init];
         NSBlockOperation* operation = [NSBlockOperation blockOperationWithBlock:^{
             [task resume];
         }];
-        //operation.completionBlock = ^{
-            //[self processJSONDataRecordsIntoCoreData];
-        //};
         [queue addOperation:operation];
     }
 }
@@ -153,8 +153,11 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
         if (![self initialSyncComplete]) { // import all downloaded data to Core Data for initial sync
             NSDictionary *JSONDictionary = [self JSONDictionaryForClassWithName:className];
             NSArray *records = [JSONDictionary objectForKey:@"results"];
+            NSUInteger counter = 0;
             for (NSDictionary *record in records) {
                 [self newManagedObjectWithClassName:className forRecord:record];
+                counter++;
+                SYNC_ENGINE_LOG(@"Processed JSON File into CoreData: %tu of %tu",counter,records.count);
             }
         } else {
             NSArray *downloadedRecords = [self JSONDataRecordsForClass:className sortedByKey:@"objectId"];
@@ -173,6 +176,8 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
                         [self newManagedObjectWithClassName:className forRecord:record];
                     }
                     currentIndex++;
+                    SYNC_ENGINE_LOG(@"Processed JSON File into CoreData: %tu of %tu",currentIndex,downloadedRecords.count);
+
                 }
             }
         }
@@ -195,6 +200,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:[[SDCoreDataController sharedInstance] backgroundManagedObjectContext]];
     [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [self setValue:obj forKey:key forManagedObject:newManagedObject];
+        
     }];
     [record setValue:[NSNumber numberWithInt:SDObjectSynced] forKey:@"syncStatus"];
     return newManagedObject;
@@ -207,18 +213,16 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
 }
 
 
-
 - (void)setValue:(id)value forKey:(NSString *)key forManagedObject:(NSManagedObject *)managedObject {
     if ([key isEqualToString:@"createdAt"] || [key isEqualToString:@"updatedAt"]) {
         NSDate *date = [self dateUsingStringFromAPI:value];
         [managedObject setValue:date forKey:key];
-    } else if ([key isEqualToString:@"categories"]) {
-            return;
-    } else if ([key isEqualToString:@"__type"]){
+    } else if ([value isKindOfClass:[NSString class]] && [value isEqualToString:@"Object"]){
         return;
     } else if ([key isEqualToString:@"className"]){
         return;
     } else if ([value isKindOfClass:[NSArray class]]){
+        //all the relationships are arrays, so are recognized as arrays in the JSONData
         NSArray* valueArray = (NSArray*)value;
         if ([[[valueArray firstObject] objectForKey:@"__type"] isEqualToString:@"Object"]){
             NSMutableSet* relationshipObjects = [NSMutableSet new];
@@ -235,37 +239,29 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
             [managedObject setValue:relationshipObjects forKey:key];
         }
     } else if ([key isEqualToString:@"image"]) {
-    
-    
-    } else if ([value isKindOfClass:[NSDictionary class]]) {
+        NSDictionary* record = (NSDictionary*)value;
+        NSString* className = [record valueForKey:@"className"];
+        NSManagedObject* newObject = [self newManagedObjectWithClassName:className forRecord:record];
+        [managedObject setValue:newObject forKey:key];
+    } else if ([key isEqualToString:@"largeIcon"]) {
         if ([value objectForKey:@"__type"]) {
             NSString *dataType = [value objectForKey:@"__type"];
-            if ([dataType isEqualToString:@"Date"]) {
-                NSString *dateString = [value objectForKey:@"iso"];
-                NSDate *date = [self dateUsingStringFromAPI:dateString];
-                [managedObject setValue:date forKey:key];
-            } else if ([dataType isEqualToString:@"File"]) {
+            if ([dataType isEqualToString:@"File"]) {
                 NSString *urlString = [value objectForKey:@"url"];
                 NSURL *url = [NSURL URLWithString:urlString];
                 NSURLRequest *request = [NSURLRequest requestWithURL:url];
                 NSURLResponse *response = nil;
                 NSError *error = nil;
                 NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                [managedObject setValue:dataResponse forKey:key];
+                [managedObject setValue:dataResponse forKey:@"photoData"];
             } else {
                 //NSLog(@"Unknown Data Type Received");
                 [managedObject setValue:nil forKey:key];
             }
         }
-    } else if ([key isEqualToString:@"instructors"]) {
+    } else if ([key isEqualToString:@"smallIcon"]){
         return;
-    } else if ([key isEqualToString:@"universities"]) {
-        return;
-    } else if ([key isEqualToString:@"languages"]) {
-        return;
-    } else if ([key isEqualToString:@"moocs"]) {
-        return;
-    } else if ([key isEqualToString:@"sessions"]) {
+    } else if ([key isEqualToString:@"photo"]){
         return;
     } else {
         [managedObject setValue:value forKey:key];

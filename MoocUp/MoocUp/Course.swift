@@ -2,7 +2,7 @@
 //  Course.swift
 //  MoocUp
 //
-//  Created by Ancil on 8/28/15.
+//  Created by Ancil on 8/29/15.
 //  Copyright (c) 2015 Ancil Marshall. All rights reserved.
 //
 
@@ -22,8 +22,12 @@ class Course: NSManagedObject {
     @NSManaged var updatedAt: NSDate
     @NSManaged var videoLink: String
     @NSManaged var workload: String
-    @NSManaged var image: Image
     @NSManaged var categories: NSSet
+    @NSManaged var image: Image
     @NSManaged var languages: NSSet
+    @NSManaged var universities: NSSet
+    @NSManaged var instructors: NSSet
+    @NSManaged var moocs: NSSet
+    @NSManaged var sessions: NSSet
 
 }

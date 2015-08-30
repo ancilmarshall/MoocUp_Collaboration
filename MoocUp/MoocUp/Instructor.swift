@@ -1,5 +1,5 @@
 //
-//  Category.swift
+//  Instructor.swift
 //  MoocUp
 //
 //  Created by Ancil on 8/29/15.
@@ -9,16 +9,17 @@
 import Foundation
 import CoreData
 
-class Category: NSManagedObject {
+class Instructor: NSManagedObject {
 
+    @NSManaged var summary: String
+    @NSManaged var website: String
     @NSManaged var createdAt: NSDate
     @NSManaged var id: String
     @NSManaged var name: String
     @NSManaged var objectId: String
-    @NSManaged var summary: String
-    @NSManaged var syncStatus: NSNumber
     @NSManaged var updatedAt: NSDate
-    @NSManaged var courses: NSSet
+    @NSManaged var syncStatus: NSNumber
     @NSManaged var image: Image
+    @NSManaged var courses: NSSet
 
 }

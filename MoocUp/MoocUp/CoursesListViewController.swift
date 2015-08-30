@@ -61,7 +61,6 @@ class CoursesListViewController: UITableViewController {
         
     }
     
-    
     func loadRecordsFromCoreData()
     {
         if let moc = managedObjectContext{
@@ -74,6 +73,7 @@ class CoursesListViewController: UITableViewController {
                 
                 //Do some error checking before explicit as!
                 self.courses = moc.executeFetchRequest(request, error: error) as! [Course]
+                println("Number of Courses: \(self.courses.count)")
                 //Do some error checking after the fetch request
             }
         }
@@ -249,12 +249,9 @@ class CoursesListViewController: UITableViewController {
         
         let course = courses[indexPath.row]
         
-//        if let imageData = course.image.photoData {
-//            cell.customImageView?.image =
-//                UIImage(data: imageData)
-//            cell.customImageView?.clipsToBounds = true
-//            cell.customImageView?.contentMode = UIViewContentMode.ScaleAspectFill
-//        } 
+        cell.customImageView?.image = UIImage(data: course.image.photoData)
+        cell.customImageView?.clipsToBounds = true
+        cell.customImageView?.contentMode = UIViewContentMode.ScaleAspectFill
         
         var gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = cell.gradientView.bounds
