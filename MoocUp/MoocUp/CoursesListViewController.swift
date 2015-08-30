@@ -4,22 +4,13 @@ import Parse
 
 let kCourseClassName = "Course"
 let kCourseListCellIdentifier = "CourseListTableViewCell"
+
 class CoursesListViewController: UITableViewController {
     
     var detailViewController: CourseDetailViewController?
     var courses = [Course]()
-    
     var managedObjectContext: NSManagedObjectContext?
-    var syncEngine: SDSyncEngine?
-    
-    var foundCourseObjects = [PFObject]()
-    var getCoursesCurrentIndex = 0
-    var totalCourses = 0
-    var numBatches = 0
-    var getBatchCurrentIndex = 0
-    var fetchLimit = 20
-    var fetchSkip = 0
-    var totalFetched = 0
+    var syncEngineNotificationObserver:NSObjectProtocol?
     
     //MARK: - View Life Cycle
     override func awakeFromNib() {
@@ -41,14 +32,13 @@ class CoursesListViewController: UITableViewController {
         //set the table row height
         tableView.rowHeight = 180//tableView.rowHeight
 
-        syncEngine = SDSyncEngine.sharedEngine()
         managedObjectContext = SDCoreDataController.sharedInstance().newManagedObjectContext()
         
-        if !syncEngine!.syncInProgress {
+        if SDSyncEngine.sharedEngine().syncInProgress == false {
             loadRecordsFromCoreData()
             self.tableView.reloadData()
         } else {
-            NSNotificationCenter.defaultCenter()
+            syncEngineNotificationObserver = NSNotificationCenter.defaultCenter()
                 .addObserverForName("SDSyncEngineSyncCompleted", object: nil, queue: nil) {
                     (NSNotification note)-> Void in
                     self.loadRecordsFromCoreData()
@@ -62,176 +52,28 @@ class CoursesListViewController: UITableViewController {
         if let moc = managedObjectContext{
             moc.performBlockAndWait{
                 moc.reset()
-                let request = NSFetchRequest(entityName: "Course")
+                let request = NSFetchRequest(entityName: kCourseClassName)
                 let sortDescriptors = NSSortDescriptor(key: "createdAt", ascending: true)
                 request.sortDescriptors = [sortDescriptors]
                 var error = NSErrorPointer()
                 
-                //Do some error checking before explicit as!
-                self.courses = moc.executeFetchRequest(request, error: error) as! [Course]
-                println("Number of Courses: \(self.courses.count)")
-                //Do some error checking after the fetch request
-            }
-        }
-    }
-
-    
-    deinit{
-//        NSNotificationCenter.defaultCenter()
-//            .removeObserver(self, name: kCourseCompleteNotificationName, object: nil)
-    }
-    
-    // MARK: - Parse Support Methods
-    
-    func resetParseFetchCounters() {
-        getCoursesCurrentIndex = 0
-        getBatchCurrentIndex = 0
-        totalFetched = 0
-        fetchSkip = 0
-    }
-    
-    func getNextCourse(){
-
-        var currentCourseObject = self.foundCourseObjects[getCoursesCurrentIndex++]
-        //Course(object:currentCourseObject) // asynchronous
-
-    }
-    
-    func courseCompleteNotification(notification:NSNotification) {
-        
-        //Get course
-        var course = notification.object as! Course
-        var index = Int()
-        if contains(courses,course) {
-            index = (courses as NSArray).indexOfObject(course)
-            var range = Range<Int>(start: index, end: index+1)
-            courses.replaceRange(range, with: [course])
-            var indexPath = NSIndexPath(forRow: courses.count-1, inSection: 0)
-            //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-            tableView.reloadData()
-        }
-        else {
-            courses.append(course)
-            index = courses.count-1
-            var indexPath = NSIndexPath(forRow: index, inSection: 0)
-            tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-        }
-        
-        println("Course Notification Received: \(index+1)")
- 
-        if getCoursesCurrentIndex < self.foundCourseObjects.count {
-            getNextCourse()
-            
-        } else {
-            courseBatchComplete()
-        }
-    }
-    
-    func courseBatchComplete() {
-        
-        if !includeImages {
-        // repeat the current branch (by not incrementing the counter)
-            includeImages = true
-            getCoursesCurrentIndex = 0
-            getNextBatch()
-        
-        } else {
-            
-            getBatchCurrentIndex++
-            includeImages = false
-         
-            if getBatchCurrentIndex < numBatches {
-                
-                getCoursesCurrentIndex = 0
-                
-                fetchSkip = fetchLimit*getBatchCurrentIndex
-                totalFetched = totalFetched+fetchLimit
-                
-                var rem = totalCourses-totalFetched
-                fetchLimit = min(rem,fetchLimit)
-                
-                getNextBatch()
-                
-            } else {
-                println("done")
-                resetParseFetchCounters()
-            }
-        }
-    }
-    
-    var includeImages = false
-    
-    func courseQueryNoImages() -> PFQuery {
-        var query = PFQuery(className: kCourseClassName)
-        query.includeKey("moocs")
-        query.includeKey("instructors")
-        query.includeKey("categories")
-        query.includeKey("sessions")
-        query.includeKey("universities")
-        query.includeKey("languages")
-        query.orderByAscending("createdAt")
-        return query
-    }
-    
-    func getNextBatch(){
-        
-        println("Getting Batch \(getBatchCurrentIndex+1)")
-        
-        var query = courseQueryNoImages()
-        if includeImages {
-            query.includeCourseImage()
-        }
-        query.limit = fetchLimit
-        query.skip = fetchSkip
-        
-        query.findObjectsInBackgroundWithBlock {
-            ( objects: [AnyObject]?, error: NSError?) -> Void in
-            println("data received")
-            if error == nil {
-                if let foundObjects = objects as? [PFObject] {
-                    
-                    self.foundCourseObjects = foundObjects
-                    self.getNextCourse()
+                if let courses = moc.executeFetchRequest(request, error: error) as? [Course] {
+                    if error == nil {
+                        self.courses = courses
+                    } else {
+                        println("Error fetching \(kCourseClassName) from CoreData")
+                    }
                 }
-            }
-            else {
-                println("Error fetching parse data")
-            }
-        }
-
-    }
-    
-    
-    func fetchFromParse(maxCourses:Int?)
-    {
-        
-        var query = PFQuery(className: kCourseClassName)
-        
-        query.countObjectsInBackgroundWithBlock {
-            (countInt32, error) -> Void in
-            
-            if let maxCount = maxCourses {
-                self.totalCourses = maxCount
-            } else {
-                self.totalCourses = Int(countInt32)
-            }
-            
-            if (self.totalCourses > 0 && self.fetchLimit > 0) {
-                
-                self.fetchLimit = min(self.fetchLimit,self.totalCourses)
-                
-                self.numBatches = ( self.totalCourses % self.fetchLimit == 0 )
-                    ? self.totalCourses/self.fetchLimit
-                    : self.totalCourses/self.fetchLimit+1
-                
-                self.getNextBatch()
-            }
-            else {
-                println("Total Courses and Query Fetch Limit must be greater than zero")
+                println("Number of Courses: \(self.courses.count)")
             }
         }
     }
 
+    deinit{
+        if let observer = syncEngineNotificationObserver {
+            NSNotificationCenter.defaultCenter().removeObserver(observer)
+        }
+    }
     
     // MARK: - Table View Data Source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -277,11 +119,13 @@ class CoursesListViewController: UITableViewController {
             controller.navigationItem.leftItemsSupplementBackButton = true
         }
     }
-    
-}
 
-extension PFQuery {
-    func includeCourseImage() {
-        self.includeKey("image")
+    // MARK: - Rotation Support
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+
+        coordinator.animateAlongsideTransition({ (context) -> Void in
+            self.tableView.reloadData()
+        }, completion: nil)
     }
 }
+
