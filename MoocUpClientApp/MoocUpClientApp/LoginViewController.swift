@@ -26,7 +26,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
             case "Skip": toTheMooc()
             
             //TODO modal form with sign out, already ahve accound, etc
-            case "Sign Up" : println("TextButton : SignIN")
+            case "with email" : println("TextButton : SignIN")
             
             case "with Facebook" : facebooking()
             
@@ -47,11 +47,44 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         self.setupPageControl()
         self.displayLoginElement()
         
+        
+        //Blur test
+        //self.updateBlur()
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "toSign" {
+            let loginSignController = segue.destinationViewController as LoginSignViewController
+
+        }
+    }
+    
+//MARK: - Blurr
+    
+    func updateBlur() {
+        // Create Image context
+        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0)
+        // Get Screenshot UIImage context from view
+        let screenshot = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // Create View of screen shoot
+        let screenshotview = UIImageView (image: screenshot)
+        screenshotview.frame = CGRectMake(0.0,0.0, screenshot.size.width, screenshot.size.height)
+        self.view.addSubview(screenshotview)
+        
+        // Blur screenshot view and add at index 0
+        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .Light)) as UIVisualEffectView
+        blurView.frame = screenshotview.bounds
+        //self.view.insertSubview(blurView, atIndex: 0)
+        self.view.addSubview(blurView)
+        //self.view.subviews[0].insertSubview(blurView, atIndex:0)
     }
     
 //MARK: - LoginCustomView
@@ -82,6 +115,9 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         
         appdelegate.window!.rootViewController = moocupView
     }
+    
+    // Sign IN
+    
     
     // FaceBook Login
     private func facebooking() {
@@ -124,21 +160,6 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         }
     }
     
-    
-    
-// MARK: - Blurry effect
-    private func blurry() {
-        var backgroundEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Light)) as UIVisualEffectView
-        
-        
-        backgroundEffectView.frame = self.view.bounds
-        
-        self.view.addSubview(backgroundEffectView)
-        
-        println("TextButton : SignIN")
-
-        
-    }
 
     
 // MARK: - UIPageViewController - init and custom pageViewController

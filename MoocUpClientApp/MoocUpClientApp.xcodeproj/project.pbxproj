@@ -41,6 +41,7 @@
 		49585E8B1B7D8CFD00D58C55 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49585E8A1B7D8CFD00D58C55 /* SystemConfiguration.framework */; };
 		49585E8D1B7D8D0B00D58C55 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 49585E8C1B7D8D0B00D58C55 /* libz.dylib */; };
 		49585E8F1B7D8D1D00D58C55 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 49585E8E1B7D8D1D00D58C55 /* libsqlite3.dylib */; };
+		49C63F261B984DED0044762C /* LoginSignViewSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C63F251B984DED0044762C /* LoginSignViewSegue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		49585E8A1B7D8CFD00D58C55 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		49585E8C1B7D8D0B00D58C55 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		49585E8E1B7D8D1D00D58C55 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		49C63F251B984DED0044762C /* LoginSignViewSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginSignViewSegue.swift; path = Login/LoginSignViewSegue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 			children = (
 				1D26984D1B624AA300C75B49 /* LoginViewController.swift */,
 				079EF7C11B7F45D100F15F62 /* LoginSignViewController.swift */,
+				49C63F251B984DED0044762C /* LoginSignViewSegue.swift */,
 				079EF7BF1B7ED8E500F15F62 /* MoocupViewController.swift */,
 				079EF7BD1B7ED02700F15F62 /* LoginCustomButton.swift */,
 				07D2D1E11B7E21EE00C4E8FB /* LoginCustomView.swift */,
@@ -344,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49C63F261B984DED0044762C /* LoginSignViewSegue.swift in Sources */,
 				079EF7C01B7ED8E500F15F62 /* MoocupViewController.swift in Sources */,
 				079EF7C21B7F45D100F15F62 /* LoginSignViewController.swift in Sources */,
 				1D26984E1B624AA300C75B49 /* LoginViewController.swift in Sources */,

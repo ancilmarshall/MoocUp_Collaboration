@@ -18,12 +18,15 @@ class LoginSignViewController: UIViewController {
     @IBAction func signAction(sender: UIButton) {
     }
     
+    // dissmis
+    @IBAction func dissmisButton(sender: UIButton) {
+        self.dismissViewControllerAnimated(true, completion: {})
+    }
   
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
 
     }
@@ -34,12 +37,6 @@ class LoginSignViewController: UIViewController {
     }
     
 
-    
-    // MARK: - Navigation
-    
-    @IBAction func dismissAction(sender: UIButton) {
-         self.dismissViewControllerAnimated(true, completion: {})
-    }
     
 
 
