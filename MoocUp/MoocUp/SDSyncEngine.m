@@ -9,7 +9,6 @@
 #import "SDCoreDataController.h"
 #import "SDAFParseAPIClient.h"
 
-
 #if 0 && defined(DEBUG)
 #define SYNC_ENGINE_LOG(format, ...) NSLog(@"Sync Engine: " format, ## __VA_ARGS__)
 #else
@@ -20,18 +19,17 @@ NSString * const kSDSyncEngineInitialCompleteKey = @"SDSyncEngineInitialSyncComp
 NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSyncCompleted";
 
 @interface SDSyncEngine ()
-
 @property (nonatomic, strong) NSMutableArray *registeredClassesToSync;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
-
 @end
 
 @implementation SDSyncEngine
 
 @synthesize syncInProgress = _syncInProgress;
-
 @synthesize registeredClassesToSync = _registeredClassesToSync;
 @synthesize dateFormatter = _dateFormatter;
+
+#pragma mark - Initialization methods
 
 + (SDSyncEngine *)sharedEngine {
     static SDSyncEngine *sharedEngine = nil;
@@ -55,6 +53,8 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     }
 }
 
+#pragma mark - Sync Start and Completion methods
+
 - (void)startSync {
     if (!self.syncInProgress) {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
@@ -69,8 +69,10 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
 
 - (void)executeSyncCompletedOperations {
     dispatch_async(dispatch_get_main_queue(), ^{
+        
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         [self setInitialSyncCompleted];
+        
         NSError *error = nil;
         [[SDCoreDataController sharedInstance] saveBackgroundContext];
         if (error) {
@@ -97,25 +99,8 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSDate *)mostRecentUpdatedAtDateForEntityWithName:(NSString *)entityName {
-    __block NSDate *date = nil;
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-    [request setSortDescriptors:[NSArray arrayWithObject:
-                                 [NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]]];
-    [request setFetchLimit:1];
-    [[[SDCoreDataController sharedInstance] backgroundManagedObjectContext] performBlockAndWait:^{
-        NSError *error = nil;
-        NSArray *results = [[[SDCoreDataController sharedInstance] backgroundManagedObjectContext] executeFetchRequest:request error:&error];
-        if ([results lastObject])   {
-            date = [[results lastObject] valueForKey:@"updatedAt"];
-            SYNC_ENGINE_LOG(@"Most Recent Course Data in CoreData: %@",date);
-        }
-    }];
-    
-    return date;
-}
+# pragma mark - Network (connect with Parse) methods
 
-//Update this function to use NSURL Session for HTTP connection
 - (void)downloadDataForRegisteredObjects:(BOOL)useUpdatedAtDate {
     //NSMutableArray *operations = [NSMutableArray array];
     
@@ -156,6 +141,26 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
         }];
         [queue addOperation:operation];
     }
+}
+
+# pragma mark - Core Data Methods
+
+- (NSDate *)mostRecentUpdatedAtDateForEntityWithName:(NSString *)entityName {
+    __block NSDate *date = nil;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    [request setSortDescriptors:[NSArray arrayWithObject:
+                                 [NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]]];
+    [request setFetchLimit:1];
+    [[[SDCoreDataController sharedInstance] backgroundManagedObjectContext] performBlockAndWait:^{
+        NSError *error = nil;
+        NSArray *results = [[[SDCoreDataController sharedInstance] backgroundManagedObjectContext] executeFetchRequest:request error:&error];
+        if ([results lastObject])   {
+            date = [[results lastObject] valueForKey:@"updatedAt"];
+            SYNC_ENGINE_LOG(@"Most Recent Course Data in CoreData: %@",date);
+        }
+    }];
+    
+    return date;
 }
 
 - (void)processJSONDataRecordsIntoCoreData {
@@ -233,16 +238,20 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     } else if ([key isEqualToString:@"className"]){
         return;
     } else if ([value isKindOfClass:[NSArray class]]){
-        //all the relationships are arrays, so are recognized as arrays in the JSONData
+        //all the Parse relationships are arrays, so are recognized as arrays in the JSONData
         NSArray* valueArray = (NSArray*)value;
         if ([[[valueArray firstObject] objectForKey:@"__type"] isEqualToString:@"Object"]){
             NSMutableSet* relationshipObjects = [NSMutableSet new];
             for (NSDictionary* record in valueArray) {
                 NSString* className = [record valueForKey:@"className"];
-                NSManagedObject* storedObject = [self managedObjectForClass:className withObjectId:[record valueForKey:@"objectId"]];
+                
+                //check if object is already stored in CoreData
+                NSManagedObject* storedObject =
+                    [self managedObjectForClass:className withObjectId:[record valueForKey:@"objectId"]];
                 if (storedObject != nil) {
                     [relationshipObjects addObject:storedObject];
                 } else {
+                    //this is a recursive call, so need to handle all possible JSON data key/value pairs in this function
                     NSManagedObject* newObject = [self newManagedObjectWithClassName:className forRecord:record];
                     [relationshipObjects addObject:newObject];
                 }
@@ -252,8 +261,11 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     } else if ([key isEqualToString:@"image"]) {
         NSDictionary* record = (NSDictionary*)value;
         NSString* className = [record valueForKey:@"className"];
+        //this is a recursive call
         NSManagedObject* newObject = [self newManagedObjectWithClassName:className forRecord:record];
         [managedObject setValue:newObject forKey:key];
+        
+    //TODO: Update Parse to have only photo and thumbnail
     } else if ([key isEqualToString:@"largeIcon"]) {
         if ([value objectForKey:@"__type"]) {
             NSString *dataType = [value objectForKey:@"__type"];
@@ -329,6 +341,8 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     
     return results;
 }
+
+# pragma mark - Helper functions
 
 - (void)initializeDateFormatter {
     if (!self.dateFormatter) {
