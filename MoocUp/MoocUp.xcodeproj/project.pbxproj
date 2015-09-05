@@ -48,6 +48,7 @@
 		1DE1E0AF1B7B77A100309277 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE1E0AE1B7B77A100309277 /* libsqlite3.dylib */; };
 		C732216A1B7B9362004306DF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C73221681B7B9362004306DF /* Bolts.framework */; };
 		C732216B1B7B9362004306DF /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C73221691B7B9362004306DF /* Parse.framework */; };
+		C7EF81711B9B5176004306FC /* CourseNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EF81701B9B5176004306FC /* CourseNameView.swift */; };
 		C7F166801B7B7C4A00B90C75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7F1667F1B7B7C4A00B90C75 /* Main.storyboard */; };
 		C7F166821B7B7C6400B90C75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F166811B7B7C6400B90C75 /* AppDelegate.swift */; };
 		C7F166851B7B7CE100B90C75 /* CoursesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F166831B7B7CE100B90C75 /* CoursesListViewController.swift */; };
@@ -115,6 +116,7 @@
 		1DE1E0AE1B7B77A100309277 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		C73221681B7B9362004306DF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = MoocUp/Bolts.framework; sourceTree = "<group>"; };
 		C73221691B7B9362004306DF /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = MoocUp/Parse.framework; sourceTree = "<group>"; };
+		C7EF81701B9B5176004306FC /* CourseNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseNameView.swift; sourceTree = "<group>"; };
 		C7F1667F1B7B7C4A00B90C75 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C7F166811B7B7C6400B90C75 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7F166831B7B7CE100B90C75 /* CoursesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesListViewController.swift; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				C7F166841B7B7CE100B90C75 /* CourseDetailViewController.swift */,
+				C7EF81701B9B5176004306FC /* CourseNameView.swift */,
 				C7F166891B7B7D0400B90C75 /* TextViewTableViewCell.swift */,
 			);
 			name = "Course detail";
@@ -370,6 +373,7 @@
 				TargetAttributes = {
 					1DE1E0721B7B756800309277 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 8T7HW4WT7R;
 					};
 					1DE1E0871B7B756800309277 = {
 						CreatedOnToolsVersion = 6.4;
@@ -431,6 +435,7 @@
 				1DD746481B92063100708895 /* Language.swift in Sources */,
 				1DCCE92E1B8601F700C130CD /* LoginPageOverlayViewController.swift in Sources */,
 				1DCCE9301B86020100C130CD /* LoginContentViewController.swift in Sources */,
+				C7EF81711B9B5176004306FC /* CourseNameView.swift in Sources */,
 				1D0FCD1C1B839AED006A14CE /* CourseListTableViewCell.swift in Sources */,
 				1DCCE9331B8608F400C130CD /* LoginCustomView.swift in Sources */,
 				1D3D202D1B8F10A700781735 /* SDSyncEngine.m in Sources */,
@@ -568,6 +573,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -586,6 +592,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
