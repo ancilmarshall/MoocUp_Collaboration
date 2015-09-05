@@ -21,7 +21,7 @@ class LoginPageOverlayViewController: UIPageViewController {
         for view in subViews {
             // Constants
             let xmargin: CGFloat = self.view.frame.size.width/2
-            let ymargin: CGFloat = self.view.frame.size.height/1.35
+            let ymargin: CGFloat = self.view.frame.size.height/1.50
             
             if view.isKindOfClass(UIScrollView) {
                 scrollView = view as? UIScrollView

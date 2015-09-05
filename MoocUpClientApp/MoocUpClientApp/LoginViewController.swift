@@ -60,7 +60,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "toSign" {
-            let loginSignController = segue.destinationViewController as LoginSignViewController
+            let loginSignController = segue.destinationViewController as! LoginSignViewController
 
         }
     }
@@ -109,9 +109,9 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     // Skip
     private func toTheMooc() {
         //Declare the MoocupViewcontroller as rootViewController of app if skip login screen
-        let moocupView: MoocupViewController = self.storyboard?.instantiateViewControllerWithIdentifier("toTheMooc") as MoocupViewController
+        let moocupView: MoocupViewController = self.storyboard?.instantiateViewControllerWithIdentifier("toTheMooc") as! MoocupViewController
         
-        let appdelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appdelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         appdelegate.window!.rootViewController = moocupView
     }
@@ -170,7 +170,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         var startVC = self.pageLoginContentAtIndex(0) as LoginContentViewController
         var vc = NSArray(object: startVC)
         
-        self.pageViewController!.setViewControllers(vc, direction: .Forward, animated: true, completion: nil)
+        self.pageViewController!.setViewControllers(vc as [AnyObject], direction: .Forward, animated: true, completion: nil)
         self.pageViewController!.dataSource = self
         
         self.addChildViewController(self.pageViewController!)
@@ -203,7 +203,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         if (( self.contentImages.count == 0) || (index >= self.contentImages.count )) {
             return LoginContentViewController()
         }else {
-            var vc: LoginContentViewController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginContentViewController") as LoginContentViewController
+            var vc: LoginContentViewController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginContentViewController") as! LoginContentViewController
             vc.imageFileName = self.contentImages[index]
             // TODO text tutoriel
             // vc.textLabel
@@ -217,7 +217,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     
     // MARK: - UIPageViewController - method for protocol pageViewController Data Source
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        var vc = viewController as LoginContentViewController
+        var vc = viewController as! LoginContentViewController
         var index = vc.pageIndex as Int
         
         if(index == 0 || index == NSNotFound){
@@ -229,7 +229,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        var vc = viewController as LoginContentViewController
+        var vc = viewController as! LoginContentViewController
         var index = vc.pageIndex as Int
         
         if(index == NSNotFound){

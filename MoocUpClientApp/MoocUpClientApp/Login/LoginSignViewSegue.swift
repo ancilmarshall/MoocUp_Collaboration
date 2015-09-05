@@ -56,7 +56,7 @@ class LoginSignViewSegue: UIStoryboardSegue {
             destinationView.frame = CGRectOffset(destinationView.frame, 0.0, -screenHeight)
             
             }) { (Finished) -> Void in
-                self.sourceViewController.presentViewController(self.destinationViewController as UIViewController,
+                self.sourceViewController.presentViewController(self.destinationViewController as! UIViewController,
                     animated: false,
                     completion: nil)
         }
