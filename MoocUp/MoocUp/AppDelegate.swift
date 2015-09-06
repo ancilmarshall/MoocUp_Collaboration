@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         //Facebook
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
-
+        PFTwitterUtils.initializeWithConsumerKey("is36JygPchIFQacdaOD4zRwgo",  consumerSecret:"WBEzRrkJym4Dkjigcfz6NVd1MNzP9cSI8kpeIKZboV1KrC4jgn")
         //Parse/CoreData synchronization
         SDCoreDataController.sharedInstance()
         

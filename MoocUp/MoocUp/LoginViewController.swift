@@ -26,12 +26,12 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
             case "Skip": toTheMooc()
             
             //TODO modal form with sign out, already ahve accound, etc
-            case "Sign Up" : println("TextButton : \(textButton)")
+            case "with email" : println("TextButton : \(textButton)")
             
             //case "with Facebook" : println("TextButoon : \(textButton)")
             case "with Facebook" : facebooking()
             //TODO with Twitter sdk
-            case "with Twitter" : println("TextButton : \(textButton)")
+            case "with Twitter" : tweeting()
             
             default : break
         }
@@ -63,7 +63,13 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         for subView in arrayOfSubViews {
             self.view.addSubview(subView)
         }
-        
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "toSign" {
+            let loginSignController = segue.destinationViewController as! LoginSignViewController
+            
+        }
     }
     
 // MARK: - Button React
@@ -115,6 +121,22 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         })
     }
     
+    // Twitter Login
+    private func tweeting () {
+        PFTwitterUtils.logInWithBlock {
+            (user: PFUser?, error: NSError?) -> Void in
+            if let user = user {
+                if user.isNew {
+                    println("User signed up and logged in with Twitter!")
+                } else {
+                    println("User logged in with Twitter!")
+                }
+                self.toTheMooc()
+            } else {
+                println("The user cancelled the Twitter login.")
+            }
+        }
+    }
     
 // MARK: - UIPageViewController - init and custom pageViewController
     func createPageViewController() {
