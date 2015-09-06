@@ -43,6 +43,8 @@ class LoginSignViewController: UIViewController, UITextFieldDelegate {
     
         user.signUpInBackgroundWithBlock { (success,error) -> Void in
             println ("send Ok")
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.toTheMooc()
         }
         
     }

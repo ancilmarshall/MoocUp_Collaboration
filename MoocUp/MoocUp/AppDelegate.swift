@@ -8,7 +8,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // [Optional] Power your app with Local Datastore. For more info, go to
@@ -22,14 +21,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // [Optional] Track statistics around application opens.
         // PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
 
-        //Facebook
+        //Facebook and Twitter
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
-        PFTwitterUtils.initializeWithConsumerKey("is36JygPchIFQacdaOD4zRwgo",  consumerSecret:"WBEzRrkJym4Dkjigcfz6NVd1MNzP9cSI8kpeIKZboV1KrC4jgn")
+        PFTwitterUtils.initializeWithConsumerKey("NHEQkRLAtq98nHtFgPPh6HGlU",  consumerSecret:"cGY7PyZKtjI5fgrlHL75tsgSfvB8ElxEPBYUnGNPsgEnNeXFqx")
+        
         //Parse/CoreData synchronization
         SDCoreDataController.sharedInstance()
         
         SDSyncEngine.sharedEngine().registerNSManagedObjectClassToSync("Course")
         SDSyncEngine.sharedEngine().startSync()
+        
+        if (PFUser.currentUser() != nil){
+            toTheMooc()
+        }
         
         return true
     }
@@ -75,6 +79,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    // MARK: Navigation between Login and the Mooc Initial Page
+    
+    func toTheMooc() {
+        
+        //Declare the MoocupViewcontroller as rootViewController of app if skip login screen
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        
+        let tabBarController: UITabBarController = storyboard.instantiateViewControllerWithIdentifier("MoocUpInitialScene") as! UITabBarController
+        
+        let coursesSplitViewController = tabBarController.viewControllers?.first as! UISplitViewController
+        let coursesNavigationController = coursesSplitViewController.viewControllers.last as! UINavigationController
+        coursesNavigationController.topViewController.navigationItem.leftBarButtonItem = coursesSplitViewController.displayModeButtonItem()
+        coursesSplitViewController.delegate = self
+        coursesSplitViewController.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
+        
+        // Set tab bar controller's name and image for Courses
+        coursesSplitViewController.tabBarItem.title = "Courses"
+        coursesSplitViewController.tabBarItem.image = UIImage(named: "first")
+        
+        self.window!.rootViewController = tabBarController
+    }
+    
+    func toLogin(){
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        let viewController = storyboard.instantiateViewControllerWithIdentifier("loginScene") as!
+        UIViewController
+        
+        self.window!.rootViewController = viewController
+    }
+    
     
     // MARK: - Split view
     

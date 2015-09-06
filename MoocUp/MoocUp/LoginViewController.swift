@@ -11,6 +11,8 @@ import Parse
 
 class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     
+    var appDelegate:AppDelegate?
+    
     //View
     @IBOutlet weak var loginView: UIView!
     
@@ -22,8 +24,10 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
         let textButton = sender.currentTitle!
         println("TextButton : \(textButton)")
         
+        
         switch textButton {
-            case "Skip": toTheMooc()
+            
+            case "Skip": appDelegate?.toTheMooc()
             
             //TODO modal form with sign out, already ahve accound, etc
             case "with email" : println("TextButton : \(textButton)")
@@ -44,6 +48,8 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+
         self.createPageViewController()
         self.setupPageControl()
         self.displayLoginElement()
@@ -74,26 +80,6 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     
 // MARK: - Button React
     // Skip
-    private func toTheMooc() {
-        
-        //Declare the MoocupViewcontroller as rootViewController of app if skip login screen
-
-        let appdelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-
-        let tabBarController: UITabBarController = self.storyboard?.instantiateViewControllerWithIdentifier("MoocUpInitialScene") as! UITabBarController
-        
-        let coursesSplitViewController = tabBarController.viewControllers?.first as! UISplitViewController
-        let coursesNavigationController = coursesSplitViewController.viewControllers.last as! UINavigationController
-        coursesNavigationController.topViewController.navigationItem.leftBarButtonItem = coursesSplitViewController.displayModeButtonItem()
-        coursesSplitViewController.delegate = appdelegate
-        coursesSplitViewController.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
-        
-        // Set tab bar controller's name and image for Courses
-        coursesSplitViewController.tabBarItem.title = "Courses"
-        coursesSplitViewController.tabBarItem.image = UIImage(named: "first")
-        
-        appdelegate.window!.rootViewController = tabBarController
-    }
 
 
     // FaceBook Login
@@ -112,10 +98,9 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
                     return
                     
                 } else if (FBSDKAccessToken.currentAccessToken() != nil) {
-                    println(user)
-                    println("User Token:\(FBSDKAccessToken.currentAccessToken().userID)")
+                    //println("User Token:\(FBSDKAccessToken.currentAccessToken().userID)")
                     // to the mooc App
-                    self.toTheMooc()
+                    self.appDelegate?.toTheMooc()
                     
                 }
         })
@@ -131,7 +116,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
                 } else {
                     println("User logged in with Twitter!")
                 }
-                self.toTheMooc()
+                self.appDelegate?.toTheMooc()
             } else {
                 println("The user cancelled the Twitter login.")
             }
@@ -231,6 +216,7 @@ class LoginViewController: UIViewController, UIPageViewControllerDataSource{
     func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int  {
         return 0
     }
+
 
 
 

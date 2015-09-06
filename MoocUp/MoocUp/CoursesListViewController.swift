@@ -7,6 +7,8 @@ let kCourseListCellIdentifier = "CourseListTableViewCell"
 
 class CoursesListViewController: UITableViewController {
     
+    @IBOutlet weak var LoginLogoutButton: UIBarButtonItem!
+    
     var detailViewController: CourseDetailViewController?
     var courses = [Course]()
     var managedObjectContext: NSManagedObjectContext?
@@ -23,6 +25,10 @@ class CoursesListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if PFUser.currentUser() == nil {
+            LoginLogoutButton.title = "Login"
+        }
         
         if let split = self.splitViewController {
             let controllers = split.viewControllers
@@ -120,6 +126,24 @@ class CoursesListViewController: UITableViewController {
         }
     }
 
+    
+    //MARK: Navigation
+    @IBAction func logout(sender: UIBarButtonItem){
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+
+        if PFUser.currentUser() == nil {
+            appDelegate.toLogin()
+        } else {
+            PFUser.logOutInBackgroundWithBlock { (error: NSError?) -> Void in
+                if (error != nil) {
+                    println("Error Logging out user")
+                }
+                appDelegate.toLogin()
+            }
+        }
+    }
+    
     // MARK: - Rotation Support
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
 

@@ -65,7 +65,16 @@
                             <outlet property="delegate" destination="3Tb-9R-MaV" id="ghB-Vo-Xx9"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Courses" id="9h5-0w-px8"/>
+                    <navigationItem key="navigationItem" title="Courses" id="9h5-0w-px8">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="Mh5-32-Vqz">
+                            <connections>
+                                <action selector="logout:" destination="3Tb-9R-MaV" id="7wu-gf-G4V"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="LoginLogoutButton" destination="Mh5-32-Vqz" id="YY7-0g-OlJ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xkf-xA-izk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -272,7 +281,7 @@
         <!--Login View Controller-->
         <scene sceneID="tp1-BC-hwX">
             <objects>
-                <viewController id="WEX-sp-UYu" customClass="LoginViewController" customModule="MoocUp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginScene" id="WEX-sp-UYu" customClass="LoginViewController" customModule="MoocUp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fSP-fr-RWC"/>
                         <viewControllerLayoutGuide type="bottom" id="Qac-eN-vJV"/>
@@ -408,8 +417,8 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="CRA-Gt-9nA"/>
-                                <exclude reference="wPw-Lp-pmf"/>
                                 <exclude reference="IXj-0k-tpQ"/>
+                                <exclude reference="wPw-Lp-pmf"/>
                             </mask>
                         </variation>
                     </view>
@@ -425,7 +434,7 @@
         <!--Login Sign View Controller-->
         <scene sceneID="N4y-ll-JdZ">
             <objects>
-                <viewController storyboardIdentifier="LoginSign" id="jHc-AK-NsW" customClass="LoginSignViewController" customModule="MoocUpClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginSign" id="jHc-AK-NsW" customClass="LoginSignViewController" customModule="MoocUp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Chb-YT-9HU"/>
                         <viewControllerLayoutGuide type="bottom" id="SUm-rd-DWu"/>
