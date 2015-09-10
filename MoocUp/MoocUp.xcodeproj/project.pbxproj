@@ -37,6 +37,9 @@
 		1DD7464C1B92063200708895 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD7464B1B92063200708895 /* Category.swift */; };
 		1DD7464E1B92063200708895 /* Instructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD7464D1B92063200708895 /* Instructor.swift */; };
 		1DD746501B92063200708895 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD7464F1B92063200708895 /* Session.swift */; };
+		1DDC9D5B1BA1896E004A231E /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC9D581BA1896E004A231E /* CourseDetailViewController.swift */; };
+		1DDC9D5C1BA1896E004A231E /* CourseNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC9D591BA1896E004A231E /* CourseNameView.swift */; };
+		1DDC9D5D1BA1896E004A231E /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC9D5A1BA1896E004A231E /* TextViewTableViewCell.swift */; };
 		1DE1E0801B7B756800309277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E07F1B7B756800309277 /* Images.xcassets */; };
 		1DE1E0831B7B756800309277 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DE1E0811B7B756800309277 /* LaunchScreen.xib */; };
 		1DE1E08F1B7B756900309277 /* MoocUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1E08E1B7B756900309277 /* MoocUpTests.swift */; };
@@ -55,8 +58,6 @@
 		C7F166801B7B7C4A00B90C75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7F1667F1B7B7C4A00B90C75 /* Main.storyboard */; };
 		C7F166821B7B7C6400B90C75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F166811B7B7C6400B90C75 /* AppDelegate.swift */; };
 		C7F166851B7B7CE100B90C75 /* CoursesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F166831B7B7CE100B90C75 /* CoursesListViewController.swift */; };
-		C7F166861B7B7CE100B90C75 /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F166841B7B7CE100B90C75 /* CourseDetailViewController.swift */; };
-		C7F1668A1B7B7D0400B90C75 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F166891B7B7D0400B90C75 /* TextViewTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +105,9 @@
 		1DD7464B1B92063200708895 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		1DD7464D1B92063200708895 /* Instructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instructor.swift; sourceTree = "<group>"; };
 		1DD7464F1B92063200708895 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		1DDC9D581BA1896E004A231E /* CourseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
+		1DDC9D591BA1896E004A231E /* CourseNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseNameView.swift; sourceTree = "<group>"; };
+		1DDC9D5A1BA1896E004A231E /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 		1DE1E0731B7B756800309277 /* MoocUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoocUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DE1E0771B7B756800309277 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DE1E07F1B7B756800309277 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -126,8 +130,6 @@
 		C7F1667F1B7B7C4A00B90C75 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C7F166811B7B7C6400B90C75 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7F166831B7B7CE100B90C75 /* CoursesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesListViewController.swift; sourceTree = "<group>"; };
-		C7F166841B7B7CE100B90C75 /* CourseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
-		C7F166891B7B7D0400B90C75 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,8 +331,9 @@
 		C7F166881B7B7CF300B90C75 /* Course detail */ = {
 			isa = PBXGroup;
 			children = (
-				C7F166841B7B7CE100B90C75 /* CourseDetailViewController.swift */,
-				C7F166891B7B7D0400B90C75 /* TextViewTableViewCell.swift */,
+				1DDC9D581BA1896E004A231E /* CourseDetailViewController.swift */,
+				1DDC9D591BA1896E004A231E /* CourseNameView.swift */,
+				1DDC9D5A1BA1896E004A231E /* TextViewTableViewCell.swift */,
 			);
 			name = "Course detail";
 			sourceTree = "<group>";
@@ -443,9 +446,12 @@
 				1D3D202A1B8E531E00781735 /* SDAFParseAPIClient.m in Sources */,
 				1D3D20271B8DDE6100781735 /* MoocUp.xcdatamodeld in Sources */,
 				1DD746481B92063100708895 /* Language.swift in Sources */,
+				1DDC9D5D1BA1896E004A231E /* TextViewTableViewCell.swift in Sources */,
+				1DDC9D5C1BA1896E004A231E /* CourseNameView.swift in Sources */,
 				1DCCE92E1B8601F700C130CD /* LoginPageOverlayViewController.swift in Sources */,
 				1DCCE9301B86020100C130CD /* LoginContentViewController.swift in Sources */,
 				1D0FCD1C1B839AED006A14CE /* CourseListTableViewCell.swift in Sources */,
+				1DDC9D5B1BA1896E004A231E /* CourseDetailViewController.swift in Sources */,
 				1DCCE9331B8608F400C130CD /* LoginCustomView.swift in Sources */,
 				1D3D202D1B8F10A700781735 /* SDSyncEngine.m in Sources */,
 				1D89C8C41B9C54B7002C2154 /* LoginSignViewController.swift in Sources */,
@@ -455,8 +461,6 @@
 				C7F166821B7B7C6400B90C75 /* AppDelegate.swift in Sources */,
 				1DD7464E1B92063200708895 /* Instructor.swift in Sources */,
 				1DD746461B92063100708895 /* Image.swift in Sources */,
-				C7F1668A1B7B7D0400B90C75 /* TextViewTableViewCell.swift in Sources */,
-				C7F166861B7B7CE100B90C75 /* CourseDetailViewController.swift in Sources */,
 				C7F166851B7B7CE100B90C75 /* CoursesListViewController.swift in Sources */,
 				1DD746501B92063200708895 /* Session.swift in Sources */,
 				1DD7464A1B92063200708895 /* Mooc.swift in Sources */,

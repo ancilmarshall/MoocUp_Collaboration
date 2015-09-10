@@ -16,5 +16,5 @@ class TextViewTableViewCell: UITableViewCell {
         textView.selectable = true
         textView.editable = false
     }
-
+    
 }
