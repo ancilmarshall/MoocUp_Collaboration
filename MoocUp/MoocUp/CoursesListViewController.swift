@@ -58,7 +58,7 @@ class CoursesListViewController: UITableViewController {
         if let moc = managedObjectContext{
             moc.performBlockAndWait{
                 moc.reset()
-                let request = NSFetchRequest(entityName: kCourseClassName)
+                var request = NSFetchRequest(entityName: kCourseClassName)
                 let sortDescriptors = NSSortDescriptor(key: "createdAt", ascending: true)
                 request.sortDescriptors = [sortDescriptors]
                 var error = NSErrorPointer()

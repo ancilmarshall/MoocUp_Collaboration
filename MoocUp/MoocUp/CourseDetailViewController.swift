@@ -48,6 +48,32 @@ class CourseDetailViewController: UITableViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier("RightDetailCell", forIndexPath: indexPath) as! UITableViewCell
             cell.textLabel?.text = "Language"
             if let course = course {
+                
+                //TODO: Remove, just here to test a relationship
+                for university in course.universities {
+                    println("University: \(university.name)")
+                }
+
+                for category in course.categories {
+                    println("Category: \(category.name)")
+                }
+                
+                for session in course.sessions {
+                    println("Category: \(session.name)")
+                }
+                
+                for mooc in course.moocs {
+                    println("Mooc: \(mooc.name)")
+                }
+                
+                for instructor in course.instructors {
+                    println("Mooc: \(instructor.name)")
+                }
+    
+                for language in course.languages {
+                    println("Language: \(language.name)")
+                }
+                
                 if let language = course.languages.allObjects.first as? Language {
                 cell.detailTextLabel?.text = NSLocale.currentLocale().displayNameForKey(NSLocaleIdentifier, value: language.name)
                 }
@@ -60,6 +86,8 @@ class CourseDetailViewController: UITableViewController {
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier("TextViewTableViewCell", forIndexPath: indexPath) as! TextViewTableViewCell
             cell.textView.text = course?.prerequisite
+            
+            
             return cell
         }
         
